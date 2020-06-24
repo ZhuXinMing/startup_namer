@@ -1,15 +1,925 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/services.dart';
+import 'listData.dart';
+import 'Compents/dialogNButton.dart';
+import 'Dialog.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'flutterTextFieldDemo.dart';
 
-//void main() => runApp(MyApp6());
+void main() => runApp(MyApp());
 
-void main() {
-//  ShoppingCart cart = ShoppingCart();
-//  print(cart.total);
-  return runApp(MyApp7());
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Flutter Demo')),
+        body: MyHomePage(),
+      ),
+    );
+  }
 }
+
+class MyHomePage extends StatefulWidget {
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _MyHomePageState();
+  }
+}
+
+class _MyHomePageState extends State<MyHomePage>{
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    ScreenUtil.init(context, width: 1024, height: 768, allowFontScaling: false);
+    return LayoutDemo();
+  }
+}
+
+
+
+class LayoutDemo extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: RaisedButton(
+          child: Text('跳转'),
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (BuildContext context) {
+              return DialogPage(title: '跳转到Dialog传值');
+//              return FlutterTextFieldDemo();
+            }));
+          }),
+    );
+  }
+}
+
+
+
+
+/*
+
+// Stack组件
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Flutter Demo')),
+        body: LayoutDemo(),
+      ),
+    );
+  }
+}
+
+//相对于box的边缘定位他的子元素们的小部件。 所有的小部件就是按顺序排列的子view，
+//放在同一个父视图Stack上。就是一个UIView->subviews关系。
+//以子元素中Size最大的widget为基准对齐。但是按children的顺序依次添加渲染的，
+//就是第二个如果比第一个大会覆盖，和iOS的UIView的addSubview同一个原理。
+//注意：Align特殊处理，会导致排版混乱。
+class LayoutDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Center(
+      child: Stack(
+        alignment: Alignment.topLeft,
+        //如何调整Stack中未定位的子元素的大小。
+        fit: StackFit.loose,
+        children: <Widget>[
+          Container(
+            width: 90,
+            height: 90,
+            color: Colors.red,
+          ),
+          Container(
+            width: 360,
+            height: 100,
+            color: Colors.green,
+          ),
+          Container(
+            width: 80,
+            height: 80,
+            color: Colors.blue,
+          ),
+//          //无限大，比全屏幕还大。
+//          Container(
+//            color: Colors.orange,
+//            
+//          ),
+          Container(
+            color: Colors.orange,
+            child: Text("文本"),
+          ),
+          Text(
+            "加工类型",
+          ),
+          Align(
+            child: Text(
+              "加工类型",
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+*/
+
+
+// Navigator的push跳转及传值
+/*
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Flutter Demo')),
+        body: LayoutDemo(),
+      ),
+    );
+  }
+}
+
+class LayoutDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: RaisedButton(
+          child: Text('跳转'),
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (BuildContext context) {
+              return DialogPage(title: '跳转到Dialog传值');
+            }));
+          }),
+    );
+  }
+}
+
+ */
+
+/////视频教程的demo1
+/*
+class MyApp extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home:Scaffold(
+         appBar: AppBar(
+           title: Text('Flutter Demo'),
+         ),
+         body: HomeContent(),
+      ) ,
+      theme: ThemeData(
+        primarySwatch: Colors.yellow,
+      ),
+    );
+  }
+}
+
+class HomeContent  extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Center(
+      child: Text(
+        '你好Flutter',
+        textDirection: TextDirection.ltr,
+
+        style: TextStyle(
+          fontSize: 40.0,
+//          color: Colors.yellow,
+          color: Color.fromRGBO(244, 233, 214, 0.5),
+        ),
+      ),
+    );
+  }
+}
+*/
+
+/////视频教程的demo2 ： Container组件, Text文本组件 详解
+/*
+class MyApp2 extends StatelessWidget{
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('flutter demo'),
+        ),
+        body: HomeContent(),
+      ),
+    );
+  }
+}
+
+class HomeContent extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Center(
+      child: Container(
+        child: Text(
+          '各位同学大家好，各位同学大家好，各位同学大家好，各位同学大家好，各位同学大家好，各位同学大家好',
+          textAlign: TextAlign.left,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+          //字体显示倍率，字体缩放
+          textScaleFactor: 1.0,
+
+          style: TextStyle(
+            fontSize: 16.0,
+            color: Color.fromRGBO(0, 1, 1, 1),
+            fontWeight: FontWeight.w800,
+            fontStyle: FontStyle.italic,
+            //文字装饰
+            decoration: TextDecoration.lineThrough,
+            decorationColor: Colors.white,
+            decorationStyle: TextDecorationStyle.dashed,
+            letterSpacing: 5.0,
+          ),
+        ),
+        height: 300.0,
+        width: 300.0,
+        //容器装饰的背景颜色，边框颜色
+        decoration: BoxDecoration(
+          color: Colors.yellow,
+          border: Border.all(
+            color: Colors.blue,
+            width: 2.0
+          ),
+          borderRadius:BorderRadius.all(
+            Radius.circular(5.0),
+          ),
+        ),
+//        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.fromLTRB(10, 30, 5, 0),
+        alignment: Alignment.center,
+      )
+    );
+  }
+}
+*/
+
+/////视频教程的demo3 ： 图片组件Image详解
+
+/*
+class MyApp2 extends StatelessWidget{
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('flutter demo'),
+        ),
+        body: HomeContent(),
+      ),
+    );
+  }
+}
+
+class HomeContent extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Center(
+        child: Container(
+          child: Image.network(
+            "https://pics6.baidu.com/feed/9358d109b3de9c825b28c0133091350c18d843f7.jpeg?token=8d115bd85ec187149ddedc643b4cd4e1",
+//            alignment: Alignment.bottomRight,
+            //设置图片背景色，通常和colorBlendModel配合使用，这样可以是图片颜色和背景色混合。基本不用，一般只有用fit
+//            color: Colors.blue,
+//            colorBlendMode: BlendMode.luminosity,
+            //fit属性用来控制图片的拉伸和挤压，这都是根据父容器来的。
+            // BoxFit.fill：全图显示，图片会被拉伸，并充满父容器。
+            // BoxFit.contain:全图显示，显示原比例，可能会有空隙。
+            // BoxFit.cover:显示可能会被拉伸，但不变形，可能裁剪，图片要充满整个容器。
+            fit: BoxFit.cover,
+//            平铺，不能和fit同时使用。一般不用，
+//            repeat: ImageRepeat.repeatY,
+          ),
+          height: 300.0,
+          width: 300.0,
+          //容器装饰的背景颜色，边框颜色
+          decoration: BoxDecoration(
+            color: Colors.yellow,
+            border: Border.all(
+                color: Colors.blue,
+                width: 2.0
+            ),
+            borderRadius:BorderRadius.all(
+              Radius.circular(5.0),
+            ),
+          ),
+        )
+    );
+  }
+}
+*/
+
+/////视频教程的demo4 ： 实现圆角图片：二种方式
+
+/*
+class MyApp2 extends StatelessWidget{
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('flutter demo'),
+        ),
+        body: HomeContent(),
+      ),
+    );
+  }
+}
+*/
+
+/*
+//方式一：在容器装饰的属性中 设置 装饰image
+class HomeContent extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Center(
+        child: Container(
+          height: 300.0,
+          width: 300.0,
+
+          //容器装饰
+          decoration: BoxDecoration(
+            color: Colors.yellow,
+            borderRadius:BorderRadius.circular(150),
+            image: DecorationImage(
+              image:NetworkImage(
+                  "https://pics6.baidu.com/feed/9358d109b3de9c825b28c0133091350c18d843f7.jpeg?token=8d115bd85ec187149ddedc643b4cd4e1",
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+        )
+    );
+  }
+}*/
+
+//方式二：在容器装饰的属性中 设置 装饰image
+/*
+class HomeContent extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Center(
+        child: Container(
+              child: ClipOval(
+                child: Image.network(
+                  "https://pics6.baidu.com/feed/9358d109b3de9c825b28c0133091350c18d843f7.jpeg?token=8d115bd85ec187149ddedc643b4cd4e1",
+                  height: 300.0,
+                  width: 300.0,
+                  fit: BoxFit.cover,
+                ),
+              ),
+        )
+    );
+  }
+}
+*/
+
+// 视频教程5-GridView
+
+//例1-GridView静态数据，显示一个正常的collectionView
+/*
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Flutter Demo')),
+        body: LayoutDemo(),
+      ),
+    );
+  }
+}
+
+class LayoutDemo extends StatelessWidget {
+
+  List<Widget>_getListData(){
+    List<Widget> list = List();
+
+    for(var i = 0; i< 11; i++){
+     // 在GridView的子元素children们的Container设置width，height无效。只能用childAspectRatio调整item的大小。
+      Container container = Container(
+        child: Text('这是第$i条数据',
+          style: TextStyle(color: Colors.white, fontSize: 12),
+        ),
+        color: Colors.blue,
+        alignment: Alignment.center
+      );
+      list.add(container);
+    }
+    return list;
+  }
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return GridView.count(
+
+      crossAxisCount: 3,
+      children: this._getListData(),
+      crossAxisSpacing: 20.0,
+      mainAxisSpacing: 20.0,
+      padding:EdgeInsets.all(10) ,
+      childAspectRatio:0.7 ,//宽度和高度的比例
+    );
+  }
+}
+*/
+
+//例2-GridView.count静态数据，显示一个正常的collectionView-map数据
+
+/*
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Flutter Demo')),
+        body: LayoutDemo(),
+      ),
+    );
+  }
+}
+
+class LayoutDemo extends StatelessWidget {
+
+  List<Widget>_getListData(){
+
+    var tempList = listData.map((value){
+        return Container(
+          child: Column(
+            children: <Widget>[
+              Image.network(value['imageUrl']),
+              SizedBox(height: 10,),
+              Text(
+                  value['title'],
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 15,
+
+                ),
+              ),
+            ],
+          ),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Color.fromRGBO(233, 233, 233, 0.9),
+              width: 1,
+            )
+          ),
+        );
+    });
+    return tempList.toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return GridView.count(
+
+      crossAxisCount: 2,
+      children: this._getListData(),
+      crossAxisSpacing: 10.0,
+      mainAxisSpacing: 10.0,
+      padding:EdgeInsets.all(10) ,
+    );
+  }
+}
+*/
+
+//例3-GridView.duilder动态数据
+/*
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Flutter Demo')),
+        body: LayoutDemo(),
+      ),
+    );
+  }
+}
+
+class LayoutDemo extends StatelessWidget {
+  //动态数据
+  Widget _getListData(context,index){
+
+    return Container(
+      child: Column(
+        children: <Widget>[
+          Image.network(listData[index]['imageUrl']),
+          SizedBox(height: 10,),
+          Text(
+            listData[index]['title'],
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 15,
+
+            ),
+          ),
+        ],
+      ),
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: Color.fromRGBO(233, 233, 233, 0.9),
+            width: 1,
+          )
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return GridView.builder(
+
+      itemCount: listData.length,
+      itemBuilder: this._getListData,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+        mainAxisSpacing: 10.0,
+        crossAxisSpacing: 10.0,),
+    );
+  }
+}
+*/
+
+// 视频教程6-Padding
+/*
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Flutter Demo')),
+        body: LayoutDemo(),
+      ),
+    );
+  }
+}
+
+class LayoutDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Padding(
+      //最外层包一个左边10间距
+      padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+      child: GridView.count(
+        crossAxisCount: 2,
+        children: <Widget>[
+          //每个子元素在上，左 内边距为10；
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+            child: Image.network('https://www.itying.com/images/flutter/1.png',
+                fit: BoxFit.cover),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+            child: Image.network('https://www.itying.com/images/flutter/2.png',
+                fit: BoxFit.cover),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+            child: Image.network('https://www.itying.com/images/flutter/3.png',
+                fit: BoxFit.cover),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+            child: Image.network('https://www.itying.com/images/flutter/4.png',
+                fit: BoxFit.cover),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+            child: Image.network('https://www.itying.com/images/flutter/5.png',
+                fit: BoxFit.cover),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+            child: Image.network('https://www.itying.com/images/flutter/6.png',
+                fit: BoxFit.cover),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+            child: Image.network('https://www.itying.com/images/flutter/7.png',
+                fit: BoxFit.cover),
+          ),
+        ],
+      ),
+    );
+  }
+}
+ */
+
+// 视频教程7-自定义按钮组件
+
+/*
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Flutter Demo')),
+        body: LayoutDemo(),
+      ),
+    );
+  }
+}
+
+class LayoutDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return IconContainer(Icons.search);
+  }
+}
+//自定义按钮组件,开放size，bgColor，icon图标属性
+class IconContainer extends StatelessWidget{
+
+  final double size;
+  final Color bgColor;
+  final IconData icon;
+  //构造函数
+  IconContainer(this.icon,{this.bgColor = Colors.red,this.size = 32.0});
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+        height: 100.0,
+        width: 100.0,
+        color: this.bgColor,
+        child: Center(
+            child: Icon(
+                this.icon,size: this.size,color: Colors.white,),
+        ),
+    );
+  }
+}
+*/
+
+// 视频教程8-Row，Cloumn
+
+//Row，Cloumn和Row使用基本相同；
+/*
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Flutter Demo')),
+        body: LayoutDemo(),
+      ),
+    );
+  }
+}
+
+class LayoutDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+      height: 250.0,
+      width: 250.0,
+      color: Colors.pink,
+      child: Row(
+        mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          IconContainer(Icons.search,bgColor: Colors.blue),
+          IconContainer(Icons.home,bgColor: Colors.orange),
+          IconContainer(Icons.add)
+        ],
+      ),
+    );
+  }
+}
+//自定义按钮组件,开放size，bgColor，icon图标属性
+class IconContainer extends StatelessWidget{
+
+  final double size;
+  final Color bgColor;
+  final IconData icon;
+  //构造函数
+  IconContainer(this.icon,{this.bgColor = Colors.red,this.size = 32.0});
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+      alignment:Alignment.center ,
+      height: 60.0,
+      width: 60.0,
+      color: this.bgColor,
+      child:Icon(
+        this.icon,size: this.size,color: Colors.white,),
+    );
+  }
+}
+*/
+
+// 视频教程9-Expanded
+//展开[Row]、[Column]或[Flex]子元素的小部件;让child填满可用的空间。只有一个Expanded只表示自适应填满可用空间，如果有多个Expanded，则表示占总空间的几份。
+
+/*
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Flutter Demo')),
+        body: LayoutDemo(),
+      ),
+    );
+  }
+}
+
+//Expanded: 展开[Row]、[Column]或[Flex]子元素的小部件;让child填满可用的空间。
+class LayoutDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Row(
+      children: <Widget>[
+        //展开占总可用空间的1成；
+        Expanded(
+          child: IconContainer(Icons.search, bgColor: Colors.blue),
+          flex: 1,
+        ),
+        //展开占总可用空间的2成；
+        Expanded(
+          child: IconContainer(Icons.home, bgColor: Colors.orange),
+          flex: 2,
+        ),
+        IconContainer(Icons.add),//固定大小，IconContainer内部设置的60*60
+      ],
+    );
+  }
+}
+
+//自定义按钮组件,开放size，bgColor，icon图标属性
+class IconContainer extends StatelessWidget {
+  final double size;
+  final Color bgColor;
+  final IconData icon;
+  //构造函数
+  IconContainer(this.icon, {this.bgColor = Colors.red, this.size = 32.0});
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(
+      alignment: Alignment.center,
+      height: 60.0,
+      width: 60.0,
+      color: this.bgColor,
+      child: Icon(
+        this.icon,
+        size: this.size,
+        color: Colors.white,
+      ),
+    );
+  }
+}
+*/
+
+// 视频教程10-综合布局例子，结合了Column，Row，Expanded,Container,SizedBox,Image,ListView
+/*
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Flutter Demo')),
+        body: LayoutDemo(),
+      ),
+    );
+  }
+}
+
+// 最外层为Column垂直布局,2个子元素组+SizedBox； 第一个组 用Row 包裹 Expanded自适应填充主轴空间的Container，设置固定高度。
+// 第二组子元素：左右 水平布局，所以用Row包裹。 由于左边占2份宽度空间，右边占1份宽度空间，所以children的每个child用Expanded包裹。
+// Row的每个Expanded的指定child是一个Container，可以设置固定高度。右边的Container包裹一个ListView线性布局。
+//Expanded: 展开[Row]、[Column]或[Flex]子元素的小部件;让child填满可用的空间。
+class LayoutDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Column(
+      children: <Widget>[
+
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                height: 180.0,
+                color: Colors.black,
+                child: Text('你好，flutter'),
+              ),
+              flex: 1,
+            ),
+          ],
+        ),
+        SizedBox(height: 10),
+        Row(
+
+          children: <Widget>[
+            Expanded(
+                child: Container(
+                  child: Image.network(
+                      'https://www.itying.com/images/flutter/2.png',
+                      fit: BoxFit.cover),
+                  height: 180.0,
+                ),
+                flex: 2),
+            SizedBox(width: 10),
+            Expanded(
+              flex: 1,
+              child: Container(
+                height: 180,
+                child: ListView(
+                  children: <Widget>[
+                    Container(
+                      height: (180-10)/2,
+                      child: Image.network(
+                          'https://www.itying.com/images/flutter/3.png',
+                          fit: BoxFit.cover),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      height: (180-10)/2,
+                      child: Image.network(
+                          'https://www.itying.com/images/flutter/4.png',
+                          fit: BoxFit.cover),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}
+*/
 
 /////////////////////////////////----UI--////
 
@@ -289,7 +1199,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
 */
 
 /// 例7：如何从布局中添加或删除组件?
-
+/*
 class MyApp7 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -350,11 +1260,138 @@ class _SampleAppPageState7 extends State {
     );
   }
 }
+*/
 
-//      var voyager = Spacecraft('Voyager I', DateTime(1977, 9, 5));
-//      voyager..describe();
-//      var voyager3 = Spacecraft.initMethod('Voyager III');
-//      voyager3.describe();
+/// 例8：如何为小部件制作动画？
+
+class MyApp8 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      title: 'Fade Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyFadeTest(
+        title: 'Fade Demo',
+      ),
+    );
+  }
+}
+
+class MyFadeTest extends StatefulWidget {
+  MyFadeTest({Key key, this.title}) : super(key: key);
+  final String title;
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _MyFadeTest();
+  }
+}
+
+class _MyFadeTest extends State<MyFadeTest> with TickerProviderStateMixin {
+  AnimationController controller;
+  CurvedAnimation curve;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    controller = AnimationController(
+        duration: const Duration(microseconds: 2000), vsync: this);
+    curve = CurvedAnimation(parent: controller, curve: Curves.easeIn);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Container(
+          child: FadeTransition(
+            opacity: curve,
+            child: FlutterLogo(
+              size: 100.0,
+            ),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Fade',
+        child: Icon(Icons.brush),
+        onPressed: () {
+          controller.forward();
+        },
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    controller.dispose();
+    super.dispose();
+  }
+}
+
+//例如9：How do I draw to the screen?
+/*
+class SignaturePainter extends CustomPainter {
+
+  SignaturePainter(this.points);
+
+  final List<Offset>points;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    // TODO: implement paint
+    var paint = Paint()
+        ..color = Colors.black
+        ..strokeCap = StrokeCap.round
+        ..strokeWidth = 5.0;
+    for(int i = 0; i < points.length -1; i++){
+      if(points[i] != null && points[i + 1] != null){
+        canvas.drawLine(points[i], points[i+1], paint);
+      }
+    }
+  }
+  bool shouldRepaint(SignaturePainter other) => other.points != points;
+}
+
+class Signature extends StatefulWidget {
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return SignatureState();
+  }
+}
+
+class SignatureState extends State<Signature>{
+
+  List<Offset> _points = <Offset>[];
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return GestureDetector(
+      onPanUpdate: (DragUpdateDetails details){
+        setState(() {
+          RenderBox referenceBox = context.findRenderObject();
+          Offset localPosition = referenceBox.globalToLocal(details.globalPosition);
+          _points = List.from(_points)..add(localPosition);
+        });
+      },
+      onPanEnd: (DragEndDetails details) => _points.add(null),
+      child: CustomPaint(painter: SignaturePainter(_points), size: Size.infinite),
+    );
+  }
+}
+
 //
 //class _SampleAppPageState extends State<SampleAppPage> {
 //  String textToShow = "I Like Flutter";
@@ -390,9 +1427,40 @@ class _SampleAppPageState7 extends State {
 //    );
 //  }
 //}
-//*/
+//
+*/
 
-// 例如7：flutter跳原生页面
+//例如10：How do I build custom widgets? 如何构建自定义小部件?
+/*
+class MyApp10 extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      title: 'Fade Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: CustomButtom('Hello'),
+    );
+  }
+}
+
+class CustomButtom extends StatelessWidget {
+
+   final String label;
+   CustomButtom(this.label);
+
+   @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return RaisedButton(onPressed: (){},child:Text(label));
+  }
+}
+
+*/
+
+// 例如11：flutter跳原生页面
 
 /*
 class MyApp7 extends StatelessWidget {
@@ -506,14 +1574,31 @@ var params = {
 }
 */
 
+////////////////////////dart 语言 学习//////////////////////////////////////
+
+///dart语言特性例子
+
+//5.Classes 类，
+//下面是一个具有三个属性、两个构造函数和一个方法的类的示例。其中一个属性不能直接设置，所以它是使用getter方法(而不是变量)定义的。
 /*
+void main() {
+
+  var voyager = Spacecraft('Voyager I', DateTime(1977,9,5));
+  voyager.describe();
+
+  var voyager3 = Spacecraft.unlaunched('Voyager III');
+  voyager3.describe();
+}
+
 class Spacecraft {
   String name;
   DateTime launchDate;
 
-  Spacecraft(this.name, this.launchDate) {}
+  Spacecraft(this.name, this.launchDate) {
 
-  Spacecraft.initMethod(String name) : this(name, null);
+  }
+
+  Spacecraft.unlaunched(String name) : this(name, null);
 
   int get launchYear => launchDate?.year;
 
@@ -527,14 +1612,20 @@ class Spacecraft {
     }
   }
 }
+*/
 
+//6.Inheritance：Dart具有单继承。 extends-继承的意思；
+/*
 class Orbiter extends Spacecraft {
   num altitude;
 
   Orbiter(String name, DateTime launchDate, this.altitude)
       : super(name, launchDate);
 }
+*/
 
+//7.Mixins 混合---扩展
+/*
 class Piloted {
   int astronauts = 1;
 
@@ -542,29 +1633,161 @@ class Piloted {
     print('Number of astronauts: $astronauts');
   }
 }
+class PilotedCraft extends Spacecraft with Piloted{
+
+}
 */
 
-///dart语言特性例子
-///
+//8。Interfaces and abstract classes 接口和抽象类
 /*
-void setData()
-{
-  final aListOfStrings = ['one', 'two', 'three'];
-  final aSetOfStrings = {'one', 'two', 'three'};
-  final aMapOfStringsToInts = {
-    'one': 1,
-    'two': 2,
-    'three': 3,
-  };
+class MockSpaceship implements Spacecraft{
+
+}
+*/
+
+abstract class Describable {
+  void describe();
+
+  void describeWithEmphasis() {
+    print('----------------');
+    describe();
+    print('----------');
+  }
+}
+
+//9.Async
+/*
+const oneSecond = Duration(seconds: 1);
+Future<void> printWithDelay(String message) async {
+  await Future.delayed(oneSecond);
+  print(message);
+}
+
+Future<void> printWithDelay(String message) {
+  return Future.delayed(oneSecond).then((_){
+    print(message);
+  });
+}
+
+Future<void> createDescriptions(Iterable<String> objects) async {
+
+  for (var object in objects){
+
+    try{
+      var file = File('$object.txt');
+      if(await file.exists()){
+        var modified = await file.lastModified();
+        print('File for $object already exists. It was modified on $modified');
+        continue;
+      }
+      await file.create();
+      await file.writeAsString('Start describing $object in this file.');
+    } on IOException catch(e){
+      print('Cannot create description for $object: $e');
+    }
+  }
+}
+*/
+
+// dart -2-Language cheatsheet 菜单
+
+// 1.可选参数 ，可选命名参数；
+
+//1.1 Optional positional parameters 可选参数；
+
+/*
+class Spacecraft {
+
+  int sumUp(int a, int b, int c){
+    return a + b + c;
+  }
+
+  int sumUpToFive(int a,[int b, int c, int d, int e])
+  {
+    int sum = a;
+    if (b != null) sum += b;
+    if (c != null) sum += c;
+    if (d != null) sum += d;
+    if (e != null) sum += e;
+    return sum;
+  }
+
+  int sumUpToFive2(int a, [int b =2, int c = 3, int d = 4, int e = 5]){
+    int sum = a;
+    if (b != null) sum += b;
+    if (c != null) sum += c;
+    if (d != null) sum += d;
+    if (e != null) sum += e;
+    return sum;
+  }
+}
+*/
+
+//1.2 Optional named parameters 可选的命名参数
+/*
+void main() {
+
+  var obj = Spacecraft1();
+  obj.printName('Zhu', 'XinMing');
+  obj.printName('Zhu', 'XinMing', suffix: 'H');
+}
+class Spacecraft1 {
+
+  void printName(String firstName, String lastName, {String suffix}) {
+    print('$firstName $lastName ${suffix ?? ''}');
+  }
+}
+
+class MyDataObject {
+  final int anInt;
+  final String aString;
+  final double aDouble;
+
+  MyDataObject({
+    this.anInt = 1,
+    this.aString = 'Old!',
+    this.aDouble = 2.0,
+});
+  MyDataObject copyWith(int newInt, String newString, double newDouble){
+
+    return MyDataObject(anInt: newInt ?? this.anInt,
+                      aString:newString ?? this.aString,
+                      aDouble: newDouble ?? this.aDouble);
+  }
+}
+*/
+
+// 2. 构造函数： {}包起来的参数是可选命名参数，[]包起来的参数是可选位置参数；
+
+//2.1 Using this in a constructor 在构造函数中使用this;
+//例1
+/*
+void main() {
+
+  final color = MyColor(red: 80, green: 80, blue: 80);
+}
+
+class MyColor {
+  int red;
+  int green;
+  int blue;
+
+
+  MyColor({this.red,this.green,this.blue});
 }
 */
 
 /*
-String upperCaseIt(String str) {
-  return str?.toUpperCase();
+class MyClass {
+  final int anInt;
+  final String aString;
+  final double aDouble;
+
+  MyClass(this.anInt, this.aString, this.aDouble);
 }
 */
 
+//例2
 /*
 class Test {
   String title;
@@ -581,6 +1804,466 @@ class Test {
   void test() {
     print('test');
   }
+}
+*/
+
+//2。2 Initializer lists 初始化器列表
+
+//class Point {
+//  final String x;
+//  final String y;
+//
+//  Point.fromJson(Map<String, num> json)
+//             : x = json['x'],
+//               y = json['y'] {
+//    print('In Point.fromJson() :($x, $y)');
+//  }
+//}
+
+// 2。3 命名构造函数
+
+/*
+class Point {
+
+  double x, y;
+  Point(this.x, this.y);
+
+  // 命名构造函数
+  Point.origin() {
+    x = 0;
+    y = 0;
+  }
+}
+
+void main() {
+
+  final obj = Point.origin();
+}
+
+//例2:
+class Color {
+
+  double r,g,b;
+  Color.black(){
+    r = 0;
+    g = 0;
+    b = 0;
+  }
+}
+*/
+
+//2。4 Factory constructors 工厂构造
+/*
+class Square extends Shape {
+
+}
+
+class Circle extends Shape {
+
+}
+
+class Shape {
+  Shape();
+
+  factory Shape.fromTypeName(String typeName){
+
+    if (typeName == 'square') return Square();
+    if (typeName == 'circle') return Circle();
+
+    print('I don\'t recognize $typeName');
+
+    return null;
+  }
+}
+*/
+
+//2。5  Redirecting constructors 重定向构造函数
+/*
+class Automobile {
+  String make;
+  String model;
+  int mpg;
+  // The main constructor for this class.
+  Automobile(this.make, this.model, this.mpg);
+
+  // Delegates to the main constructor.
+  Automobile.hybrid(String make, String model) : this(make, model, 60);
+
+  Automobile.fancyHybrid() : this.hybrid('Futurecar', 'Mark 2');
+}
+
+class Color {
+  double r,g,b;
+  Color(this.r, this.g, this.b);
+  Color.black() : this(0, 0, 0);
+
+
+}
+*/
+
+//2。6  Const constructors
+
+class ImmutablePoint {
+  const ImmutablePoint(this.x, this.y);
+
+  final int x;
+  final int y;
+
+  static const ImmutablePoint origin = ImmutablePoint(0, 0);
+
+  final name = 'Bob'; // Without a type annotation
+  final String nickname = 'Bobby';
+}
+
+//  Tour类目  笔记
+
+//1.Built-in types:String
+
+//Dart字符串是UTF-16编码单元的序列。你可以使用单引号或双引号来创建一个字符串:
+
+/*
+class Test {
+
+  // 单引号对于字符串文本非常有用
+  var s1 = 'Single quotes work well for string literals';
+  // 双引号也可以
+  var s2 = "Double quotes work just as well";
+  // 它可以转义字符串分隔符。
+  var s3 = 'It\'s esay to escape the string delimiter.';
+  // 使用其他分隔符甚至更简单.
+  var s4 = "It's even easier to use the other delimiter.";
+
+  var s = 'string interpolation';
+
+  Test(this.s):assert(s != null);
+
+  void test(){
+    //  注意:==操作符测试两个对象是否相等。如果两个字符串包含相同的代码单元序列，则它们是等价的。
+    assert('Dart has $s, which is very handy.' == 'Dart has string interpolation,' + 'which is very handy.');
+
+    assert('That deserves all caps. ' + '${s.toUpperCase()} is very handy!' == 'That deserves all caps. ' +
+      'STRING INTERPOLATION is very handy! ');
+
+    var s1 = 'String '
+    'Concatenation'
+    " works even over line breaks.";
+    assert(s1 ==
+        'String concatenation works even over '
+            'line breaks.');
+
+    var s2 = 'The + operator ' + 'works, as well.' ;
+    assert(s2 == 'The + operator works, as well.');
+
+    var s3 = '''
+    You can create
+    multi-line strings like this one.
+    ''';
+
+    var s4 = """" This is also a
+    multi-line string.""";
+
+    // These work in a const string.
+    const aConstNum = 0;
+    const aConstBool = true;
+    const aConstString = 'a constant string';
+
+    var aNum = 0;
+    var aBool = true;
+    var aString = 'a string';
+    const aConstList = [1, 2, 3];
+
+    const validConstString = '$aConstNum $aConstBool $aConstString';
+
+    bool flag = true;
+    if(flag){
+      print('真');
+    }else{
+      print('假');
+    }
+    var fullName = '';
+    assert(fullName.isEmpty);
+
+    var hitPoints = 0;
+    assert(hitPoints <= 0);
+
+    var unicorn;
+    assert(unicorn == null);
+
+
+
+    var list = [1, 2, 3];
+  }
+}
+*/
+
+/// 2.Built-in types:各种集合
+
+// Set
+/*
+void main() {
+
+  //  用它最主要的功能就是去除数组重复。
+  var s = new Set();
+  s.add('香蕉');
+  s.add('苹果');
+  s.add('苹果');
+//  flutter: {香蕉, 苹果}
+  print(s);
+
+//  创建一个包含这个[Iterable]元素的[List]。
+  List list = s.toList();
+//  flutter: [香蕉, 苹果]
+  print(list);
+}
+*/
+
+// List
+/*
+void main() {
+
+  List myList = ['香蕉','苹果','西瓜'];
+  // 增加一个数据
+  myList.add('桃子');
+  // 拼接数组
+  myList.addAll(['桃子','葡萄']);
+
+  //indexOf查找数据，查找不到返回-1，查找到返回索引。
+  int index =  myList.indexOf('苹果');
+  //1
+  print(index);
+
+  //删除查找到的第一个对象。
+  myList.remove('桃子');
+  // flutter: [香蕉, 苹果, 西瓜, 桃子, 葡萄]
+  print(myList);
+  //删除指定索引的对象
+  myList.removeAt(0);
+  // flutter: [苹果, 西瓜, 桃子, 葡萄]
+  print(myList);
+
+  //修改数据，起始位置，结束位置。 从索引1开始，到结束索引位置2
+  myList.fillRange(1, 2,'aaa');
+  // flutter: [苹果, aaa, 桃子, 葡萄]
+  print(myList);
+  //1-3都修改为'aaa'
+  myList.fillRange(1, 3,'aaa');
+  // flutter: [苹果, aaa, aaa, 葡萄]
+  print(myList);
+
+  //指定索引插入某个数据
+  myList.insert(0, '香蕉');
+  // flutter: [香蕉，苹果, aaa, aaa, 葡萄]
+  print(myList);
+  // 指定位置插入多个数据
+  myList.insertAll(1, ['西瓜','桃子']);
+  // flutter: [香蕉，西瓜, 桃子, 苹果, aaa, aaa, 葡萄]
+  print(myList);
+
+//  List转换成字符串。
+  var str = myList.join('-');
+//  flutter: 香蕉-西瓜-桃子-苹果-aaa-aaa-葡萄
+  print(str);
+//  flutter: true
+  print(str is String);
+
+  var list = str.split('-');
+//  flutter: [香蕉, 西瓜, 桃子, 苹果, aaa, aaa, 葡萄]
+  print(list);
+}
+*/
+
+// Map
+/*
+void main() {
+
+  Map gifts = {
+    'first' : '1',
+    'second': '2',
+    'fifth' : '3',
+  };
+  //拼接增加一个字典
+  gifts.addAll({
+    '爱好':['游戏','旅游'],
+    "体重":61.6
+  });
+//  flutter: {first: 1, second: 2, fifth: 3, 爱好: [游戏, 旅游], 体重: 61.6}
+  print(gifts);
+
+  //删除指定key的数据。
+  gifts.remove('爱好');
+//  flutter: {first: 1, second: 2, fifth: 3, 体重: 61.6}
+  print(gifts);
+  // 查看map中是否包含某个key；
+  bool contains = gifts.containsKey('first');
+}
+*/
+
+/*
+class Test {
+  var gifts = {
+    'first' : 'partridge',
+    'second': 'turtledoves',
+    'fifth' : 'golden rings',
+  };
+
+  var nobleGases = {
+    2: 'helium',
+    10: 'neon',
+    18:'argon',
+  };
+}
+*/
+
+/*
+class Test1 {
+
+  //  You can create the same objects using a Map constructor:
+//  你可以创建相同的对象使用Map构造函数:
+//  注意，在class类初始化类结构的时候，只能有实例变量的声明及初始化，函数方法。不能调用执行方法。
+  var gifts = Map();
+  var nobleGases = Map();
+
+  test(){
+    gifts['first'] = 'partridge';
+    gifts['second'] = 'turtledoves';
+    gifts['fifth'] = 'golden rings';
+
+    nobleGases[2] = 'helium';
+    nobleGases[10] = 'neon';
+    nobleGases[18] = 'argon';
+  }
+}
+*/
+
+/*
+class Test2 {
+  test (){
+    var gifts = {'first' : 'partridge'};
+    gifts['fourth'] = 'calling birds';
+  }
+
+  final constantMap = const {
+    2: 'helium',
+    10: 'neon',
+    18:'argon',
+  }
+  test2 (){
+    // constantMap[2] = 'Helium'; // Uncommenting this causes an error.
+  }
+}
+*/
+
+/*
+class Test3{
+
+  final constantMap = const {
+    2: 'helium',
+    10: 'neon',
+    18:'argon',
+  }
+  test (){
+    // constantMap[2] = 'Helium'; // Uncommenting this causes an error.
+  }
+}
+*/
+
+/*
+void setData()
+{
+  final aListOfStrings = ['one', 'two', 'three'];
+  final aSetOfStrings = {'one', 'two', 'three'};
+  final aMapOfStringsToInts = {
+    'one': 1,
+    'two': 2,
+    'three': 3,
+  };
+}
+*/
+
+// for循环的三种方式：
+/*
+void test() {
+
+  List myList = ['香蕉','苹果','西瓜'];
+  for(var i = 0; i<myList.length; i++) {
+
+    print(myList[i]);
+  }
+
+  for(var item in myList){
+    print(item);
+  }
+
+  myList.forEach((value){
+    print("$value");
+  });
+}
+*/
+
+// 修改集合的数据
+/*
+void test() {
+
+  // 修改
+  List list1 = [1,2,3];
+  List mList = List();
+
+  for(int i =0; i<list1.length; i++){
+    mList.add(list1[i] * 2);
+  }
+  print(mList);
+  //flutter: [2, 4, 6]
+}
+*/
+/*
+void test() {
+
+  // 按迭代顺序遍历集合中的元素，让每个元素调用函数方法并返回修改后的新集合；
+  List list1 = [1,2,3];
+  Iterable mList = list1.map((value){
+
+     return value * 2;
+  });
+
+}
+*/
+/*
+void test() {
+  // 循环遍历集合，返回满足函数条件的组成的新集合
+  List list1 = [1,2,3,4,5,6,7,8,9];
+  Iterable mList = list1.where((value){
+    return value>5;
+  });
+  print(mList.toList());
+}
+//flutter: [6, 7, 8, 9]
+*/
+
+/*
+void test() {
+  // 循环遍历集合，只要集合里面有满足条件的就返回true
+  List mylist = [1,2,3,4,5,6,7,8,9];
+  var flag = mylist.any((element){
+      return element>5;
+  });
+  print(flag);
+}
+//flutter: true
+*/
+
+void test() {
+  // 循环遍历集合，每个都满足条件就返回true，否则返回false
+  List mylist = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  var flag = mylist.every((element) {
+    return element > 5;
+  });
+  print(flag);
+}
+
+/// 3。 函数
+/*
+String upperCaseIt(String str) {
+  return str?.toUpperCase();
 }
 */
 
