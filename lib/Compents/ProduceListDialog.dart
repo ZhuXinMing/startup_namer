@@ -1,6 +1,8 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
+//商品库存列表
+
 class ProduceListDialog extends Dialog {
 
   final List entries;

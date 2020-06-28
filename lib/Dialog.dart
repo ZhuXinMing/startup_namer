@@ -5,6 +5,7 @@ import 'Compents/MyDialog.dart';
 import 'Compents/SelectItemDialog.dart';
 import 'Compents/InputSeveralDialog.dart';
 import 'Compents/SelectItemDialog.dart';
+import 'Compents/ConfirmStockDialog.dart';
 
 class DialogPage extends StatelessWidget {
   final String title;
@@ -20,7 +21,9 @@ class DialogPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(this.title),
       ),
-      body: DialogPageWidget(customSelectIndex: customSelectIndex,),
+      body: DialogPageWidget(
+        customSelectIndex: customSelectIndex,
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pop(context);
@@ -31,17 +34,117 @@ class DialogPage extends StatelessWidget {
 }
 
 class DialogPageWidget extends StatefulWidget {
-
   int customSelectIndex;
-  DialogPageWidget({Key key,this.customSelectIndex}) : super(key: key);
+  DialogPageWidget({Key key, this.customSelectIndex}) : super(key: key);
 
-  _DialogPageState createState() => _DialogPageState();
+  State createState() => _DialogPageState();
 }
 
+//RaisedButton例子
+class _DialogPageState1 extends State<DialogPageWidget> {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            RaisedButton(
+              onPressed: () {},
+              child: Text('普'),
+            ),
+            RaisedButton(
+              child: Text('有颜色按钮'),
+              color: Colors.blue,
+              textColor: Colors.white,
+              onPressed: () {},
+            ),
+            RaisedButton(
+              onPressed: () {},
+              child: Text('有阴影按钮'),
+              color: Colors.blue,
+              textColor: Colors.white,
+              elevation: 20,
+            ),
+            //圆形按钮-和头像一样
+            RaisedButton(
+              onPressed: () {},
+              child: Text('有阴影按钮'),
+              color: Colors.blue,
+              textColor: Colors.white,
+              elevation: 20,
+              shape: CircleBorder(
+                side: BorderSide(color: Colors.white),
+              ),
+            ),
+            //通过设置RaisedButton的父视图Container的宽度高度，来改变RaiseButton容器的宽度高度。
+            Container(
+              height: 34,
+              width: 150,
+              child: RaisedButton(
+                onPressed: () {},
+                child: Text(
+                  '宽度高度',
+                  style: TextStyle(fontSize: 13),
+                ),
+                color: Colors.blue,
+                textColor: Colors.white,
+                elevation: 20,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            //使用Expanded让变成自适应按钮
+            Row(
+              children: [
+                Expanded(
+                  child: Container(
+                      height: 34,
+                      margin: EdgeInsets.symmetric(horizontal: 20),
+                      child: RaisedButton(
+                        onPressed: () {},
+                        child: Text(
+                          '自适应按钮',
+                          style: TextStyle(fontSize: 13),
+                        ),
+                        color: Colors.blue,
+                        textColor: Colors.white,
+                        elevation: 20,
+                      )),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 34,
+              width: 150,
+              child: RaisedButton(
+                onPressed: () {},
+                child: Text(
+                  '设置圆角',
+                  style: TextStyle(fontSize: 13),
+                ),
+                color: Colors.blue,
+                textColor: Colors.white,
+                elevation: 20,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
 class _DialogPageState extends State<DialogPageWidget> {
-
-
-
 //AlertDialog
   _showAlertDialog() async {
     var result = await showDialog(
@@ -173,13 +276,14 @@ class _DialogPageState extends State<DialogPageWidget> {
           );
         });
   }
+
   //自定义选择标签弹窗
   showCustomDialog2() {
     showDialog(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return  SelectItemDialog(
+          return SelectItemDialog(
             title: "加工类型2",
             titleArray: ["全部1", "标记1", "非标2"],
             selectIndex: widget.customSelectIndex,
@@ -187,31 +291,45 @@ class _DialogPageState extends State<DialogPageWidget> {
               widget.customSelectIndex = selectIndex;
               print('selectIndex=$selectIndex');
             },
-          );;
+          );
+          ;
         });
   }
- //自定义输入弹窗
+
+  //自定义输入弹窗
   showCustomInputDialog() {
     showDialog(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
-          return  InputSeveralDialog(title: "11", onConfirmListener: (text){
-            print("text:$text");
-          });
+          return InputSeveralDialog(
+              title: "11",
+              onConfirmListener: (text) {
+                print("text:$text");
+              });
         });
   }
 
-  showProduceListDialog(){
+  showProduceListDialog() {
     showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context){
-
-        return  ProduceListDialog(entries: ['1','2','3','12','1','2','5','5'],);
-      });
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return ProduceListDialog(
+            entries: ['1', '2', '3', '12', '1', '2', '5', '5'],
+          );
+        });
   }
 
+  showConfirmStockDialog(){
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return ConfirmStockDialog();
+        });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -226,21 +344,21 @@ class _DialogPageState extends State<DialogPageWidget> {
               child: Text('alert弹出框-AlertDialog'),
             ),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             RaisedButton(
               child: Text('select弹出框-SimpleDialog'),
               onPressed: _showSimpleDialog,
             ),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             RaisedButton(
               onPressed: _presentModelBottomSheet,
               child: Text('ActionSheet底部弹出框-_modelBottomSheet'),
             ),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             RaisedButton(
               onPressed: _pushToastView,
@@ -261,6 +379,10 @@ class _DialogPageState extends State<DialogPageWidget> {
             RaisedButton(
               onPressed: showProduceListDialog,
               child: Text('自定义列表dialog'),
+            ),
+            RaisedButton(
+              onPressed: showConfirmStockDialog,
+              child: Text('确认缺货输入dialog'),
             ),
           ],
         ),

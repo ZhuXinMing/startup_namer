@@ -5,7 +5,8 @@ typedef OnConfirmListener = Function(String text);
 
 class InputSeveralDialog extends Dialog {
   final String title;
-  @required final OnConfirmListener onConfirmListener;
+  @required
+  final OnConfirmListener onConfirmListener;
 
   InputSeveralDialog({this.title = "", this.onConfirmListener});
 
@@ -16,7 +17,10 @@ class InputSeveralDialog extends Dialog {
     return Material(
       type: MaterialType.transparency,
       child: Center(
-        child: InputSeveralDialogPage(title: this.title,onConfirmListener: onConfirmListener,),
+        child: InputSeveralDialogPage(
+          title: this.title,
+          onConfirmListener: onConfirmListener,
+        ),
       ),
     );
   }
@@ -41,13 +45,12 @@ class InputSeveralDialogState extends State<InputSeveralDialogPage> {
   static double topContentHeight = 71;
   static double bottomBtnHeight = 70;
 
-  TextEditingController _username = new TextEditingController();
+  TextEditingController _textEditingController = new TextEditingController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-//    _username.text = "初始值";
   }
 
   @override
@@ -140,7 +143,7 @@ class InputSeveralDialogState extends State<InputSeveralDialogPage> {
                             fontSize: ScreenUtil().setSp(28),
                           ),
                           keyboardType: TextInputType.number,
-                          controller: _username,
+                          controller: _textEditingController,
                           onChanged: (value) {
 //                              _username.text = value;
                           },
@@ -167,8 +170,8 @@ class InputSeveralDialogState extends State<InputSeveralDialogPage> {
                       onTap: () {
                         Navigator.pop(context);
 //                              widget.onConfirmListener(widget.selectIndex);
-                        widget.onConfirmListener(_username.text);
-                        print("_userName.text = ${_username.text}");
+                        widget.onConfirmListener(_textEditingController.text);
+                        print("_userName.text = ${_textEditingController.text}");
                       },
                       child: Container(
                         alignment: Alignment.center,
