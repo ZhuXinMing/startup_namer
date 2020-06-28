@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 
-
-class FlutterToastPage extends StatelessWidget{
+class FlutterToastController extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
@@ -19,24 +18,24 @@ class FlutterToastPage extends StatelessWidget{
             Navigator.pop(context);
           },
       ),
-      body: FlutterToastPageWidget(),
+      body: FlutterToastPage(),
     );
   }
 }
 
-class FlutterToastPageWidget extends StatefulWidget{
+class FlutterToastPage extends StatefulWidget{
 
-  FlutterToastPageWidget({Key key}) : super(key:key);
+  FlutterToastPage({Key key}) : super(key:key);
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return ToastPageListState();
+    return FlutterToastPageState();
   }
 }
 
 //只是个简单的view展示。不会阻塞页面上其它按钮事件
-class ToastPageListState extends State<FlutterToastPageWidget>{
+class FlutterToastPageState extends State<FlutterToastPage>{
 
   void showLongToast(){
     Fluttertoast.showToast(

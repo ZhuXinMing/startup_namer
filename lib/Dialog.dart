@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'flutterToastList.dart';
+import 'package:startupnamer/Compents/ProduceListDialog.dart';
+import 'FlutterToastController.dart';
 import 'Compents/MyDialog.dart';
 import 'Compents/SelectItemDialog.dart';
 import 'Compents/InputSeveralDialog.dart';
+import 'Compents/SelectItemDialog.dart';
 
 class DialogPage extends StatelessWidget {
   final String title;
@@ -155,7 +157,7 @@ class _DialogPageState extends State<DialogPageWidget> {
   _pushToastView() {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
-      return FlutterToastPage();
+      return FlutterToastController();
     }));
   }
 
@@ -171,7 +173,7 @@ class _DialogPageState extends State<DialogPageWidget> {
           );
         });
   }
-
+  //自定义选择标签弹窗
   showCustomDialog2() {
     showDialog(
         context: context,
@@ -188,7 +190,7 @@ class _DialogPageState extends State<DialogPageWidget> {
           );;
         });
   }
-
+ //自定义输入弹窗
   showCustomInputDialog() {
     showDialog(
         context: context,
@@ -199,6 +201,18 @@ class _DialogPageState extends State<DialogPageWidget> {
           });
         });
   }
+
+  showProduceListDialog(){
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context){
+
+        return  ProduceListDialog(entries: ['1','2','3','12','1','2','5','5'],);
+      });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -238,11 +252,15 @@ class _DialogPageState extends State<DialogPageWidget> {
             ),
             RaisedButton(
               onPressed: showCustomDialog2,
-              child: Text('自定义dialog2'),
+              child: Text('自定义选择标签弹窗'),
             ),
             RaisedButton(
               onPressed: showCustomInputDialog,
-              child: Text('自定义输入dialog3'),
+              child: Text('自定义输入框dialog'),
+            ),
+            RaisedButton(
+              onPressed: showProduceListDialog,
+              child: Text('自定义列表dialog'),
             ),
           ],
         ),

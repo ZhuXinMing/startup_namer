@@ -6,9 +6,9 @@ typedef OnConfirmListener = Function(int selectIndex);
 
 class SelectItemDialog extends Dialog {
   final String title;
-  List<String> titleArray;
-  int selectIndex;
-  OnConfirmListener onConfirmListener;
+  final List<String> titleArray;
+  final int selectIndex;
+  final OnConfirmListener onConfirmListener;
 
   SelectItemDialog({this.title = "加工类型",
     this.titleArray = const ["全部", "标记", "非标"],

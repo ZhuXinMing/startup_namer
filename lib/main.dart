@@ -6,7 +6,8 @@ import 'listData.dart';
 import 'Compents/dialogNButton.dart';
 import 'Dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'flutterTextFieldDemo.dart';
+import 'TextFieldDemoController.dart';
+import 'package:startupnamer/ListViewDemoController.dart';
 
 void main() => runApp(MyApp());
 
@@ -37,7 +38,8 @@ class _MyHomePageState extends State<MyHomePage>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    ScreenUtil.init(context, width: 1024, height: 768, allowFontScaling: false);
+//    ScreenUtil.init(context, width: 1024, height: 768, allowFontScaling: false);
+    ScreenUtil.init(context, width: 375, height: 667, allowFontScaling: false);
     return LayoutDemo();
   }
 }
@@ -55,7 +57,8 @@ class LayoutDemo extends StatelessWidget {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (BuildContext context) {
               return DialogPage(title: '跳转到Dialog传值');
-//              return FlutterTextFieldDemo();
+//              return TextFieldDemoController();
+//            return ListViewDemoController();
             }));
           }),
     );
@@ -63,6 +66,55 @@ class LayoutDemo extends StatelessWidget {
 }
 
 
+
+// 各种函数比较
+/*
+// A top-level function
+void foo(){
+
+}
+
+
+void main(){
+
+  var x;
+
+  // Comparing top-level functions. 和顶级函数做比较;
+  x = foo;
+  assert(foo == x);
+
+  // Comparing static methods. 静态方法比较
+  x = A.bar;
+  assert(A.bar == x);
+
+  // Comparing instance methods. 实例方法比较
+  var v = A();
+  var w = A();
+  var y = w;
+  x = w.baz;
+
+//  这些闭包指向同一个实例w，所以它们相等。
+  assert(y.baz == x);
+
+// 这些闭包引用不同的实例，因此它们是不相等的。
+  assert(v.baz != w.baz);
+}
+
+
+
+class A {
+
+  // A static method：静态方法。同iOS的类方法；
+  static void bar() {
+
+  }
+
+  // An instance method:类里面的是实例方法；
+  void baz(){
+
+  }
+}
+*/
 
 
 /*

@@ -6,7 +6,6 @@ class MyDialog extends Dialog {
 
   String title;
   String content;
-
   MyDialog({
     Key key,
     this.title = "",
@@ -55,7 +54,9 @@ class MyDialog extends Dialog {
                         child: InkWell(
                           child: Icon(Icons.close),
                           onTap: (){
+                            //关闭取消定时器有bug？
                             Navigator.pop(context);
+//                            timer.cancle();
                           },
                         ),
                       )

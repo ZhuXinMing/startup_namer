@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 
 
-class TextFieldDemoPage extends StatefulWidget{
+class TextFieldDemoController extends StatefulWidget{
 
-  TextFieldDemoPage({Key key}): super(key:key);
+  TextFieldDemoController({Key key}): super(key:key);
 
   @override
   State<StatefulWidget> createState() {
@@ -13,7 +13,7 @@ class TextFieldDemoPage extends StatefulWidget{
   }
 }
 
-class _TextFieldDemoPageState extends State<TextFieldDemoPage>{
+class _TextFieldDemoPageState extends State<TextFieldDemoController>{
 
   @override
   Widget build(BuildContext context) {

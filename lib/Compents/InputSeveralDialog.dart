@@ -5,7 +5,7 @@ typedef OnConfirmListener = Function(String text);
 
 class InputSeveralDialog extends Dialog {
   final String title;
-  @required OnConfirmListener onConfirmListener;
+  @required final OnConfirmListener onConfirmListener;
 
   InputSeveralDialog({this.title = "", this.onConfirmListener});
 
