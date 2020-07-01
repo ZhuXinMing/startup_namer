@@ -1,19 +1,20 @@
+//  Created by simon on 2020/6/22.
+
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
 typedef OnConfirmListener = Function(String text);
 
 class InputSeveralDialog extends Dialog {
+  InputSeveralDialog({this.title = "", this.onConfirmListener});
+
   final String title;
   @required
   final OnConfirmListener onConfirmListener;
 
-  InputSeveralDialog({this.title = "", this.onConfirmListener});
-
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
     return Material(
       type: MaterialType.transparency,
       child: Center(
@@ -27,10 +28,10 @@ class InputSeveralDialog extends Dialog {
 }
 
 class InputSeveralDialogPage extends StatefulWidget {
-  final String title;
-  OnConfirmListener onConfirmListener;
-
   InputSeveralDialogPage({this.title = "", this.onConfirmListener});
+
+  final String title;
+  final OnConfirmListener onConfirmListener;
 
   @override
   State<StatefulWidget> createState() {
@@ -51,6 +52,13 @@ class InputSeveralDialogState extends State<InputSeveralDialogPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _textEditingController.dispose();
+    super.dispose();
   }
 
   @override
@@ -169,10 +177,10 @@ class InputSeveralDialogState extends State<InputSeveralDialogPage> {
                   child: InkWell(
                       onTap: () {
                         Navigator.pop(context);
-//                              widget.onConfirmListener(widget.selectIndex);
                         widget.onConfirmListener(_textEditingController.text);
-                        print("_userName.text = ${_textEditingController.text}");
-                      },
+                        print(
+                            "_userName.text = ${_textEditingController.text}");
+                        },
                       child: Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:startupnamer/Compents/ProduceListDialog.dart';
+import 'package:startupnamer/Compents/produce_list_dialog.dart';
 import 'FlutterToastController.dart';
-import 'Compents/MyDialog.dart';
-import 'Compents/SelectItemDialog.dart';
-import 'Compents/InputSeveralDialog.dart';
-import 'Compents/SelectItemDialog.dart';
-import 'Compents/ConfirmStockDialog.dart';
+import 'Compents/my_custom_dialog.dart';
+import 'Compents/select_item_dialog.dart';
+import 'Compents/input_several_dialog.dart';
+import 'Compents/select_item_dialog.dart';
+import 'Compents/confirm_stock_dialog.dart';
+import 'Compents/confirm_entry_product_dialog.dart';
 
+// ignore: must_be_immutable
 class DialogPage extends StatelessWidget {
   final String title;
   int customSelectIndex = -1;
@@ -33,6 +35,7 @@ class DialogPage extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class DialogPageWidget extends StatefulWidget {
   int customSelectIndex;
   DialogPageWidget({Key key, this.customSelectIndex}) : super(key: key);
@@ -55,6 +58,11 @@ class _DialogPageState1 extends State<DialogPageWidget> {
               child: Text('普'),
             ),
             RaisedButton(
+              onPressed: () {},
+              child: Text('普'),
+              padding: EdgeInsets.all(0),
+            ),
+            RaisedButton(
               child: Text('有颜色按钮'),
               color: Colors.blue,
               textColor: Colors.white,
@@ -70,7 +78,7 @@ class _DialogPageState1 extends State<DialogPageWidget> {
             //圆形按钮-和头像一样
             RaisedButton(
               onPressed: () {},
-              child: Text('有阴影按钮'),
+              child: Text('形状设置为圆'),
               color: Colors.blue,
               textColor: Colors.white,
               elevation: 20,
@@ -80,12 +88,12 @@ class _DialogPageState1 extends State<DialogPageWidget> {
             ),
             //通过设置RaisedButton的父视图Container的宽度高度，来改变RaiseButton容器的宽度高度。
             Container(
-              height: 34,
-              width: 150,
+              height: 35,
+              width: 200,
               child: RaisedButton(
                 onPressed: () {},
                 child: Text(
-                  '宽度高度',
+                  '指定宽度高度',
                   style: TextStyle(fontSize: 13),
                 ),
                 color: Colors.blue,
@@ -96,17 +104,17 @@ class _DialogPageState1 extends State<DialogPageWidget> {
             SizedBox(
               height: 10,
             ),
-            //使用Expanded让变成自适应按钮
+            //在Row中使用Expanded让变成自适应宽度按钮
             Row(
               children: [
                 Expanded(
                   child: Container(
-                      height: 34,
-                      margin: EdgeInsets.symmetric(horizontal: 20),
+                      height: 35,
+                      margin: EdgeInsets.symmetric(horizontal: 10),
                       child: RaisedButton(
                         onPressed: () {},
                         child: Text(
-                          '自适应按钮',
+                          '指定高度，使用Row+Expanded自适应宽度按钮',
                           style: TextStyle(fontSize: 13),
                         ),
                         color: Colors.blue,
@@ -120,12 +128,12 @@ class _DialogPageState1 extends State<DialogPageWidget> {
               height: 10,
             ),
             Container(
-              height: 34,
-              width: 150,
+              height: 35,
+              width: 200,
               child: RaisedButton(
                 onPressed: () {},
                 child: Text(
-                  '设置圆角',
+                  '指定宽高+设置圆角',
                   style: TextStyle(fontSize: 13),
                 ),
                 color: Colors.blue,
@@ -136,6 +144,33 @@ class _DialogPageState1 extends State<DialogPageWidget> {
                 ),
               ),
             ),
+            IconButton(
+                iconSize:21 ,
+                icon: Image.asset(
+                  "images/1x/icon_left.png",
+//                  width: 21,
+//                  height:20,
+//                  alignment: Alignment.bottomRight,
+                ),
+                onPressed:  () {
+
+                },)
+//            Container(
+//              height: 30,
+//              width:31,
+//              child: RaisedButton(
+//                onPressed: () {
+//
+//                },
+//                padding: EdgeInsets.all(0),
+//                child: Image.asset(
+//                  "images/1x/icon_left.png",
+//                  width: 21,
+//                  height:20,
+//                  alignment: Alignment.bottomRight,
+//                ),
+//              ),
+//            ),
           ],
         ),
       ),
@@ -331,6 +366,14 @@ class _DialogPageState extends State<DialogPageWidget> {
 
   }
 
+  showConfirmEntryProductDialog(){
+    showDialog(context: context,
+    barrierDismissible: true,
+    builder: (BuildContext context){
+      return ConfirmEntryProductDialog();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -383,6 +426,10 @@ class _DialogPageState extends State<DialogPageWidget> {
             RaisedButton(
               onPressed: showConfirmStockDialog,
               child: Text('确认缺货输入dialog'),
+            ),
+            RaisedButton(
+              onPressed: showConfirmEntryProductDialog,
+              child: Text('商品录入确认dialog'),
             ),
           ],
         ),

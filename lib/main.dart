@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/services.dart';
 import 'listData.dart';
-import 'Compents/dialogNButton.dart';
+import 'Compents/dialog_nButton.dart';
 import 'Dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'TextFieldDemoController.dart';
@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -33,8 +32,7 @@ class MyHomePage extends StatefulWidget {
   }
 }
 
-class _MyHomePageState extends State<MyHomePage>{
-
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -43,8 +41,6 @@ class _MyHomePageState extends State<MyHomePage>{
     return LayoutDemo();
   }
 }
-
-
 
 class LayoutDemo extends StatelessWidget {
 
@@ -64,6 +60,43 @@ class LayoutDemo extends StatelessWidget {
     );
   }
 }
+
+
+
+
+//富文本；Text.rich
+/*
+class LayoutDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      //使用Text.rich构建富文本
+      child: Text.rich(TextSpan(
+        //开头的文本
+        text: 'Hello',
+        //文本默认样式
+        style: TextStyle(
+          fontSize: ScreenUtil().setSp(13),
+          color: Color(0xFF999999),
+        ),
+        //后面的子元素依次拼接，所有子元素的style会覆盖最上级TextSpan的style。
+        children: <TextSpan>[
+          TextSpan(
+            text: ' beautiful ',
+            style: TextStyle(
+                fontSize: ScreenUtil().setSp(16), color: Color(0xffEF5D44)),
+          ),
+          TextSpan(
+            text: ' world ',
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: Color(0xFF999999)),
+          ),
+        ],
+      )),
+    );
+  }
+}
+ */
 
 
 
@@ -115,7 +148,6 @@ class A {
   }
 }
 */
-
 
 /*
 
@@ -169,7 +201,7 @@ class LayoutDemo extends StatelessWidget {
 //          //无限大，比全屏幕还大。
 //          Container(
 //            color: Colors.orange,
-//            
+//
 //          ),
           Container(
             color: Colors.orange,
@@ -189,7 +221,6 @@ class LayoutDemo extends StatelessWidget {
   }
 }
 */
-
 
 // Navigator的push跳转及传值
 /*

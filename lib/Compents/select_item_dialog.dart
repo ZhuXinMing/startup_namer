@@ -1,3 +1,6 @@
+//  Created by simon on 2020/6/18.
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -29,11 +32,13 @@ class SelectItemDialog extends Dialog {
   }
 }
 
+
+// ignore: must_be_immutable
 class SelectItemDialogPage extends StatefulWidget {
   final String title;
-  List<String> titleArray;
+  final List<String> titleArray;
   int selectIndex;
-  OnConfirmListener onConfirmListener;
+  final OnConfirmListener onConfirmListener;
 
   SelectItemDialogPage({this.title, this.titleArray, this.selectIndex,
     this.onConfirmListener});

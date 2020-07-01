@@ -1,3 +1,5 @@
+//  Created by simon on 2020/6/28.
+
 //确认缺货
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,27 +9,28 @@ typedef RightOnConfirmListener = Function();
 typedef LeftOnConfirmListener = Function();
 
 class ConfirmStockDialog extends Dialog {
+
   final String title;
   final String content;
   final String verificationCode;
   final String leftButtonTitle;
   final String rightButtonTitle;
-  final RightOnConfirmListener rightOnConfirmListener;
   final LeftOnConfirmListener leftOnConfirmListener;
+  final RightOnConfirmListener rightOnConfirmListener;
 
-  ConfirmStockDialog({
-        this.title = '确认缺货',
-        this.content = "请联系分拣经理，确认是否报缺。报缺后，待",
-        this.verificationCode = '23621',
-        this.leftButtonTitle = '取消',
-        this.rightButtonTitle = '确认报缺',
-        this.leftOnConfirmListener,
-        this.rightOnConfirmListener});
+  const ConfirmStockDialog(
+      {Key key,
+      this.title = '确认缺货',
+      this.content,
+      this.verificationCode = '23621',
+      this.leftButtonTitle = '取消',
+      this.rightButtonTitle = '确认报缺',
+      this.leftOnConfirmListener,
+      this.rightOnConfirmListener})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
     return Material(
       type: MaterialType.transparency,
       child: Center(
@@ -38,13 +41,14 @@ class ConfirmStockDialog extends Dialog {
         leftButtonTitle: leftButtonTitle,
         rightButtonTitle: rightButtonTitle,
         leftOnConfirmListener: leftOnConfirmListener,
-            rightOnConfirmListener: rightOnConfirmListener,
+        rightOnConfirmListener: rightOnConfirmListener,
       )),
     );
   }
 }
 
 class ConfirmStockDialogPage extends StatefulWidget {
+
   final String title;
   final String content;
 
@@ -54,27 +58,32 @@ class ConfirmStockDialogPage extends StatefulWidget {
   final RightOnConfirmListener rightOnConfirmListener;
   final LeftOnConfirmListener leftOnConfirmListener;
 
-  ConfirmStockDialogPage(
+  const ConfirmStockDialogPage(
       {this.title,
-      this.content,
-      this.verificationCode,
-      this.leftButtonTitle,
-      this.rightButtonTitle,
-      this.leftOnConfirmListener,
-      this.rightOnConfirmListener});
+        this.content,
+        this.verificationCode,
+        this.leftButtonTitle,
+        this.rightButtonTitle,
+        this.leftOnConfirmListener,
+        this.rightOnConfirmListener});
 
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return ConfirmStockDialogState();
-  }
+  State<StatefulWidget> createState()=>ConfirmStockDialogState();
 }
 
 class ConfirmStockDialogState extends State<ConfirmStockDialogPage> {
-  double width = 256;
-  double height = 233;
-
+  double width;
+  double height;
   TextEditingController _textEditingController = new TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    width = 256;
+    height = widget.content != null ? 233.0 : 186.0;
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -101,17 +110,20 @@ class ConfirmStockDialogState extends State<ConfirmStockDialogPage> {
           SizedBox(
             height: ScreenUtil().setWidth(16),
           ),
-          Align(
-            child: Text(
-              '${widget.content}',
-              style: TextStyle(
-                color: Color(0xff333333),
-                fontSize: ScreenUtil().setSp(12),
+          Offstage(
+            offstage: widget.content != null ? false : true,
+            child: Container(
+              height: 33.0 + 13,
+              child: Align(
+                child: Text(
+                  '${widget.content}',
+                  style: TextStyle(
+                    color: Color(0xff333333),
+                    fontSize: ScreenUtil().setSp(12),
+                  ),
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: ScreenUtil().setWidth(13),
           ),
           Align(
             child: Text(
@@ -154,8 +166,7 @@ class ConfirmStockDialogState extends State<ConfirmStockDialogPage> {
                     ),
                     keyboardType: TextInputType.number,
                     controller: _textEditingController,
-                    onChanged: (value) {
-                    },
+                    onChanged: (value) {},
                     decoration: InputDecoration.collapsed(
                         hintText: "请点击输入",
                         hintStyle: TextStyle(
@@ -186,23 +197,24 @@ class ConfirmStockDialogState extends State<ConfirmStockDialogPage> {
                     style: TextStyle(fontSize: ScreenUtil().setSp(13)),
                   ),
                   color: Colors.white,
-                  elevation:0,
-                  highlightElevation:0,
-                  disabledElevation:0,
+                  elevation: 0,
+                  highlightElevation: 0,
+                  disabledElevation: 0,
                   textColor: Color(0xFF333333),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3)),
-                    side: BorderSide(color:Color(0xffCCCCCC),width:1),
+                    borderRadius:
+                        BorderRadius.circular(ScreenUtil().setWidth(3)),
+                    side: BorderSide(color: Color(0xffCCCCCC), width: 1),
                   ),
                 ),
               ),
               Container(
-                height:ScreenUtil().setWidth(34),
+                height: ScreenUtil().setWidth(34),
                 width: ScreenUtil().setWidth(104),
                 child: RaisedButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    widget.leftOnConfirmListener();
+                    widget.rightOnConfirmListener();
                   },
                   child: Text(
                     widget.rightButtonTitle,
@@ -211,8 +223,9 @@ class ConfirmStockDialogState extends State<ConfirmStockDialogPage> {
                   color: Color(0xffEF5D44),
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3)),
-                    side: BorderSide(color:Color(0xffEF5D44)),
+                    borderRadius:
+                        BorderRadius.circular(ScreenUtil().setWidth(3)),
+                    side: BorderSide(color: Color(0xffEF5D44)),
                   ),
                 ),
               ),

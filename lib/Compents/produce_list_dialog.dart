@@ -1,16 +1,19 @@
+//  Created by simon on 2020/6/27.
+
+//  商品库存列表
+
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
-//商品库存列表
 
 class ProduceListDialog extends Dialog {
 
-  final List entries;
   ProduceListDialog({this.entries});
+  final List entries;
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Material(
       type: MaterialType.transparency,
       child: Center(
@@ -24,15 +27,11 @@ class ProduceListDialog extends Dialog {
 
 class ProduceListDialogPage extends StatefulWidget {
   final List entries;
-  ProduceListDialogPage({this.entries=const []});
+  ProduceListDialogPage({this.entries = const []});
 
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return ProduceListDialogState();
-  }
+  State<StatefulWidget> createState() => ProduceListDialogState();
 }
-
 
 class ProduceListDialogState extends State<ProduceListDialogPage> {
   double width = 256;
@@ -62,11 +61,11 @@ class ProduceListDialogState extends State<ProduceListDialogPage> {
             ),
           ),
           SizedBox(
-            height: ScreenUtil().setWidth(16-6.5),
+            height: ScreenUtil().setWidth(16 - 6.5),
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: widget.entries != null?widget.entries.length:0,
+              itemCount: widget.entries != null ? widget.entries.length : 0,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                   height: ScreenUtil().setWidth(29),
@@ -88,7 +87,7 @@ class ProduceListDialogState extends State<ProduceListDialogPage> {
                       ),
                       Expanded(
                         child: Text(
-                          "x${widget.entries!=null?widget.entries[index]:index}袋",
+                          "x${widget.entries != null ? widget.entries[index] : index}袋",
                           style: TextStyle(
                             color: Color(0xff333333),
                             fontSize: ScreenUtil().setSp(12),
@@ -103,7 +102,7 @@ class ProduceListDialogState extends State<ProduceListDialogPage> {
             ),
           ),
           SizedBox(
-            height: ScreenUtil().setWidth(16-6.5),
+            height: ScreenUtil().setWidth(16 - 6.5),
           ),
           Container(
             height: ScreenUtil().setWidth(34),
@@ -133,4 +132,3 @@ class ProduceListDialogState extends State<ProduceListDialogPage> {
     );
   }
 }
-
