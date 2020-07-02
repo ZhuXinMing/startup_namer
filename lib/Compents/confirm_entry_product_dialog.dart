@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:fluttertoast/fluttertoast.dart';
 
-typedef OnConfirmListener = Function(String num);
+typedef OnConfirmListener = Function(String actualThrowNum);
 
 class ConfirmEntryProductDialog extends Dialog {
   final Map item;
@@ -22,9 +22,24 @@ class ConfirmEntryProductDialog extends Dialog {
                 "token=8d115bd85ec187149ddedc643b4cd4e1",
         "waitThrowNum": 3,
         "remainNum": 3,
+        "baseUnitName":"袋"
       },
       this.onConfirmListener})
       : super(key: key);
+
+
+  static void showCustomDialog({
+      @required BuildContext context,
+      Map item,
+      OnConfirmListener onConfirmListener
+  })
+  {
+    showDialog(context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context){
+          return ConfirmEntryProductDialog(item: item,onConfirmListener: onConfirmListener,);
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +175,7 @@ class ConfirmEntryProductDialogState
                                   style: TextStyle(color: Color(0xffEF5D44)),
                                 ),
                                 TextSpan(
-                                  text: '袋',
+                                  text: widget.item['baseUnitName'],
                                   style: TextStyle(color: Color(0xFF999999)),
                                 ),
                               ],
@@ -183,7 +198,7 @@ class ConfirmEntryProductDialogState
                                     style: TextStyle(color: Color(0xffEF5D44)),
                                   ),
                                   TextSpan(
-                                    text: '袋',
+                                    text:  widget.item['baseUnitName'],
                                     style: TextStyle(color: Color(0xFF999999)),
                                   ),
                                 ],

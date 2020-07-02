@@ -4,10 +4,11 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/services.dart';
 import 'listData.dart';
 import 'Compents/dialog_nButton.dart';
-import 'Dialog.dart';
+import 'dialog_demos.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'TextFieldDemoController.dart';
 import 'package:startupnamer/ListViewDemoController.dart';
+import 'bottom_sheet_demos.dart';
 
 void main() => runApp(MyApp());
 
@@ -34,35 +35,48 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-//    ScreenUtil.init(context, width: 1024, height: 768, allowFontScaling: false);
+    //    ScreenUtil.init(context, width: 1024, height: 768, allowFontScaling: false);
     ScreenUtil.init(context, width: 375, height: 667, allowFontScaling: false);
     return LayoutDemo();
   }
 }
 
 class LayoutDemo extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: RaisedButton(
-          child: Text('跳转'),
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (BuildContext context) {
-              return DialogPage(title: '跳转到Dialog传值');
+      child: Column(
+        children: [
+          Container(
+            height: ScreenUtil().setWidth(100),
+            decoration: BoxDecoration(
+              color: Colors.orange,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(8.5)),
+              border: Border.all(color: Colors.amber),
+            ),
+          ),
+          RaisedButton(
+              child: Text('跳转'),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (BuildContext context) {
+//              return DialogDemo(title: '跳转到Dialog传值');
 //              return TextFieldDemoController();
 //            return ListViewDemoController();
-            }));
-          }),
+                  return BottomSheetDemo();
+                }));
+              }),
+        ],
+      ),
     );
   }
 }
-
-
-
 
 //富文本；Text.rich
 /*
@@ -97,8 +111,6 @@ class LayoutDemo extends StatelessWidget {
   }
 }
  */
-
-
 
 // 各种函数比较
 /*

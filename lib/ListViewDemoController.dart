@@ -58,6 +58,7 @@ class HomeContent0 extends StatelessWidget {
   }
 }
 
+//默认构造函数
 class HomeContent1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -80,6 +81,7 @@ class HomeContent1 extends StatelessWidget {
             child: Text('Entry B'),
           ),
         ),
+        Divider(),
         Container(
           height: 50,
           color: Colors.amber[100],
@@ -92,13 +94,14 @@ class HomeContent1 extends StatelessWidget {
   }
 }
 
+//惰性构造函数；
 class HomeContent2 extends StatelessWidget {
+
   final List<String> entries = <String>['A', 'B', 'C'];
   final List<int> colorCodes = <int>[600, 500, 100];
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return ListView.builder(
       scrollDirection: Axis.vertical,
       reverse: false,
@@ -117,6 +120,9 @@ class HomeContent2 extends StatelessWidget {
   }
 }
 
+//（3）[ListView.separated]构造函数：采用两个[IndexedWidgetBuilder]: ' itemBuilder '根据需要构建cell，'
+// separatorBuilder '类似地构建分隔符子项目（比如分割线widget），
+// 分隔符子项目出现在cell之间。此构造函数适用于子视图数量固定的列表视图。
 class HomeContent3 extends StatelessWidget {
   final List<String> entries = <String>['A', 'B', 'C'];
   final List<int> colorCodes = <int>[600, 500, 100];
@@ -138,10 +144,69 @@ class HomeContent3 extends StatelessWidget {
           ),
         );
       },
-      separatorBuilder: (BuildContext context, int index) => const Divider(),
+      separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 2,),
     );
   }
 }
+
+//使用自定义子模型创建可滚动的线性小部件数组。
+
+//这个[ListView]使用一个自定义的[SliverChildBuilderDelegate]来支持子排序。
+/*
+class HomeContent4 extends StatefulWidget{
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return HomeContent4State();
+  }
+}
+
+
+class HomeContent4State extends State<HomeContent4>
+{
+  List<String> items = <String>['1', '2', '3', '4', '5'];
+
+  void _reverse(){
+      setState(() {
+        items = items.reversed.toList();
+      });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      body: SafeArea(
+        child: ListView.custom(
+            itemExtent: 40.0,
+            childrenDelegate:SliverChildBuilderDelegate(
+                (BuildContext context, int index){
+                  return KeepAlive(
+//                      keepAlive: null, child: null
+                  );
+                },
+              childCount: items.length,
+              findChildIndexCallback: (Key key){
+                  final ValueKey valueKey = key;
+                  final String data = valueKey.value;
+                  return items.indexOf(data);
+              }
+            ),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FlatButton(onPressed: ()=>_reverse(), child: Text('Reverse items')),
+          ],
+        ),
+      ),
+    );
+  }
+}
+*/
 
 //ListTile 内容
 /*

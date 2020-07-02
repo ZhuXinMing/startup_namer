@@ -9,10 +9,10 @@ import 'Compents/confirm_stock_dialog.dart';
 import 'Compents/confirm_entry_product_dialog.dart';
 
 // ignore: must_be_immutable
-class DialogPage extends StatelessWidget {
+class DialogDemo extends StatelessWidget {
   final String title;
   int customSelectIndex = -1;
-  DialogPage({
+  DialogDemo({
     Key key,
     this.title = 'Dialog页面',
   }) : super(key: key);
@@ -23,7 +23,7 @@ class DialogPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(this.title),
       ),
-      body: DialogPageWidget(
+      body: _DemoPage(
         customSelectIndex: customSelectIndex,
       ),
       floatingActionButton: FloatingActionButton(
@@ -36,150 +36,16 @@ class DialogPage extends StatelessWidget {
 }
 
 // ignore: must_be_immutable
-class DialogPageWidget extends StatefulWidget {
+class _DemoPage extends StatefulWidget {
   int customSelectIndex;
-  DialogPageWidget({Key key, this.customSelectIndex}) : super(key: key);
+  _DemoPage({Key key, this.customSelectIndex}) : super(key: key);
 
-  State createState() => _DialogPageState();
-}
-
-//RaisedButton例子
-class _DialogPageState1 extends State<DialogPageWidget> {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-              onPressed: () {},
-              child: Text('普'),
-            ),
-            RaisedButton(
-              onPressed: () {},
-              child: Text('普'),
-              padding: EdgeInsets.all(0),
-            ),
-            RaisedButton(
-              child: Text('有颜色按钮'),
-              color: Colors.blue,
-              textColor: Colors.white,
-              onPressed: () {},
-            ),
-            RaisedButton(
-              onPressed: () {},
-              child: Text('有阴影按钮'),
-              color: Colors.blue,
-              textColor: Colors.white,
-              elevation: 20,
-            ),
-            //圆形按钮-和头像一样
-            RaisedButton(
-              onPressed: () {},
-              child: Text('形状设置为圆'),
-              color: Colors.blue,
-              textColor: Colors.white,
-              elevation: 20,
-              shape: CircleBorder(
-                side: BorderSide(color: Colors.white),
-              ),
-            ),
-            //通过设置RaisedButton的父视图Container的宽度高度，来改变RaiseButton容器的宽度高度。
-            Container(
-              height: 35,
-              width: 200,
-              child: RaisedButton(
-                onPressed: () {},
-                child: Text(
-                  '指定宽度高度',
-                  style: TextStyle(fontSize: 13),
-                ),
-                color: Colors.blue,
-                textColor: Colors.white,
-                elevation: 20,
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            //在Row中使用Expanded让变成自适应宽度按钮
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                      height: 35,
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: RaisedButton(
-                        onPressed: () {},
-                        child: Text(
-                          '指定高度，使用Row+Expanded自适应宽度按钮',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                        color: Colors.blue,
-                        textColor: Colors.white,
-                        elevation: 20,
-                      )),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 35,
-              width: 200,
-              child: RaisedButton(
-                onPressed: () {},
-                child: Text(
-                  '指定宽高+设置圆角',
-                  style: TextStyle(fontSize: 13),
-                ),
-                color: Colors.blue,
-                textColor: Colors.white,
-                elevation: 20,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            IconButton(
-                iconSize:21 ,
-                icon: Image.asset(
-                  "images/1x/icon_left.png",
-//                  width: 21,
-//                  height:20,
-//                  alignment: Alignment.bottomRight,
-                ),
-                onPressed:  () {
-
-                },)
-//            Container(
-//              height: 30,
-//              width:31,
-//              child: RaisedButton(
-//                onPressed: () {
-//
-//                },
-//                padding: EdgeInsets.all(0),
-//                child: Image.asset(
-//                  "images/1x/icon_left.png",
-//                  width: 21,
-//                  height:20,
-//                  alignment: Alignment.bottomRight,
-//                ),
-//              ),
-//            ),
-          ],
-        ),
-      ),
-    );
-  }
+  State createState() => _DemoState();
 }
 
 
-class _DialogPageState extends State<DialogPageWidget> {
+
+class _DemoState extends State<_DemoPage> {
 //AlertDialog
   _showAlertDialog() async {
     var result = await showDialog(
@@ -249,42 +115,6 @@ class _DialogPageState extends State<DialogPageWidget> {
     print("result= $result");
   }
 
-  //BottomSheet
-  _presentModelBottomSheet() async {
-    var result = await showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          //可以设置返回的widget的高度，默认很高，但是也不能太小，太小会导致内容显示不下。
-          return Container(
-            height: 200.0,
-            child: Column(
-              children: <Widget>[
-                ListTile(
-                  title: Text('微信分享'),
-                  onTap: () {
-                    Navigator.pop(context, 0);
-                  },
-                ),
-                Divider(),
-                ListTile(
-                  title: Text('QQ分享'),
-                  onTap: () {
-                    Navigator.pop(context, 1);
-                  },
-                ),
-                Divider(),
-                ListTile(
-                  title: Text('新浪微博分享'),
-                  onTap: () {
-                    Navigator.pop(context, 2);
-                  },
-                ),
-              ],
-            ),
-          );
-        });
-    print("result= $result");
-  }
 
   @override
   initState() {
@@ -344,7 +174,7 @@ class _DialogPageState extends State<DialogPageWidget> {
               });
         });
   }
-
+  //商品列表
   showProduceListDialog() {
     showDialog(
         context: context,
@@ -355,7 +185,7 @@ class _DialogPageState extends State<DialogPageWidget> {
           );
         });
   }
-
+  //确认缺货
   showConfirmStockDialog(){
     showDialog(
         context: context,
@@ -365,12 +195,12 @@ class _DialogPageState extends State<DialogPageWidget> {
         });
 
   }
-
+  //确定录入
   showConfirmEntryProductDialog(){
-    showDialog(context: context,
-    barrierDismissible: true,
-    builder: (BuildContext context){
-      return ConfirmEntryProductDialog();
+
+    ConfirmEntryProductDialog.showCustomDialog(context: context,
+    onConfirmListener: (actualThrowNum){
+      print('num = $actualThrowNum');
     });
   }
 
@@ -392,13 +222,6 @@ class _DialogPageState extends State<DialogPageWidget> {
             RaisedButton(
               child: Text('select弹出框-SimpleDialog'),
               onPressed: _showSimpleDialog,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            RaisedButton(
-              onPressed: _presentModelBottomSheet,
-              child: Text('ActionSheet底部弹出框-_modelBottomSheet'),
             ),
             SizedBox(
               height: 10,

@@ -78,10 +78,10 @@ class InputSeveralDialogState extends State<InputSeveralDialogPage> {
             padding:
                 EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(10)),
             child: Stack(
-              alignment: Alignment.center,
               fit: StackFit.loose,
               children: <Widget>[
                 Align(
+                  alignment: Alignment.center,
                   child: Text(
                     widget.title,
                     style: TextStyle(
