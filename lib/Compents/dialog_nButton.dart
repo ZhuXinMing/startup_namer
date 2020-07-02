@@ -62,7 +62,7 @@ class DialogNButton extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Image.asset('images/2.0x/icon_triangle_down.png'),
+              Image.asset('assets/images/icon_triangle_down.png'),
             ],
           ),
         ),

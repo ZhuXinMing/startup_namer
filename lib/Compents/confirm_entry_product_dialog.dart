@@ -239,7 +239,7 @@ class ConfirmEntryProductDialogState
                                       width: ScreenUtil().setWidth(21),
                                       height: ScreenUtil().setWidth(20),
                                       child: Image.asset(
-                                        "images/2x/left.png",
+                                        "assets/images/left.png",
                                       ),
                                     )),
                                 onTap: () {
@@ -260,7 +260,7 @@ class ConfirmEntryProductDialogState
 //                                    color: Colors.blue,
                                     image: DecorationImage(
                                         image: AssetImage(
-                                          "images/2x/mid.png",
+                                          "assets/images/mid.png",
                                         ),
                                         fit: BoxFit.fill)),
                                 child: TextField(
@@ -287,7 +287,7 @@ class ConfirmEntryProductDialogState
                                       width: ScreenUtil().setWidth(21),
                                       height: ScreenUtil().setWidth(20),
                                       child: Image.asset(
-                                        "images/2x/right.png",
+                                        "assets/images/right.png",
                                       ),
                                     ),
                                   ),

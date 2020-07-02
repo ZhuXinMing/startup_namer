@@ -60,12 +60,12 @@ flutter:
   # https://flutter.dev/assets-and-images/#from-packages
 
   assets:
-    - images/1x/icon_triangle_down.png
-    - images/1x/icon_close.png
-    - images/2x/left.png
-    - images/2x/right.png
-    - images/2x/mid.png
-    - images/2x/close_gray.png
+    - assets/images/icon_triangle_down.png
+    - assets/images/icon_close.png
+    - assets/images/left.png
+    - assets/images/right.png
+    - assets/images/mid.png
+    - assets/images/close_gray.png
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

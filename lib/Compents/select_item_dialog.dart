@@ -126,7 +126,7 @@ class SelectItemDialogState extends State<SelectItemDialogPage> {
                       height: ScreenUtil().setWidth(topContentHeight),
                       alignment: Alignment.center,
                       child: Image.asset(
-                        "images/1x/icon_close.png",
+                        "assets/images/icon_close.png",
                         width: ScreenUtil().setWidth(20),
                         height: ScreenUtil().setWidth(20),
                       ),
