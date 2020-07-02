@@ -9,6 +9,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:startupnamer/Compents/one_column_picker.dart';
+import 'package:startupnamer/Compents/shift_quantity_selection_sheet.dart';
 
 class BottomSheetDemo extends StatelessWidget {
   final String title;
@@ -69,8 +70,8 @@ class _DemoState extends State<_DemoPage> {
             onPressed: _presentOneColumnPicker,
           ),
           RaisedButton(
-            onPressed: _presentOneColumn,
-            child: Text('有阴影按钮'),
+            onPressed: _presentSelectionSheet,
+            child: Text('移位量选择弹窗'),
             color: Colors.blue,
             textColor: Colors.white,
             elevation: 20,
@@ -80,11 +81,18 @@ class _DemoState extends State<_DemoPage> {
     );
   }
 
-  _presentOneColumn() {}
+  //移位量选择弹窗
+  _presentSelectionSheet() {
 
+    ShiftQuantitySelectionSheet.showPickerView(context: context,onConfirmListener: (List items){
+
+    });
+  }
+
+  //一列picker
   _presentOneColumnPicker() {
 
-    OneColumnPicker.showPickerView(context: context, onConfirmListener: (int index){
+    OneColumnPicker.show(context: context, onConfirmListener: (int index){
       print("index = $index");
     });
   }

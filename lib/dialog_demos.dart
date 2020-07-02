@@ -144,35 +144,18 @@ class _DemoState extends State<_DemoPage> {
 
   //自定义选择标签弹窗
   showCustomDialog2() {
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return SelectItemDialog(
-            title: "加工类型2",
-            titleArray: ["全部1", "标记1", "非标2"],
-            selectIndex: widget.customSelectIndex,
-            onConfirmListener: (selectIndex) {
-              widget.customSelectIndex = selectIndex;
-              print('selectIndex=$selectIndex');
-            },
-          );
-          ;
-        });
+
+    SelectItemDialog.show(context: context, title: '11', titleArray:['1','2','3'], onConfirmListener: (selectIndex){
+      print('selectIndex=$selectIndex');
+    });
   }
 
   //自定义输入弹窗
   showCustomInputDialog() {
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return InputSeveralDialog(
-              title: "11",
-              onConfirmListener: (text) {
-                print("text:$text");
-              });
-        });
+
+    InputSeveralDialog.show(context: context, title: '1', onConfirmListener: (String text){
+      print("text:$text");
+    });
   }
   //商品列表
   showProduceListDialog() {
@@ -198,7 +181,7 @@ class _DemoState extends State<_DemoPage> {
   //确定录入
   showConfirmEntryProductDialog(){
 
-    ConfirmEntryProductDialog.showCustomDialog(context: context,
+    ConfirmEntryProductDialog.show(context: context,
     onConfirmListener: (actualThrowNum){
       print('num = $actualThrowNum');
     });

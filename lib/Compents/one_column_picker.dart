@@ -28,7 +28,7 @@ class OneColumnPicker extends StatelessWidget {
         this.onButtonTitle = '',
       this.onConfirmListener});
 
-  static void showPickerView({
+  static void show({
     @required BuildContext context,
     String title = '集货区选择',
     List titleArray = const ['0', '1', '2', '3'],

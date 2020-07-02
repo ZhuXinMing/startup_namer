@@ -7,11 +7,30 @@ import 'package:flutter/material.dart';
 typedef OnConfirmListener = Function(String text);
 
 class InputSeveralDialog extends Dialog {
-  InputSeveralDialog({this.title = "", this.onConfirmListener});
-
+  @required
   final String title;
   @required
   final OnConfirmListener onConfirmListener;
+
+  InputSeveralDialog({this.title = "", this.onConfirmListener});
+
+  static show({
+    @required BuildContext context,
+    @required String title,
+    @required
+    OnConfirmListener onConfirmListener
+  })
+  {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return InputSeveralDialog(
+              title: title,
+              onConfirmListener: onConfirmListener
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +97,7 @@ class InputSeveralDialogState extends State<InputSeveralDialogPage> {
             padding:
                 EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(10)),
             child: Stack(
+              alignment: Alignment.center,
               fit: StackFit.loose,
               children: <Widget>[
                 Align(

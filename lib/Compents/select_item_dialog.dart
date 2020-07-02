@@ -8,15 +8,40 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 typedef OnConfirmListener = Function(int selectIndex);
 
 class SelectItemDialog extends Dialog {
-  final String title;
-  final List<String> titleArray;
+
+  @required final String title;
+  @required final List<String> titleArray;
   final int selectIndex;
+  @required
   final OnConfirmListener onConfirmListener;
+
 
   SelectItemDialog({this.title = "加工类型",
     this.titleArray = const ["全部", "标记", "非标"],
     this.selectIndex = 0,
     this.onConfirmListener});
+
+  static show({
+    @required BuildContext context,
+    @required String title,
+    @required List<String> titleArray,
+    int selectIndex = 0,
+    @required OnConfirmListener onConfirmListener
+  })
+  {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return SelectItemDialog(
+            title: title,
+            titleArray: titleArray,
+            selectIndex: selectIndex,
+            onConfirmListener: onConfirmListener
+          );
+
+        });
+  }
 
   @override
   Widget build(BuildContext context) {

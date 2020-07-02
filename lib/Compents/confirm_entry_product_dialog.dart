@@ -27,7 +27,7 @@ class ConfirmEntryProductDialog extends Dialog {
       this.onConfirmListener})
       : super(key: key);
 
-  static void showCustomDialog(
+  static void show(
       {@required BuildContext context,
       Map item = const {
         "spuName": "萝卜",

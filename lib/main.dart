@@ -66,10 +66,10 @@ class LayoutDemo extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (BuildContext context) {
-//              return DialogDemo(title: '跳转到Dialog传值');
+              return DialogDemo(title: '跳转到Dialog传值');
 //              return TextFieldDemoController();
 //            return ListViewDemoController();
-                  return BottomSheetDemo();
+//                  return BottomSheetDemo();
                 }));
               }),
         ],
