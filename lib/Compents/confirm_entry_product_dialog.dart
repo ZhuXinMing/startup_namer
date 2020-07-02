@@ -22,22 +22,31 @@ class ConfirmEntryProductDialog extends Dialog {
                 "token=8d115bd85ec187149ddedc643b4cd4e1",
         "waitThrowNum": 3,
         "remainNum": 3,
-        "baseUnitName":"袋"
+        "baseUnitName": "袋"
       },
       this.onConfirmListener})
       : super(key: key);
 
-
-  static void showCustomDialog({
-      @required BuildContext context,
-      Map item,
-      OnConfirmListener onConfirmListener
-  })
-  {
-    showDialog(context: context,
+  static void showCustomDialog(
+      {@required BuildContext context,
+      Map item = const {
+        "spuName": "萝卜",
+        "photo":
+            "https://pics6.baidu.com/feed/9358d109b3de9c825b28c0133091350c18d843f7.jpeg?"
+                "token=8d115bd85ec187149ddedc643b4cd4e1",
+        "waitThrowNum": 3,
+        "remainNum": 3,
+        "baseUnitName": "袋"
+      },
+      OnConfirmListener onConfirmListener}) {
+    showDialog(
+        context: context,
         barrierDismissible: true,
-        builder: (BuildContext context){
-          return ConfirmEntryProductDialog(item: item,onConfirmListener: onConfirmListener,);
+        builder: (BuildContext context) {
+          return ConfirmEntryProductDialog(
+            item: item,
+            onConfirmListener: onConfirmListener,
+          );
         });
   }
 
@@ -47,7 +56,10 @@ class ConfirmEntryProductDialog extends Dialog {
       type: MaterialType.transparency,
       color: Colors.amber,
       child: Center(
-        child: ConfirmEntryProductDialogPage(item: item,onConfirmListener: onConfirmListener,),
+        child: ConfirmEntryProductDialogPage(
+          item: item,
+          onConfirmListener: onConfirmListener,
+        ),
       ),
     );
   }
@@ -57,7 +69,8 @@ class ConfirmEntryProductDialogPage extends StatefulWidget {
   final OnConfirmListener onConfirmListener;
   final Map item;
 
-  const ConfirmEntryProductDialogPage({Key key,this.item, this.onConfirmListener})
+  const ConfirmEntryProductDialogPage(
+      {Key key, this.item, this.onConfirmListener})
       : super(key: key);
 
   @override
@@ -95,6 +108,7 @@ class ConfirmEntryProductDialogState
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1);
   }
+
   void showMinusCenterShortToast() {
     Fluttertoast.showToast(
         msg: "已达最小量",
@@ -194,11 +208,11 @@ class ConfirmEntryProductDialogState
                                 ),
                                 children: [
                                   TextSpan(
-                                    text:  widget.item['remainNum'].toString(),
+                                    text: widget.item['remainNum'].toString(),
                                     style: TextStyle(color: Color(0xffEF5D44)),
                                   ),
                                   TextSpan(
-                                    text:  widget.item['baseUnitName'],
+                                    text: widget.item['baseUnitName'],
                                     style: TextStyle(color: Color(0xFF999999)),
                                   ),
                                 ],
@@ -229,12 +243,11 @@ class ConfirmEntryProductDialogState
                                       ),
                                     )),
                                 onTap: () {
-                                  int a  = int.parse(_controller.text);
-                                  if(a == 1){
+                                  int a = int.parse(_controller.text);
+                                  if (a == 1) {
                                     showMinusCenterShortToast();
-                                  }
-                                  else{
-                                    _controller.text = (a-1).toString();
+                                  } else {
+                                    _controller.text = (a - 1).toString();
                                   }
                                   print('----');
                                 },
@@ -282,12 +295,11 @@ class ConfirmEntryProductDialogState
                                     int r = widget.item['remainNum'];
                                     int w = widget.item['waitThrowNum'];
                                     int min = math.min(r, w);
-                                    int a  = int.parse(_controller.text);
-                                    if(a >= min){
+                                    int a = int.parse(_controller.text);
+                                    if (a >= min) {
                                       showCenterShortToast();
-                                    }
-                                    else{
-                                      _controller.text = (a+1).toString();
+                                    } else {
+                                      _controller.text = (a + 1).toString();
                                     }
                                     print('+++++++');
                                   },

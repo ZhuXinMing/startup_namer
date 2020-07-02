@@ -22,17 +22,17 @@ class OneColumnPicker extends StatelessWidget {
   var _selectIndex = 0;
 
   OneColumnPicker(
-      {this.title = '集货区选择',
-      this.titleArray = const ['0', '1', '2', '3'],
+      {this.title = '',
+      this.titleArray = const [],
       this.itemExtent = 32.0,
-        this.onButtonTitle = '查询',
+        this.onButtonTitle = '',
       this.onConfirmListener});
 
   static void showPickerView({
     @required BuildContext context,
-    String title,
-    List titleArray,
-    String onButtonTitle,
+    String title = '集货区选择',
+    List titleArray = const ['0', '1', '2', '3'],
+    String onButtonTitle = '查询',
     OnConfirmListener onConfirmListener
   }) {
     showModalBottomSheet(
