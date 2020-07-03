@@ -15,14 +15,14 @@ import 'dart:math' as math;
 typedef OnConfirmListener = Function(List entries);
 
 // ignore: must_be_immutable
-class ShiftQuantitySelectionSheet extends StatelessWidget {
+class ShiftQuantitySelectionBottomSheet extends StatelessWidget {
   @required
   final String title;
   List<Map> entries;
   @required
   final OnConfirmListener onConfirmListener;
 
-  ShiftQuantitySelectionSheet(
+  ShiftQuantitySelectionBottomSheet(
       {this.title, this.entries, this.onConfirmListener});
 
   static void showPickerView(
@@ -49,7 +49,7 @@ class ShiftQuantitySelectionSheet extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         builder: (BuildContext context) {
-          return ShiftQuantitySelectionSheet(
+          return ShiftQuantitySelectionBottomSheet(
             title: title,
             entries: entries,
             onConfirmListener: onConfirmListener,
@@ -60,30 +60,30 @@ class ShiftQuantitySelectionSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return ShiftQuantitySelectionSheetPage(
+    return ShiftQuantitySelectionBottomSheetPage(
         title: title, entries: entries, onConfirmListener: onConfirmListener);
   }
 }
 
-class ShiftQuantitySelectionSheetPage extends StatefulWidget {
+class ShiftQuantitySelectionBottomSheetPage extends StatefulWidget {
   @required
   final String title;
   List<Map> entries;
   @required
   final OnConfirmListener onConfirmListener;
 
-  ShiftQuantitySelectionSheetPage(
+  ShiftQuantitySelectionBottomSheetPage(
       {this.title, this.entries, this.onConfirmListener});
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return ShiftQuantitySelectionSheetState();
+    return ShiftQuantitySelectionBottomSheetState();
   }
 }
 
-class ShiftQuantitySelectionSheetState
-    extends State<ShiftQuantitySelectionSheetPage> {
+class ShiftQuantitySelectionBottomSheetState
+    extends State<ShiftQuantitySelectionBottomSheetPage> {
 //  var mList = List();
 
   @override
