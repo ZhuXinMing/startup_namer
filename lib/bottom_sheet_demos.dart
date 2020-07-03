@@ -86,6 +86,7 @@ class _DemoState extends State<_DemoPage> {
 
     ShiftQuantitySelectionSheet.showPickerView(context: context,onConfirmListener: (List items){
 
+      print(items);
     });
   }
 

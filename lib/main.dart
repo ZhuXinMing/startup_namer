@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     //    ScreenUtil.init(context, width: 1024, height: 768, allowFontScaling: false);
-    ScreenUtil.init(context, width: 375, height: 667, allowFontScaling: false);
+    ScreenUtil.init(context, width: 480, height: 854, allowFontScaling: false);
     return LayoutDemo();
   }
 }
@@ -66,10 +66,10 @@ class LayoutDemo extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (BuildContext context) {
-              return DialogDemo(title: '跳转到Dialog传值');
+//              return DialogDemo(title: '跳转到Dialog传值');
 //              return TextFieldDemoController();
 //            return ListViewDemoController();
-//                  return BottomSheetDemo();
+                  return BottomSheetDemo();
                 }));
               }),
         ],

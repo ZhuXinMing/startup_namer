@@ -79,7 +79,7 @@ class OneColumnPicker extends StatelessWidget {
                   child: IconButton(
                       iconSize: 20,
                       icon: Image.asset(
-                        "assets/images/close_gray.png",
+                        "assets/images/close_gray@2x.png",
                       ),
                       onPressed: () {
                         Navigator.pop(context);
