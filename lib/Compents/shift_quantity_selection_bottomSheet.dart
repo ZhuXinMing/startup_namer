@@ -91,12 +91,20 @@ class ShiftQuantitySelectionBottomSheetState
     super.initState();
   }
 
+  double closeIconSize = 30;
+
+  //行高
+  double rowHeight = 50;
+
+  double rowPaddingLeft = 20;
+  double rowPaddingRight = 20;
   //加，减
   double reduceIconWidth = 32;
   double reduceIconHeight = 30;
   //加，减 扩展大小
-  double reduceIconExtend = 6;
+  double reduceIconExtend = 10;
 
+  double btnHeight = 64;
 
   void showCenterShortToast() {
     Fluttertoast.showToast(
@@ -147,7 +155,7 @@ class ShiftQuantitySelectionBottomSheetState
         children: [
           Container(
             padding: EdgeInsets.only(top: 10.0),
-            height: ScreenUtil().setWidth(30 + 20 + 10),
+            height: ScreenUtil().setWidth(closeIconSize + 20 + 10),
 //            color: Colors.amber,
             child: Stack(
               children: [
@@ -164,7 +172,7 @@ class ShiftQuantitySelectionBottomSheetState
                 Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
-                      iconSize: ScreenUtil().setWidth(30),
+                      iconSize: ScreenUtil().setWidth(closeIconSize),
                       icon: Image.asset(
                         "assets/images/close_gray@2x.png",
                       ),
@@ -185,9 +193,12 @@ class ShiftQuantitySelectionBottomSheetState
               },
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  height: ScreenUtil().setWidth(30 + 10 * 2),
-                  padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0,
-                      ScreenUtil().setWidth(20.0 - 6), 0),
+                  height: ScreenUtil().setWidth(rowHeight),
+                  padding: EdgeInsets.fromLTRB(
+                      ScreenUtil().setWidth(rowPaddingLeft),
+                      0,
+                      ScreenUtil().setWidth(rowPaddingRight - reduceIconExtend),
+                      0),
                   decoration: BoxDecoration(
 //                    color: Colors.white,
 //                    color: Colors.blue,
@@ -281,7 +292,7 @@ class ShiftQuantitySelectionBottomSheetState
             height: 2,
           ),
           Container(
-            height: ScreenUtil().setWidth(80),
+            height: ScreenUtil().setWidth(btnHeight+8+8),
             padding: EdgeInsets.fromLTRB(
                 ScreenUtil().setWidth(12),
                 ScreenUtil().setWidth(8),
