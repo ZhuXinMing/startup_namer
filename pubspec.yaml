@@ -62,9 +62,9 @@ flutter:
   assets:
     - assets/images/icon_triangle_down.png
     - assets/images/icon_close.png
-    - assets/images/left.png
-    - assets/images/right.png
-    - assets/images/mid.png
+    - assets/images/left@2x.png
+    - assets/images/right@2x.png
+    - assets/images/mid@2x.png
     - assets/images/close_gray@2x.png
 
   # To add custom fonts to your application, add a fonts section here,

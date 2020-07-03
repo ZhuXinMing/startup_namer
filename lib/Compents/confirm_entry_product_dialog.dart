@@ -84,8 +84,21 @@ class ConfirmEntryProductDialogState
     extends State<ConfirmEntryProductDialogPage> {
   final _controller = TextEditingController();
 
-  double width = 256.0;
-  double height = 172.0;
+  double width = 384.0;
+  double height = 258.0;
+
+  double picSize = 80;
+  double contentPaddingLeft = 24;
+  double contentPaddingRight = 24;
+
+  //加，减
+  double reduceIconWidth = 32;
+  double reduceIconHeight = 30;
+  //加，减 扩展大小
+  double reduceIconExtend = 6;
+  //按钮width，height
+  double btnWidth = 156;
+  double btnHeight = 52;
 
   @override
   void initState() {
@@ -124,49 +137,54 @@ class ConfirmEntryProductDialogState
       height: ScreenUtil().setWidth(height),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3)),
+        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
       ),
       child: Column(
         children: [
           Container(
-            height: ScreenUtil().setWidth(52),
+            height: ScreenUtil().setWidth(78),
             child: Text(
               '商品录入确认',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: ScreenUtil().setSp(14),
+                fontSize: ScreenUtil().setSp(22),
                 fontWeight: FontWeight.w500,
               ),
             ),
             alignment: Alignment.center,
           ),
           Container(
-            height: ScreenUtil().setWidth(53),
-            padding: EdgeInsets.only(left: ScreenUtil().setWidth(16)),
+            height: ScreenUtil().setWidth(picSize),
+            padding: EdgeInsets.fromLTRB(
+                ScreenUtil().setWidth(contentPaddingLeft),
+                0,
+                ScreenUtil().setWidth(contentPaddingRight-6),
+                0),
             child: Row(
               children: [
                 Image.network(
                   widget.item['photo'],
-                  height: ScreenUtil().setWidth(53),
-                  width: ScreenUtil().setWidth(53),
+                  height: ScreenUtil().setWidth(picSize),
+                  width: ScreenUtil().setWidth(picSize),
                   fit: BoxFit.cover,
                 ),
                 SizedBox(
-                  width: ScreenUtil().setWidth(5),
+                  width: ScreenUtil().setWidth(8),
                 ),
                 Expanded(
                   child: Stack(
                     children: [
+
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
                             padding: EdgeInsets.only(
-                                right: ScreenUtil().setWidth(16)),
+                                right: ScreenUtil().setWidth(6)),
                             child: Text(
                               widget.item['spuName'],
                               style: TextStyle(
-                                fontSize: ScreenUtil().setSp(12),
+                                fontSize: ScreenUtil().setSp(18),
                                 color: Color(0xFF333333),
                               ),
                               maxLines: 1,
@@ -180,7 +198,7 @@ class ConfirmEntryProductDialogState
                             TextSpan(
                               text: "待投数量：",
                               style: TextStyle(
-                                fontSize: ScreenUtil().setSp(12),
+                                fontSize: ScreenUtil().setSp(18),
                                 color: Color(0xFF999999),
                               ),
                               children: [
@@ -203,7 +221,7 @@ class ConfirmEntryProductDialogState
                               TextSpan(
                                 text: "容器剩余：",
                                 style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(12),
+                                  fontSize: ScreenUtil().setSp(18),
                                   color: Color(0xFF999999),
                                 ),
                                 children: [
@@ -224,22 +242,22 @@ class ConfirmEntryProductDialogState
                       Align(
                         alignment: Alignment.bottomRight,
                         child: Container(
-                          width: ScreenUtil().setWidth(31.0 + 31.6 + 31.0),
-                          height: ScreenUtil().setWidth(20.0 + 10),
+                          width: ScreenUtil().setWidth(reduceIconExtend + reduceIconWidth +48 + reduceIconWidth + reduceIconExtend),
+                          height: ScreenUtil().setWidth(reduceIconHeight + reduceIconExtend),
 //                          color: Colors.amber,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               InkWell(
                                 child: Container(
-                                    height: ScreenUtil().setWidth(20.0 + 10),
-                                    width: ScreenUtil().setWidth(31),
+                                    width: ScreenUtil().setWidth(reduceIconWidth + reduceIconExtend),
+                                    height: ScreenUtil().setWidth(reduceIconHeight + reduceIconExtend),
                                     alignment: Alignment.bottomRight,
                                     child: SizedBox(
-                                      width: ScreenUtil().setWidth(21),
-                                      height: ScreenUtil().setWidth(20),
+                                      width: ScreenUtil().setWidth(reduceIconWidth),
+                                      height: ScreenUtil().setWidth(reduceIconHeight),
                                       child: Image.asset(
-                                        "assets/images/left.png",
+                                        "assets/images/left@2x.png",
                                       ),
                                     )),
                                 onTap: () {
@@ -253,19 +271,19 @@ class ConfirmEntryProductDialogState
                                 },
                               ),
                               Container(
-                                height: ScreenUtil().setWidth(20.0),
-                                width: ScreenUtil().setWidth(31.6),
+                                height: ScreenUtil().setWidth(30.0),
+                                width: ScreenUtil().setWidth(48.6),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
 //                                    color: Colors.blue,
                                     image: DecorationImage(
                                         image: AssetImage(
-                                          "assets/images/mid.png",
+                                          "assets/images/mid@2x.png",
                                         ),
                                         fit: BoxFit.fill)),
                                 child: TextField(
                                     style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(12),
+                                      fontSize: ScreenUtil().setSp(15),
                                       color: Color(0xFF333333),
                                     ),
                                     textAlign: TextAlign.center,
@@ -284,10 +302,10 @@ class ConfirmEntryProductDialogState
                                   child: Container(
                                     alignment: Alignment.bottomLeft,
                                     child: SizedBox(
-                                      width: ScreenUtil().setWidth(21),
-                                      height: ScreenUtil().setWidth(20),
+                                      width: ScreenUtil().setWidth(reduceIconWidth),
+                                      height: ScreenUtil().setWidth(reduceIconHeight),
                                       child: Image.asset(
-                                        "assets/images/right.png",
+                                        "assets/images/right@2x.png",
                                       ),
                                     ),
                                   ),
@@ -312,21 +330,18 @@ class ConfirmEntryProductDialogState
                     ],
                   ),
                 ),
-                SizedBox(
-                  width: ScreenUtil().setWidth(6),
-                ),
               ],
             ),
           ),
           SizedBox(
-            height: ScreenUtil().setWidth(16),
+            height: ScreenUtil().setWidth(24),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
-                height: ScreenUtil().setWidth(34),
-                width: ScreenUtil().setWidth(104),
+                width: ScreenUtil().setWidth(btnWidth),
+                height: ScreenUtil().setWidth(btnHeight),
                 child: RaisedButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -334,7 +349,7 @@ class ConfirmEntryProductDialogState
                   },
                   child: Text(
                     '取消',
-                    style: TextStyle(fontSize: ScreenUtil().setSp(13)),
+                    style: TextStyle(fontSize: ScreenUtil().setSp(20)),
                   ),
                   color: Colors.white,
                   elevation: 0,
@@ -343,14 +358,14 @@ class ConfirmEntryProductDialogState
                   textColor: Color(0xFF333333),
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(3)),
+                        BorderRadius.circular(ScreenUtil().setWidth(5)),
                     side: BorderSide(color: Color(0xffCCCCCC), width: 1),
                   ),
                 ),
               ),
               Container(
-                height: ScreenUtil().setWidth(34),
-                width: ScreenUtil().setWidth(104),
+                width: ScreenUtil().setWidth(btnWidth),
+                height: ScreenUtil().setWidth(btnHeight),
                 child: RaisedButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -358,13 +373,13 @@ class ConfirmEntryProductDialogState
                   },
                   child: Text(
                     '确定',
-                    style: TextStyle(fontSize: ScreenUtil().setSp(13)),
+                    style: TextStyle(fontSize: ScreenUtil().setSp(20)),
                   ),
                   color: Color(0xffEF5D44),
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(3)),
+                        BorderRadius.circular(ScreenUtil().setWidth(5)),
                     side: BorderSide(color: Color(0xffEF5D44)),
                   ),
                 ),

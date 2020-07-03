@@ -91,6 +91,13 @@ class ShiftQuantitySelectionBottomSheetState
     super.initState();
   }
 
+  //加，减
+  double reduceIconWidth = 32;
+  double reduceIconHeight = 30;
+  //加，减 扩展大小
+  double reduceIconExtend = 6;
+
+
   void showCenterShortToast() {
     Fluttertoast.showToast(
         msg: "已达该商品待投量",
@@ -200,8 +207,8 @@ class ShiftQuantitySelectionBottomSheetState
                       ),
                       Expanded(child: SizedBox()),
                       Container(
-                        width: ScreenUtil().setWidth(32.0 + 6 + 48 + 32.0 + 6),
-                        height: ScreenUtil().setWidth(30.0 + 6 + 6),
+                        width: ScreenUtil().setWidth(reduceIconExtend + reduceIconWidth +48 + reduceIconWidth + reduceIconExtend),
+                        height: ScreenUtil().setWidth(reduceIconHeight + reduceIconExtend *2),
 //                        color: Colors.amber,
                         child: Row(
                           children: [
@@ -209,14 +216,14 @@ class ShiftQuantitySelectionBottomSheetState
                               behavior: HitTestBehavior.opaque,
                               child: Container(
 //                                color: Colors.cyan,
-                                height: ScreenUtil().setWidth(30.0 + 6 * 2),
-                                width: ScreenUtil().setWidth(32 + 6),
+                                width: ScreenUtil().setWidth(reduceIconWidth + reduceIconExtend),
+                                height: ScreenUtil().setWidth(reduceIconHeight + reduceIconExtend * 2),
                                 alignment: Alignment.centerRight,
                                 child: SizedBox(
-                                  width: ScreenUtil().setWidth(32),
-                                  height: ScreenUtil().setWidth(30),
+                                  width: ScreenUtil().setWidth(reduceIconWidth),
+                                  height: ScreenUtil().setWidth(reduceIconHeight),
                                   child: Image.asset(
-                                    "assets/images/left.png",
+                                    "assets/images/left@2x.png",
                                   ),
                                 ),
                               ),
@@ -225,14 +232,14 @@ class ShiftQuantitySelectionBottomSheetState
                               },
                             ),
                             Container(
-                              height: ScreenUtil().setWidth(30.0),
                               width: ScreenUtil().setWidth(48),
+                              height: ScreenUtil().setWidth(reduceIconHeight),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
 //                                    color: Colors.blue,
                                   image: DecorationImage(
                                       image: AssetImage(
-                                        "assets/images/mid.png",
+                                        "assets/images/mid@2x.png",
                                       ),
                                       fit: BoxFit.fill)),
                               child: Text(
@@ -250,10 +257,10 @@ class ShiftQuantitySelectionBottomSheetState
 //                                    color: Colors.cyan,
                                     alignment: Alignment.centerLeft,
                                     child: SizedBox(
-                                      width: ScreenUtil().setWidth(32),
-                                      height: ScreenUtil().setWidth(30),
+                                      width: ScreenUtil().setWidth(reduceIconWidth),
+                                      height: ScreenUtil().setWidth(reduceIconHeight),
                                       child: Image.asset(
-                                        "assets/images/right.png",
+                                        "assets/images/right@2x.png",
                                       ),
                                     ),
                                   ),
