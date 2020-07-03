@@ -84,12 +84,10 @@ class ShiftQuantitySelectionBottomSheetPage extends StatefulWidget {
 
 class ShiftQuantitySelectionBottomSheetState
     extends State<ShiftQuantitySelectionBottomSheetPage> {
-//  var mList = List();
 
   @override
   void initState() {
     // TODO: implement initState
-//    mList = widget.entries;
     super.initState();
   }
 
@@ -117,7 +115,6 @@ class ShiftQuantitySelectionBottomSheetState
       } else {
         widget.entries[index]['num'] = (a - 1);
       }
-      print('----');
     });
   }
 
@@ -130,7 +127,6 @@ class ShiftQuantitySelectionBottomSheetState
       } else {
         widget.entries[index]['num'] = (a + 1);
       }
-      print('+++++++');
     });
   }
 
@@ -161,7 +157,7 @@ class ShiftQuantitySelectionBottomSheetState
                 Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
-                      iconSize: 30,
+                      iconSize: ScreenUtil().setWidth(30),
                       icon: Image.asset(
                         "assets/images/close_gray@2x.png",
                       ),

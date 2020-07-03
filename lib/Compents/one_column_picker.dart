@@ -10,8 +10,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-typedef OnConfirmListener = Function(int index);
+typedef OnConfirmListener = Function(int selectIndex);
 
+// ignore: must_be_immutable
 class OneColumnPicker extends StatelessWidget {
   final String title;
   final List titleArray;
@@ -24,20 +25,18 @@ class OneColumnPicker extends StatelessWidget {
   OneColumnPicker(
       {this.title = '',
       this.titleArray = const [],
-      this.itemExtent = 32.0,
-        this.onButtonTitle = '',
+      this.itemExtent = 48.0,
+      this.onButtonTitle = '',
       this.onConfirmListener});
 
-  static void show({
-    @required BuildContext context,
-    String title = '集货区选择',
-    List titleArray = const ['0', '1', '2', '3'],
-    String onButtonTitle = '查询',
-    OnConfirmListener onConfirmListener
-  }) {
+  static void show(
+      {@required BuildContext context,
+      String title = '集货区选择',
+      List titleArray = const ['0', '1', '2', '3'],
+      String onButtonTitle = '查询',
+      OnConfirmListener onConfirmListener}) {
     showModalBottomSheet(
         context: context,
-        //设置形状
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(8),
@@ -47,8 +46,9 @@ class OneColumnPicker extends StatelessWidget {
           return OneColumnPicker(
             title: title,
             titleArray: titleArray,
-            onButtonTitle:onButtonTitle,
-            onConfirmListener: onConfirmListener,);
+            onButtonTitle: onButtonTitle,
+            onConfirmListener: onConfirmListener,
+          );
         });
   }
 
@@ -56,12 +56,12 @@ class OneColumnPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-      height: ScreenUtil().setWidth(274),
+      height: ScreenUtil().setWidth(412),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            height: ScreenUtil().setWidth(46),
+            height: ScreenUtil().setWidth(30 + 20 + 20),
             child: Stack(
               children: [
                 Align(
@@ -70,14 +70,14 @@ class OneColumnPicker extends StatelessWidget {
                     title,
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: ScreenUtil().setSp(15),
+                        fontSize: ScreenUtil().setSp(22),
                         fontWeight: FontWeight.bold),
                   ),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
                   child: IconButton(
-                      iconSize: 20,
+                      iconSize: ScreenUtil().setWidth(30),
                       icon: Image.asset(
                         "assets/images/close_gray@2x.png",
                       ),
@@ -93,7 +93,7 @@ class OneColumnPicker extends StatelessWidget {
           ),
           Expanded(
             child: CupertinoPicker.builder(
-              itemExtent: itemExtent,
+              itemExtent: ScreenUtil().setWidth(itemExtent),
               childCount: titleArray.length,
               onSelectedItemChanged: (int index) {
                 _selectIndex = index;
@@ -105,7 +105,7 @@ class OneColumnPicker extends StatelessWidget {
                     titleArray[index],
                     style: TextStyle(
                       color: Color(0xff333333),
-                      fontSize: ScreenUtil().setSp(18),
+                      fontSize: ScreenUtil().setSp(28),
                     ),
                   ),
                 );
@@ -116,8 +116,12 @@ class OneColumnPicker extends StatelessWidget {
             height: 2,
           ),
           Container(
-            height: ScreenUtil().setWidth(53),
-            padding: EdgeInsets.fromLTRB(8, 4, 8, 5),
+            height: ScreenUtil().setWidth(80),
+            padding: EdgeInsets.fromLTRB(
+                ScreenUtil().setWidth(12),
+                ScreenUtil().setWidth(8),
+                ScreenUtil().setWidth(12),
+                ScreenUtil().setWidth(8)),
             child: InkWell(
                 onTap: () {
                   print(_selectIndex);
@@ -131,14 +135,14 @@ class OneColumnPicker extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: const Color(0xffEF5D44),
                     borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(3)),
+                        BorderRadius.circular(ScreenUtil().setWidth(5)),
                   ),
                   child: Text(
                     onButtonTitle,
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: ScreenUtil().setSp(16),
-                    ),
+                        color: Colors.white,
+                        fontSize: ScreenUtil().setSp(24),
+                        fontWeight: FontWeight.bold),
                   ),
                 )),
           ),
