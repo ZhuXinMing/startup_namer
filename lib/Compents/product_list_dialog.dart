@@ -34,8 +34,16 @@ class ProduceListDialogPage extends StatefulWidget {
 }
 
 class ProduceListDialogState extends State<ProduceListDialogPage> {
-  double width = 256;
-  double height = 255.0 + 14.0;
+
+  double width = 384;
+  double height = 383;
+
+  double contentPadding = 24;
+  //按钮width，height
+  double btnWidth = 336;
+  double btnHeight = 52;
+  //行高
+  double rowHeight = 25.0+10*2;
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +53,9 @@ class ProduceListDialogState extends State<ProduceListDialogPage> {
       height: ScreenUtil().setWidth(height),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(3)),
+        borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
       ),
-      padding: EdgeInsets.all(ScreenUtil().setWidth(16)),
+      padding: EdgeInsets.all(ScreenUtil().setWidth(contentPadding)),
       child: Column(
         children: [
           Align(
@@ -55,32 +63,32 @@ class ProduceListDialogState extends State<ProduceListDialogPage> {
               "商品库存",
               style: TextStyle(
                 color: Colors.black,
-                fontSize: ScreenUtil().setSp(14),
+                fontSize: ScreenUtil().setSp(22),
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
           SizedBox(
-            height: ScreenUtil().setWidth(16 - 6.5),
+            height: ScreenUtil().setWidth(24 - 10),
           ),
           Expanded(
             child: ListView.builder(
               itemCount: widget.entries != null ? widget.entries.length : 0,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  height: ScreenUtil().setWidth(29),
+                  height: ScreenUtil().setWidth(rowHeight),
                   decoration: BoxDecoration(
                     color: Colors.white,
                   ),
                   child: Row(
                     children: [
                       SizedBox(
-                        width: ScreenUtil().setWidth(157),
+                        width: ScreenUtil().setWidth(236),
                         child: Text(
                           "(123456)商品名称商品名称商品名称",
                           style: TextStyle(
                             color: Color(0xff333333),
-                            fontSize: ScreenUtil().setSp(12),
+                            fontSize: ScreenUtil().setSp(18),
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -90,7 +98,7 @@ class ProduceListDialogState extends State<ProduceListDialogPage> {
                           "x${widget.entries != null ? widget.entries[index] : index}袋",
                           style: TextStyle(
                             color: Color(0xff333333),
-                            fontSize: ScreenUtil().setSp(12),
+                            fontSize: ScreenUtil().setSp(18),
                           ),
                           textAlign: TextAlign.right,
                         ),
@@ -102,10 +110,10 @@ class ProduceListDialogState extends State<ProduceListDialogPage> {
             ),
           ),
           SizedBox(
-            height: ScreenUtil().setWidth(16 - 6.5),
+            height: ScreenUtil().setWidth(24 - 10),
           ),
           Container(
-            height: ScreenUtil().setWidth(34),
+            height: ScreenUtil().setWidth(btnHeight),
             child: InkWell(
                 onTap: () {
                   Navigator.pop(context);
@@ -116,13 +124,13 @@ class ProduceListDialogState extends State<ProduceListDialogPage> {
                   decoration: BoxDecoration(
                     color: const Color(0xffEF5D44),
                     borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(3)),
+                        BorderRadius.circular(ScreenUtil().setWidth(5)),
                   ),
                   child: Text(
                     "确定",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: ScreenUtil().setSp(13),
+                      fontSize: ScreenUtil().setSp(20),
                     ),
                   ),
                 )),

@@ -25,7 +25,7 @@ class ShiftQuantitySelectionBottomSheet extends StatelessWidget {
   ShiftQuantitySelectionBottomSheet(
       {this.title, this.entries, this.onConfirmListener});
 
-  static void showPickerView(
+  static void show(
       {@required BuildContext context,
       String title = '移位量选择',
       List<Map> entries,
@@ -60,42 +60,45 @@ class ShiftQuantitySelectionBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return ShiftQuantitySelectionBottomSheetPage(
+    return _BottomSheetPage(
         title: title, entries: entries, onConfirmListener: onConfirmListener);
   }
 }
 
-class ShiftQuantitySelectionBottomSheetPage extends StatefulWidget {
+class _BottomSheetPage extends StatefulWidget {
   @required
   final String title;
   List<Map> entries;
   @required
   final OnConfirmListener onConfirmListener;
 
-  ShiftQuantitySelectionBottomSheetPage(
-      {this.title, this.entries, this.onConfirmListener});
+  _BottomSheetPage(
+      {this.title,
+        this.entries,
+        this.onConfirmListener});
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return ShiftQuantitySelectionBottomSheetState();
+    return _BottomSheetState();
   }
 }
 
-class ShiftQuantitySelectionBottomSheetState
-    extends State<ShiftQuantitySelectionBottomSheetPage> {
+class _BottomSheetState
+    extends State<_BottomSheetPage> {
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
-
+  double bottomSheetHeight = 412;
+  //关闭按钮大小
   double closeIconSize = 30;
 
   //行高
   double rowHeight = 50;
-
+  //行内间距
   double rowPaddingLeft = 20;
   double rowPaddingRight = 20;
   //加，减
@@ -103,7 +106,7 @@ class ShiftQuantitySelectionBottomSheetState
   double reduceIconHeight = 30;
   //加，减 扩展大小
   double reduceIconExtend = 10;
-
+  //按钮大小
   double btnHeight = 64;
 
   void showCenterShortToast() {
@@ -149,7 +152,7 @@ class ShiftQuantitySelectionBottomSheetState
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-      height: ScreenUtil().setWidth(412),
+      height: ScreenUtil().setWidth(bottomSheetHeight),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

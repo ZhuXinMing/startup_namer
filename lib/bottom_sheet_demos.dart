@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:startupnamer/Compents/one_column_picker.dart';
 import 'package:startupnamer/Compents/shift_quantity_selection_bottomSheet.dart';
+import 'package:startupnamer/Compents/product_selection_bottomSheet.dart';
 
 class BottomSheetDemo extends StatelessWidget {
   final String title;
@@ -70,8 +71,15 @@ class _DemoState extends State<_DemoPage> {
             onPressed: _presentOneColumnPicker,
           ),
           RaisedButton(
-            onPressed: _presentSelectionSheet,
+            onPressed: _presentShiftSelectionSheet,
             child: Text('移位量选择弹窗'),
+            color: Colors.blue,
+            textColor: Colors.white,
+            elevation: 20,
+          ),
+          RaisedButton(
+            onPressed: _presentProductSelectionSheet,
+            child: Text('商品选择弹窗'),
             color: Colors.blue,
             textColor: Colors.white,
             elevation: 20,
@@ -81,10 +89,19 @@ class _DemoState extends State<_DemoPage> {
     );
   }
 
-  //移位量选择弹窗
-  _presentSelectionSheet() {
+  //商品选择弹窗
+  void _presentProductSelectionSheet() {
 
-    ShiftQuantitySelectionBottomSheet.showPickerView(context: context,onConfirmListener: (List items){
+    ProductSelectionBottomSheet.show(context: context,onConfirmListener: (List items){
+
+      print(items);
+    });
+  }
+
+  //移位量选择弹窗
+  _presentShiftSelectionSheet() {
+
+    ShiftQuantitySelectionBottomSheet.show(context: context,onConfirmListener: (List items){
 
       print(items);
     });

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:startupnamer/Compents/produce_list_dialog.dart';
+import 'package:startupnamer/Compents/product_list_dialog.dart';
 import 'Compents/input_several_dialog.dart';
 import 'FlutterToastController.dart';
 import 'Compents/my_custom_dialog.dart';
@@ -171,14 +171,19 @@ class _DemoState extends State<_DemoPage> {
   }
   //确认缺货
   showConfirmStockDialog(){
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return ConfirmStockDialog();
-        });
 
+    ConfirmStockDialog.show(
+        context: context,
+        title: "确认缺货",
+        content: '1jljdljf;sfj;sflsjdf;ljks;fjs;lfj;slfsflkdjfl;sjf;sjf;',
+        leftOnConfirmListener: (){
+            print('取消');
+        },
+        rightOnConfirmListener: (){
+          print('右边按钮');
+    });
   }
+
   //确定录入
   showConfirmEntryProductDialog(){
 
