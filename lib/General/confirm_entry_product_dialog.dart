@@ -10,7 +10,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 typedef OnConfirmListener = Function(String actualThrowNum);
 
 class ConfirmEntryProductDialog extends Dialog {
-  final Map item;
+
+  @required final Map item;
   final OnConfirmListener onConfirmListener;
 
   const ConfirmEntryProductDialog(

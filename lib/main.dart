@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/services.dart';
 import 'listData.dart';
-import 'Compents/dialog_nButton.dart';
-import 'dialog_demos.dart';
+import 'General/dialog_nButton.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'TextFieldDemoController.dart';
-import 'package:startupnamer/ListViewDemoController.dart';
-import 'bottom_sheet_demos.dart';
+import 'ui/TextFieldDemoController.dart';
+import 'package:startupnamer/ui/ListViewDemoController.dart';
+import 'ui/bottom_sheet_demos.dart';
+import 'ui/dialog_demos.dart';
 
 void main() => runApp(MyApp());
 
@@ -66,10 +66,10 @@ class LayoutDemo extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (BuildContext context) {
-              return DialogDemo(title: '跳转到Dialog传值');
+//              return DialogDemo(title: '跳转到Dialog传值');
 //              return TextFieldDemoController();
 //            return ListViewDemoController();
-//                  return BottomSheetDemo();
+                  return BottomSheetDemo();
                 }));
               }),
         ],

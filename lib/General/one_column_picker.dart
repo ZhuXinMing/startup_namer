@@ -14,8 +14,9 @@ typedef OnConfirmListener = Function(int selectIndex);
 
 // ignore: must_be_immutable
 class OneColumnPicker extends StatelessWidget {
-  final String title;
-  final List titleArray;
+
+  @required final String title;
+  @required final List titleArray;
   final double itemExtent;
   final String onButtonTitle;
   final OnConfirmListener onConfirmListener;
@@ -23,10 +24,10 @@ class OneColumnPicker extends StatelessWidget {
   var _selectIndex = 0;
 
   OneColumnPicker(
-      {this.title = '',
-      this.titleArray = const [],
+      {this.title,
+      this.titleArray,
       this.itemExtent = 48.0,
-      this.onButtonTitle = '',
+      this.onButtonTitle = '确认',
       this.onConfirmListener});
 
   static void show(

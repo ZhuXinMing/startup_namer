@@ -9,15 +9,30 @@ import 'package:flutter/material.dart';
 
 class ProduceListDialog extends Dialog {
 
+  @required final List entries;
+
   ProduceListDialog({this.entries});
-  final List entries;
+
+  //如果为空，会传null给ConfirmStokDialog类的属性
+  static void show({
+    @required BuildContext context,
+    @required List entries,
+  }) {
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return ProduceListDialog(entries: entries);
+        });
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.transparency,
       child: Center(
-        child: ProduceListDialogPage(
+        child: _DialogPage(
           entries: entries,
         ),
       ),
@@ -25,15 +40,15 @@ class ProduceListDialog extends Dialog {
   }
 }
 
-class ProduceListDialogPage extends StatefulWidget {
+class _DialogPage extends StatefulWidget {
   final List entries;
-  ProduceListDialogPage({this.entries = const []});
+  _DialogPage({this.entries = const []});
 
   @override
-  State<StatefulWidget> createState() => ProduceListDialogState();
+  State<StatefulWidget> createState() => _DialogState();
 }
 
-class ProduceListDialogState extends State<ProduceListDialogPage> {
+class _DialogState extends State<_DialogPage> {
 
   double width = 384;
   double height = 383;

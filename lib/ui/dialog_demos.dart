@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:startupnamer/Compents/product_list_dialog.dart';
-import 'Compents/input_several_dialog.dart';
 import 'FlutterToastController.dart';
-import 'Compents/my_custom_dialog.dart';
-import 'Compents/select_item_dialog.dart';
-import 'Compents/input_several_dialog.dart';
-import 'Compents/select_item_dialog.dart';
-import 'Compents/confirm_stock_dialog.dart';
-import 'Compents/confirm_entry_product_dialog.dart';
+import '../General/my_custom_dialog.dart';
+import '../General/input_several_dialog.dart';
+import '../General/select_item_dialog.dart';
+import '../General/product_list_dialog.dart';
+import '../General/confirm_stock_dialog.dart';
+import '../General/confirm_entry_product_dialog.dart';
 
 // ignore: must_be_immutable
 class DialogDemo extends StatelessWidget {
@@ -160,14 +158,8 @@ class _DemoState extends State<_DemoPage> {
   }
   //商品列表
   showProduceListDialog() {
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return ProduceListDialog(
-            entries: ['1', '2', '3', '12', '1', '2', '5', '5'],
-          );
-        });
+
+    ProduceListDialog.show(context: context, entries: ['1', '2', '3', '12', '1', '2', '5', '5']);
   }
   //确认缺货
   showConfirmStockDialog(){
