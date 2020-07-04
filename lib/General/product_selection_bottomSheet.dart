@@ -148,7 +148,7 @@ class _BottomSheetState extends State<_BottomSheetPage> {
             Align(
               alignment: Alignment.centerRight,
               child: IconButton(
-                  splashRadius: 20,
+//                  splashRadius: 20,
                   highlightColor: Colors.transparent,
                   iconSize: ScreenUtil().setWidth(closeIconSize),
                   icon: Image.asset(
@@ -178,8 +178,8 @@ class _BottomSheetState extends State<_BottomSheetPage> {
               child: Row(
                 children: [
                   IconButton(
-                      splashRadius:
-                          selectIconSize / 2 + selectIconButtonPadding,
+//                      splashRadius:
+//                          selectIconSize / 2 + selectIconButtonPadding,
                       highlightColor: Colors.transparent,
                       iconSize: ScreenUtil().setWidth(selectIconSize),
                       icon: _BottomSheetState.checkbox(
@@ -228,7 +228,7 @@ class _BottomSheetState extends State<_BottomSheetPage> {
           child: Row(
             children: [
               IconButton(
-                splashRadius: selectIconSize / 2 + selectIconButtonPadding,
+//                splashRadius: selectIconSize / 2 + selectIconButtonPadding,
                 highlightColor: Colors.transparent,
                 iconSize: ScreenUtil().setWidth(selectIconSize),
                 icon: _BottomSheetState.checkbox(
