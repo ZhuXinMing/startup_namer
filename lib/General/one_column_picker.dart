@@ -12,30 +12,51 @@ import 'package:flutter/cupertino.dart';
 
 typedef OnConfirmListener = Function(int selectIndex);
 
+/*
+_presentOneColumnPicker() {
+
+  OneColumnPicker.show(context: context, title: '标题', titleArray: ['1','2','3'], onConfirmListener: (int index){
+    print("index = $index");
+  });
+}
+*/
+
 // ignore: must_be_immutable
 class OneColumnPicker extends StatelessWidget {
-
-  @required final String title;
-  @required final List titleArray;
+  //标题
+  @required
+  final String title;
+  //数据源文本数组
+  @required
+  final List<String> titleArray;
+  //行高度
   final double itemExtent;
+  //确定按钮文本
   final String onButtonTitle;
+  //确认事件
+  @required
   final OnConfirmListener onConfirmListener;
 
   var _selectIndex = 0;
 
   OneColumnPicker(
-      {this.title,
-      this.titleArray,
+      {Key key,
+      String title,
+      List<String> titleArray,
       this.itemExtent = 48.0,
-      this.onButtonTitle = '确认',
-      this.onConfirmListener});
+      String onButtonTitle,
+      this.onConfirmListener})
+      : this.title = title ?? "",
+        this.titleArray = titleArray ?? [],
+        this.onButtonTitle = onButtonTitle ?? '确认',
+        super(key: key);
 
   static void show(
       {@required BuildContext context,
-      String title = '集货区选择',
-      List titleArray = const ['0', '1', '2', '3'],
-      String onButtonTitle = '查询',
-      OnConfirmListener onConfirmListener}) {
+      @required String title,
+      @required List<String> titleArray,
+      String onButtonTitle,
+      @required OnConfirmListener onConfirmListener}) {
     showModalBottomSheet(
         context: context,
         shape: RoundedRectangleBorder(

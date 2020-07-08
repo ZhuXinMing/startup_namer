@@ -1,5 +1,5 @@
 //  Created by simon on 2020/6/22.
-
+//  输入框
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
@@ -12,23 +12,20 @@ class InputSeveralDialog extends Dialog {
   @required
   final OnConfirmListener onConfirmListener;
 
-  InputSeveralDialog({this.title = "", this.onConfirmListener});
+  InputSeveralDialog({Key key, String title, this.onConfirmListener})
+      : this.title = title ?? '',
+        super(key: key);
 
-  static show({
-    @required BuildContext context,
-    @required String title,
-    @required
-    OnConfirmListener onConfirmListener
-  })
-  {
+  static show(
+      {@required BuildContext context,
+      @required String title,
+      @required OnConfirmListener onConfirmListener}) {
     showDialog(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
           return InputSeveralDialog(
-              title: title,
-              onConfirmListener: onConfirmListener
-          );
+              title: title, onConfirmListener: onConfirmListener);
         });
   }
 
@@ -200,7 +197,7 @@ class InputSeveralDialogState extends State<InputSeveralDialogPage> {
                         widget.onConfirmListener(_textEditingController.text);
                         print(
                             "_userName.text = ${_textEditingController.text}");
-                        },
+                      },
                       child: Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(

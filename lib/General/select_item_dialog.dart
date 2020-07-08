@@ -1,6 +1,5 @@
 //  Created by simon on 2020/6/18.
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -8,38 +7,43 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 typedef OnConfirmListener = Function(int selectIndex);
 
 class SelectItemDialog extends Dialog {
-
-  @required final String title;
-  @required final List<String> titleArray;
+  //标题
+  @required
+  final String title;
+  //item数据数组
+  @required
+  final List<String> titleArray;
+  //选中的索引
   final int selectIndex;
+  //确定按钮事件回调
   @required
   final OnConfirmListener onConfirmListener;
 
+  SelectItemDialog(
+      {Key key,
+      String title,
+      List<String> titleArray,
+      this.selectIndex = 0,
+      this.onConfirmListener})
+      : this.title = title ?? '',
+        this.titleArray = titleArray ?? [],
+        super(key: key);
 
-  SelectItemDialog({this.title = "加工类型",
-    this.titleArray = const ["全部", "标记", "非标"],
-    this.selectIndex = 0,
-    this.onConfirmListener});
-
-  static show({
-    @required BuildContext context,
-    @required String title,
-    @required List<String> titleArray,
-    int selectIndex = 0,
-    @required OnConfirmListener onConfirmListener
-  })
-  {
+  static show(
+      {@required BuildContext context,
+      @required String title,
+      @required List<String> titleArray,
+      int selectIndex = 0,
+      @required OnConfirmListener onConfirmListener}) {
     showDialog(
         context: context,
         barrierDismissible: true,
         builder: (BuildContext context) {
           return SelectItemDialog(
-            title: title,
-            titleArray: titleArray,
-            selectIndex: selectIndex,
-            onConfirmListener: onConfirmListener
-          );
-
+              title: title,
+              titleArray: titleArray,
+              selectIndex: selectIndex,
+              onConfirmListener: onConfirmListener);
         });
   }
 
@@ -48,15 +52,14 @@ class SelectItemDialog extends Dialog {
     return Material(
       type: MaterialType.transparency,
       child: Center(
-          child: SelectItemDialogPage(title: title,
+          child: SelectItemDialogPage(
+              title: title,
               titleArray: titleArray,
               selectIndex: selectIndex,
-              onConfirmListener: onConfirmListener)
-      ),
+              onConfirmListener: onConfirmListener)),
     );
   }
 }
-
 
 // ignore: must_be_immutable
 class SelectItemDialogPage extends StatefulWidget {
@@ -65,8 +68,8 @@ class SelectItemDialogPage extends StatefulWidget {
   int selectIndex;
   final OnConfirmListener onConfirmListener;
 
-  SelectItemDialogPage({this.title, this.titleArray, this.selectIndex,
-    this.onConfirmListener});
+  SelectItemDialogPage(
+      {this.title, this.titleArray, this.selectIndex, this.onConfirmListener});
 
   @override
   State<StatefulWidget> createState() {
@@ -76,11 +79,10 @@ class SelectItemDialogPage extends StatefulWidget {
 }
 
 class SelectItemDialogState extends State<SelectItemDialogPage> {
-
-   double width = 460;
-   double height = 381;
-   double topContentHeight = 71;
-   double bottomBtnHeight = 70;
+  double width = 460;
+  double height = 381;
+  double topContentHeight = 71;
+  double bottomBtnHeight = 70;
 
   List<Widget> _getListData() {
     List<Widget> list = List();
@@ -94,14 +96,18 @@ class SelectItemDialogState extends State<SelectItemDialogPage> {
         },
         child: Container(
           decoration: BoxDecoration(
-            color: widget.selectIndex == i ? Color(0xffFF714A).withOpacity(0.19): Color(0xffF2F1F6),
+            color: widget.selectIndex == i
+                ? Color(0xffFF714A).withOpacity(0.19)
+                : Color(0xffF2F1F6),
             borderRadius: BorderRadius.circular(3.4),
           ),
           alignment: Alignment.center,
           child: Text(
-            widget.titleArray[i],
+            widget.titleArray[i] ?? '',
             style: TextStyle(
-              color:widget.selectIndex == i ? Color(0xffFF714A): Color(0xff333333),
+              color: widget.selectIndex == i
+                  ? Color(0xffFF714A)
+                  : Color(0xff333333),
               fontSize: ScreenUtil().setSp(28),
               fontWeight: FontWeight.w500,
             ),
@@ -129,14 +135,14 @@ class SelectItemDialogState extends State<SelectItemDialogPage> {
         children: <Widget>[
           Padding(
             padding:
-            EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(10)),
+                EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(10)),
             child: Stack(
               alignment: Alignment.center,
               fit: StackFit.loose,
               children: <Widget>[
                 Align(
                   child: Text(
-                    widget.title,
+                    widget.title ?? '',
                     style: TextStyle(
                       color: Color(0xffFEC791),
                       fontSize: ScreenUtil().setSp(28),
@@ -193,11 +199,8 @@ class SelectItemDialogState extends State<SelectItemDialogPage> {
                   ),
                   Container(
                     height: ScreenUtil().setWidth(bottomBtnHeight + 20),
-                    padding: EdgeInsets.fromLTRB(
-                        ScreenUtil().setWidth(20),
-                        0,
-                        ScreenUtil().setWidth(20),
-                        ScreenUtil().setWidth(20)),
+                    padding: EdgeInsets.fromLTRB(ScreenUtil().setWidth(20), 0,
+                        ScreenUtil().setWidth(20), ScreenUtil().setWidth(20)),
                     child: InkWell(
                         onTap: () {
                           Navigator.pop(context);
@@ -227,5 +230,3 @@ class SelectItemDialogState extends State<SelectItemDialogPage> {
     );
   }
 }
-
-

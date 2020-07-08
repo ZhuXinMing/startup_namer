@@ -92,27 +92,59 @@ class _DemoState extends State<_DemoPage> {
   //商品选择弹窗
   void _presentProductSelectionSheet() {
 
-    ProductSelectionBottomSheet.show(context: context,onConfirmListener: (List items){
-
-      print(items);
-    });
+   List<Map> entries = [
+      {
+        "spuId": "123343435",
+        "spuName": "萝卜,商品名称商品名称商品名称商品名称商品名称",
+        "remainNum": 3,
+        "num": 1,
+        "isSelected": true
+      },
+      {
+        "spuId": "3434343435",
+        "spuName": "土豆,商品名称商品名称商品名称商品名称商品名称",
+        "remainNum": 10,
+        "num": 1,
+        "isSelected": true
+      }
+    ];
+    ProductSelectionBottomSheet.show(
+        context: context,
+        title: '商品选择',
+        entries: entries,
+        onConfirmListener: (List items) {
+          print(items);
+        });
   }
 
   //移位量选择弹窗
   _presentShiftSelectionSheet() {
-
-    ShiftQuantitySelectionBottomSheet.show(context: context,onConfirmListener: (List items){
-
-      print(items);
-    });
+    List<Map> entries = [
+      {
+        "spuId": "123343435",
+        "spuName": "萝卜,商品名称商品名称商品名称商品名称商品名称",
+        "remainNum": 3,
+        "num": 1
+      }
+    ];
+    ShiftQuantitySelectionBottomSheet.show(
+        context: context,
+        title: '移位量选择',
+        entries: entries,
+        onConfirmListener: (List items) {
+          print(items);
+        });
   }
 
   //一列picker
   _presentOneColumnPicker() {
-
-    OneColumnPicker.show(context: context, onConfirmListener: (int index){
-      print("index = $index");
-    });
+    OneColumnPicker.show(
+        context: context,
+        title: '标题',
+        titleArray: ['1', '2', '3'],
+        onConfirmListener: (int index) {
+          print("index = $index");
+        });
   }
 
   _presentModelBottomSheetHeight() {

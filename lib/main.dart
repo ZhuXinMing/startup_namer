@@ -9,6 +9,7 @@ import 'ui/TextFieldDemoController.dart';
 import 'package:startupnamer/ui/ListViewDemoController.dart';
 import 'ui/bottom_sheet_demos.dart';
 import 'ui/dialog_demos.dart';
+import 'ui/reported_stockout_controller.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,6 +18,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
+      theme: ThemeData(
+        scaffoldBackgroundColor:Color(0xff445279),
+        primaryColor:Color(0xff445279),
+      ),
       home: Scaffold(
         appBar: AppBar(title: Text('Flutter Demo')),
         body: MyHomePage(),
@@ -66,10 +71,11 @@ class LayoutDemo extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (BuildContext context) {
-//              return DialogDemo(title: '跳转到Dialog传值');
+              return DialogDemo(title: '跳转到Dialog传值');
 //              return TextFieldDemoController();
 //            return ListViewDemoController();
-                  return BottomSheetDemo();
+//                  return BottomSheetDemo();
+//                return ReportedStockoutController();
                 }));
               }),
         ],

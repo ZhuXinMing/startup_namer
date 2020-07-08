@@ -179,7 +179,18 @@ class _DemoState extends State<_DemoPage> {
   //确定录入
   showConfirmEntryProductDialog(){
 
+    Map item = const {
+      "spuName": "萝卜",
+      "photo":
+      "https://pics6.baidu.com/feed/9358d109b3de9c825b28c0133091350c18d843f7.jpeg?"
+          "token=8d115bd85ec187149ddedc643b4cd4e1",
+      "waitThrowNum": 3,
+      "remainNum": 3,
+      "baseUnitName": "袋"
+    };
+
     ConfirmEntryProductDialog.show(context: context,
+    item: item,
     onConfirmListener: (actualThrowNum){
       print('num = $actualThrowNum');
     });

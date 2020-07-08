@@ -14,23 +14,10 @@ import 'dart:math' as math;
 
 typedef OnConfirmListener = Function(List entries);
 
-// ignore: must_be_immutable
-class ShiftQuantitySelectionBottomSheet extends StatelessWidget {
-  @required
-  final String title;
-  List<Map> entries;
-  @required
-  final OnConfirmListener onConfirmListener;
-
-  ShiftQuantitySelectionBottomSheet(
-      {this.title, this.entries, this.onConfirmListener});
-
-  static void show(
-      {@required BuildContext context,
-      String title = '移位量选择',
-      List<Map> entries,
-      OnConfirmListener onConfirmListener}) {
-    entries = [
+/*
+  //移位量选择弹窗
+  _presentShiftSelectionSheet() {
+    List<Map> entries = [
       {
         "spuId": "123343435",
         "spuName": "萝卜,商品名称商品名称商品名称商品名称商品名称",
@@ -38,6 +25,39 @@ class ShiftQuantitySelectionBottomSheet extends StatelessWidget {
         "num": 1
       }
     ];
+    ShiftQuantitySelectionBottomSheet.show(
+        context: context,
+        title: '移位量选择',
+        entries: entries,
+        onConfirmListener: (List items) {
+          print(items);
+        });
+
+ */
+
+
+// ignore: must_be_immutable
+class ShiftQuantitySelectionBottomSheet extends StatefulWidget {
+  //标题
+  @required
+  String title;
+  //map数据的数组集合
+  List<Map> entries;
+  //确定按钮事件回调
+  @required
+  final OnConfirmListener onConfirmListener;
+
+  ShiftQuantitySelectionBottomSheet(
+      {Key key, String title, List<Map> entries, this.onConfirmListener})
+      : this.title = title ?? "",
+        this.entries = entries ?? List<Map>(),
+        super(key: key);
+
+  static void show(
+      {@required BuildContext context,
+      String title,
+      List<Map> entries,
+      OnConfirmListener onConfirmListener}) {
 
     showModalBottomSheet(
         context: context,
@@ -58,40 +78,19 @@ class ShiftQuantitySelectionBottomSheet extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return _BottomSheetPage(
-        title: title, entries: entries, onConfirmListener: onConfirmListener);
-  }
-}
-
-class _BottomSheetPage extends StatefulWidget {
-  @required
-  final String title;
-  List<Map> entries;
-  @required
-  final OnConfirmListener onConfirmListener;
-
-  _BottomSheetPage(
-      {this.title,
-        this.entries,
-        this.onConfirmListener});
-
-  @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
     return _BottomSheetState();
   }
 }
 
-class _BottomSheetState
-    extends State<_BottomSheetPage> {
-
+class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
+
   double bottomSheetHeight = 412;
   //关闭按钮大小
   double closeIconSize = 30;
@@ -221,8 +220,13 @@ class _BottomSheetState
                       ),
                       Expanded(child: SizedBox()),
                       Container(
-                        width: ScreenUtil().setWidth(reduceIconExtend + reduceIconWidth +48 + reduceIconWidth + reduceIconExtend),
-                        height: ScreenUtil().setWidth(reduceIconHeight + reduceIconExtend *2),
+                        width: ScreenUtil().setWidth(reduceIconExtend +
+                            reduceIconWidth +
+                            48 +
+                            reduceIconWidth +
+                            reduceIconExtend),
+                        height: ScreenUtil()
+                            .setWidth(reduceIconHeight + reduceIconExtend * 2),
 //                        color: Colors.amber,
                         child: Row(
                           children: [
@@ -230,12 +234,15 @@ class _BottomSheetState
                               behavior: HitTestBehavior.opaque,
                               child: Container(
 //                                color: Colors.cyan,
-                                width: ScreenUtil().setWidth(reduceIconWidth + reduceIconExtend),
-                                height: ScreenUtil().setWidth(reduceIconHeight + reduceIconExtend * 2),
+                                width: ScreenUtil().setWidth(
+                                    reduceIconWidth + reduceIconExtend),
+                                height: ScreenUtil().setWidth(
+                                    reduceIconHeight + reduceIconExtend * 2),
                                 alignment: Alignment.centerRight,
                                 child: SizedBox(
                                   width: ScreenUtil().setWidth(reduceIconWidth),
-                                  height: ScreenUtil().setWidth(reduceIconHeight),
+                                  height:
+                                      ScreenUtil().setWidth(reduceIconHeight),
                                   child: Image.asset(
                                     "assets/images/left@2x.png",
                                   ),
@@ -271,8 +278,10 @@ class _BottomSheetState
 //                                    color: Colors.cyan,
                                     alignment: Alignment.centerLeft,
                                     child: SizedBox(
-                                      width: ScreenUtil().setWidth(reduceIconWidth),
-                                      height: ScreenUtil().setWidth(reduceIconHeight),
+                                      width: ScreenUtil()
+                                          .setWidth(reduceIconWidth),
+                                      height: ScreenUtil()
+                                          .setWidth(reduceIconHeight),
                                       child: Image.asset(
                                         "assets/images/right@2x.png",
                                       ),
@@ -295,7 +304,7 @@ class _BottomSheetState
             height: 2,
           ),
           Container(
-            height: ScreenUtil().setWidth(btnHeight+8+8),
+            height: ScreenUtil().setWidth(btnHeight + 8 + 8),
             padding: EdgeInsets.fromLTRB(
                 ScreenUtil().setWidth(12),
                 ScreenUtil().setWidth(8),

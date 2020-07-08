@@ -13,23 +13,11 @@ import 'dart:math' as math;
 
 typedef OnConfirmListener = Function(List entries);
 
-// ignore: must_be_immutable
-class ProductSelectionBottomSheet extends StatelessWidget {
-  @required
-  final String title;
-  List<Map> entries;
-  @required
-  final OnConfirmListener onConfirmListener;
+/*
+  //商品选择弹窗
+  void _presentProductSelectionSheet() {
 
-  ProductSelectionBottomSheet(
-      {this.title, this.entries, this.onConfirmListener});
-
-  static void show(
-      {@required BuildContext context,
-      String title = '商品选择',
-      List<Map> entries,
-      OnConfirmListener onConfirmListener}) {
-    entries = [
+   List<Map> entries = [
       {
         "spuId": "123343435",
         "spuName": "萝卜,商品名称商品名称商品名称商品名称商品名称",
@@ -45,6 +33,40 @@ class ProductSelectionBottomSheet extends StatelessWidget {
         "isSelected": true
       }
     ];
+    ProductSelectionBottomSheet.show(
+        context: context,
+        title: '商品选择',
+        entries: entries,
+        onConfirmListener: (List items) {
+          print(items);
+        });
+  }
+ */
+
+
+// ignore: must_be_immutable
+class ProductSelectionBottomSheet extends StatelessWidget {
+  //标题
+  @required
+  final String title;
+  //数据源数组
+  List<Map> entries;
+  //确定按钮事件回调
+  @required
+  final OnConfirmListener onConfirmListener;
+
+
+  ProductSelectionBottomSheet(
+      {Key key, String title, List<Map> entries, this.onConfirmListener})
+      : this.title = title ?? "",
+        this.entries = entries ?? List<Map>(),
+        super(key: key);
+
+  static void show(
+      {@required BuildContext context,
+      String title,
+      List<Map> entries,
+      OnConfirmListener onConfirmListener}) {
 
     showModalBottomSheet(
         context: context,

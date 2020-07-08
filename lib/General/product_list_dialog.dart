@@ -2,18 +2,17 @@
 
 //  商品库存列表
 
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
-
 class ProduceListDialog extends Dialog {
+  @required
+  final List entries;
 
-  @required final List entries;
+  ProduceListDialog({Key key, List entries})
+      : this.entries = entries ?? [],
+        super(key: key);
 
-  ProduceListDialog({this.entries});
-
-  //如果为空，会传null给ConfirmStokDialog类的属性
   static void show({
     @required BuildContext context,
     @required List entries,
@@ -25,7 +24,6 @@ class ProduceListDialog extends Dialog {
           return ProduceListDialog(entries: entries);
         });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +47,6 @@ class _DialogPage extends StatefulWidget {
 }
 
 class _DialogState extends State<_DialogPage> {
-
   double width = 384;
   double height = 383;
 
@@ -58,7 +55,7 @@ class _DialogState extends State<_DialogPage> {
   double btnWidth = 336;
   double btnHeight = 52;
   //行高
-  double rowHeight = 25.0+10*2;
+  double rowHeight = 25.0 + 10 * 2;
 
   @override
   Widget build(BuildContext context) {

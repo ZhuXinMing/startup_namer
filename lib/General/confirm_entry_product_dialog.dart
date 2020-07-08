@@ -9,28 +9,45 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 typedef OnConfirmListener = Function(String actualThrowNum);
 
-class ConfirmEntryProductDialog extends Dialog {
 
-  @required final Map item;
+/*
+  //确定录入
+  showConfirmEntryProductDialog(){
+
+    Map item = const {
+      "spuName": "萝卜",
+      "photo":
+      "https://pics6.baidu.com/feed/9358d109b3de9c825b28c0133091350c18d843f7.jpeg?"
+          "token=8d115bd85ec187149ddedc643b4cd4e1",
+      "waitThrowNum": 3,
+      "remainNum": 3,
+      "baseUnitName": "袋"
+    };
+
+    ConfirmEntryProductDialog.show(context: context,
+    item: item,
+    onConfirmListener: (actualThrowNum){
+      print('num = $actualThrowNum');
+    });
+  }
+ */
+
+
+class ConfirmEntryProductDialog extends Dialog {
+  // 数据字典
+  @required
+  final Map item;
+  // 确定事件回调
   final OnConfirmListener onConfirmListener;
 
-  const ConfirmEntryProductDialog(
-      {Key key,
-      this.item,
-      this.onConfirmListener})
-      : super(key: key);
+  const ConfirmEntryProductDialog({Key key, Map item, this.onConfirmListener})
+      : this.item = item ?? const {},
+        super(key: key);
 
+  //show弹窗
   static void show(
       {@required BuildContext context,
-      Map item = const {
-        "spuName": "萝卜",
-        "photo":
-            "https://pics6.baidu.com/feed/9358d109b3de9c825b28c0133091350c18d843f7.jpeg?"
-                "token=8d115bd85ec187149ddedc643b4cd4e1",
-        "waitThrowNum": 3,
-        "remainNum": 3,
-        "baseUnitName": "袋"
-      },
+      Map item,
       OnConfirmListener onConfirmListener}) {
     showDialog(
         context: context,
@@ -107,7 +124,7 @@ class ConfirmEntryProductDialogState
     super.dispose();
   }
 
-  void showCenterShortToast() {
+  void showMaxShortToast() {
     Fluttertoast.showToast(
         msg: "已达该商品待投量",
         toastLength: Toast.LENGTH_SHORT,
@@ -122,6 +139,30 @@ class ConfirmEntryProductDialogState
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1);
   }
+
+  void reduceAction(){
+    int a = int.parse(_controller.text);
+    if (a == 1) {
+      showMinusCenterShortToast();
+    } else {
+      _controller.text = (a - 1).toString();
+    }
+    print('----');
+  }
+
+  void increaseAction(){
+    int r = widget.item['remainNum'];
+    int w = widget.item['waitThrowNum'];
+    int min = math.min(r, w);
+    int a = int.parse(_controller.text);
+    if (a >= min) {
+      showMaxShortToast();
+    } else {
+      _controller.text = (a + 1).toString();
+    }
+    print('+++++++');
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -151,12 +192,12 @@ class ConfirmEntryProductDialogState
             padding: EdgeInsets.fromLTRB(
                 ScreenUtil().setWidth(contentPaddingLeft),
                 0,
-                ScreenUtil().setWidth(contentPaddingRight-6),
+                ScreenUtil().setWidth(contentPaddingRight - 6),
                 0),
             child: Row(
               children: [
                 Image.network(
-                  widget.item['photo'],
+                  widget.item['photo']??'',
                   height: ScreenUtil().setWidth(picSize),
                   width: ScreenUtil().setWidth(picSize),
                   fit: BoxFit.cover,
@@ -167,7 +208,6 @@ class ConfirmEntryProductDialogState
                 Expanded(
                   child: Stack(
                     children: [
-
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -175,7 +215,7 @@ class ConfirmEntryProductDialogState
                             padding: EdgeInsets.only(
                                 right: ScreenUtil().setWidth(6)),
                             child: Text(
-                              widget.item['spuName'],
+                              widget.item['spuName']??'',
                               style: TextStyle(
                                 fontSize: ScreenUtil().setSp(18),
                                 color: Color(0xFF333333),
@@ -196,11 +236,11 @@ class ConfirmEntryProductDialogState
                               ),
                               children: [
                                 TextSpan(
-                                  text: widget.item['waitThrowNum'].toString(),
+                                  text: widget.item['waitThrowNum'].toString()??'',
                                   style: TextStyle(color: Color(0xffEF5D44)),
                                 ),
                                 TextSpan(
-                                  text: widget.item['baseUnitName'],
+                                  text: widget.item['baseUnitName']??'',
                                   style: TextStyle(color: Color(0xFF999999)),
                                 ),
                               ],
@@ -219,11 +259,11 @@ class ConfirmEntryProductDialogState
                                 ),
                                 children: [
                                   TextSpan(
-                                    text: widget.item['remainNum'].toString(),
+                                    text: widget.item['remainNum'].toString()??'',
                                     style: TextStyle(color: Color(0xffEF5D44)),
                                   ),
                                   TextSpan(
-                                    text: widget.item['baseUnitName'],
+                                    text: widget.item['baseUnitName']??'',
                                     style: TextStyle(color: Color(0xFF999999)),
                                   ),
                                 ],
@@ -235,45 +275,48 @@ class ConfirmEntryProductDialogState
                       Align(
                         alignment: Alignment.bottomRight,
                         child: Container(
-                          width: ScreenUtil().setWidth(reduceIconExtend + reduceIconWidth +48 + reduceIconWidth + reduceIconExtend),
-                          height: ScreenUtil().setWidth(reduceIconHeight + reduceIconExtend),
+                          width: ScreenUtil().setWidth(reduceIconExtend +
+                              reduceIconWidth +
+                              48 +
+                              reduceIconWidth +
+                              reduceIconExtend),
+                          height: ScreenUtil()
+                              .setWidth(reduceIconHeight + reduceIconExtend),
 //                          color: Colors.amber,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               InkWell(
                                 child: Container(
-                                    width: ScreenUtil().setWidth(reduceIconWidth + reduceIconExtend),
-                                    height: ScreenUtil().setWidth(reduceIconHeight + reduceIconExtend),
+                                    width: ScreenUtil().setWidth(
+                                        reduceIconWidth + reduceIconExtend),
+                                    height: ScreenUtil().setWidth(
+                                        reduceIconHeight + reduceIconExtend),
                                     alignment: Alignment.bottomRight,
                                     child: SizedBox(
-                                      width: ScreenUtil().setWidth(reduceIconWidth),
-                                      height: ScreenUtil().setWidth(reduceIconHeight),
+                                      width: ScreenUtil()
+                                          .setWidth(reduceIconWidth),
+                                      height: ScreenUtil()
+                                          .setWidth(reduceIconHeight),
                                       child: Image.asset(
                                         "assets/images/left@2x.png",
                                       ),
                                     )),
                                 onTap: () {
-                                  int a = int.parse(_controller.text);
-                                  if (a == 1) {
-                                    showMinusCenterShortToast();
-                                  } else {
-                                    _controller.text = (a - 1).toString();
-                                  }
-                                  print('----');
-                                },
+                                  reduceAction();
+                                }
                               ),
                               Container(
                                 height: ScreenUtil().setWidth(30.0),
                                 width: ScreenUtil().setWidth(48.6),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-//                                    color: Colors.blue,
                                     image: DecorationImage(
                                         image: AssetImage(
                                           "assets/images/mid@2x.png",
                                         ),
-                                        fit: BoxFit.fill)),
+                                        fit: BoxFit.fill)
+                                       ),
                                 child: TextField(
                                     style: TextStyle(
                                       fontSize: ScreenUtil().setSp(15),
@@ -282,37 +325,28 @@ class ConfirmEntryProductDialogState
                                     textAlign: TextAlign.center,
                                     keyboardType: TextInputType.number,
                                     controller: _controller,
-                                    decoration: InputDecoration.collapsed(
-//                                      hintText: "1",
-//                                    hintStyle: TextStyle(
-//                                      fontSize: ScreenUtil().setSp(12),
-//                                      color: Color(0xFF333333),
-//                                    ),
-                                        )),
+                                    decoration: InputDecoration(
+                                        isDense: true,
+                                        contentPadding: EdgeInsets.zero,
+                                        border: InputBorder.none
+                                    )),
                               ),
                               Expanded(
                                 child: InkWell(
                                   child: Container(
                                     alignment: Alignment.bottomLeft,
                                     child: SizedBox(
-                                      width: ScreenUtil().setWidth(reduceIconWidth),
-                                      height: ScreenUtil().setWidth(reduceIconHeight),
+                                      width: ScreenUtil()
+                                          .setWidth(reduceIconWidth),
+                                      height: ScreenUtil()
+                                          .setWidth(reduceIconHeight),
                                       child: Image.asset(
                                         "assets/images/right@2x.png",
                                       ),
                                     ),
                                   ),
                                   onTap: () {
-                                    int r = widget.item['remainNum'];
-                                    int w = widget.item['waitThrowNum'];
-                                    int min = math.min(r, w);
-                                    int a = int.parse(_controller.text);
-                                    if (a >= min) {
-                                      showCenterShortToast();
-                                    } else {
-                                      _controller.text = (a + 1).toString();
-                                    }
-                                    print('+++++++');
+                                    increaseAction();
                                   },
                                 ),
                               ),
