@@ -141,7 +141,7 @@ class _BottomSheetState extends State<_BottomSheetPage> {
   double selectIconSize = 28;
 
   //icon内间距
-  double selectIconButtonPadding = 8;
+  double iconButtonPadding = 8;
 
   //按钮大小
   double btnHeight = 64;
@@ -153,7 +153,7 @@ class _BottomSheetState extends State<_BottomSheetPage> {
       height: ScreenUtil().setWidth(bottomSheetHeight),
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         Container(
-          padding: EdgeInsets.only(top: 10.0),
+          padding: EdgeInsets.only(top: ScreenUtil().setWidth(10)),
           height: ScreenUtil().setWidth(closeIconSize + 20 + 10),
 //            color: Colors.amber,
           child: Stack(children: [
@@ -169,17 +169,22 @@ class _BottomSheetState extends State<_BottomSheetPage> {
             ),
             Align(
               alignment: Alignment.centerRight,
-              child: IconButton(
+              child:Container(
+                margin: EdgeInsets.only(right:ScreenUtil().setWidth(20-iconButtonPadding)),
+                height:ScreenUtil().setWidth(closeIconSize+2*iconButtonPadding),
+                width:ScreenUtil().setWidth(closeIconSize+2*iconButtonPadding),
+                child: IconButton(
 //                  splashRadius: 20,
-                  highlightColor: Colors.transparent,
-                  iconSize: ScreenUtil().setWidth(closeIconSize),
-                  icon: Image.asset(
-                    "assets/images/close_gray@2x.png",
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
-            )
+                    highlightColor: Colors.transparent,
+                    iconSize: ScreenUtil().setWidth(closeIconSize),
+                    icon: Image.asset(
+                      "assets/images/close_gray@2x.png",
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+              )
+            ),
           ]),
         ),
         Expanded(
@@ -189,7 +194,7 @@ class _BottomSheetState extends State<_BottomSheetPage> {
               height: ScreenUtil().setWidth(rowHeight),
               padding: EdgeInsets.fromLTRB(
                   ScreenUtil()
-                      .setWidth(rowPaddingLeft - selectIconButtonPadding),
+                      .setWidth(rowPaddingLeft - iconButtonPadding),
                   0,
                   ScreenUtil().setWidth(rowPaddingRight),
                   0),
@@ -199,20 +204,24 @@ class _BottomSheetState extends State<_BottomSheetPage> {
                   ),
               child: Row(
                 children: [
-                  IconButton(
+                  Container(
+                    width: ScreenUtil().setWidth(selectIconSize+2*iconButtonPadding),
+                    height:ScreenUtil().setWidth(selectIconSize+2*iconButtonPadding),
+                    child: IconButton(
 //                      splashRadius:
 //                          selectIconSize / 2 + selectIconButtonPadding,
-                      highlightColor: Colors.transparent,
-                      iconSize: ScreenUtil().setWidth(selectIconSize),
-                      icon: _BottomSheetState.checkbox(
-                          widget.entries[index]['isSelected']),
-                      onPressed: () {
-                        setState(() {
-                          widget.entries[index]['isSelected'] =
-                              !widget.entries[index]['isSelected'];
-                          widget.allSelected = widget.entries.every((element) => element['isSelected']);
-                        });
-                      }),
+                        highlightColor: Colors.transparent,
+                        iconSize: ScreenUtil().setWidth(selectIconSize),
+                        icon: _BottomSheetState.checkbox(
+                            widget.entries[index]['isSelected']),
+                        onPressed: () {
+                          setState(() {
+                            widget.entries[index]['isSelected'] =
+                            !widget.entries[index]['isSelected'];
+                            widget.allSelected = widget.entries.every((element) => element['isSelected']);
+                          });
+                        }),
+                  ),
                   SizedBox(
                     width: 2,
                   ),
@@ -243,26 +252,29 @@ class _BottomSheetState extends State<_BottomSheetPage> {
         Container(
           height: ScreenUtil().setWidth(btnHeight + 8 + 8),
           padding: EdgeInsets.fromLTRB(
-              ScreenUtil().setWidth(24 - selectIconButtonPadding),
+              ScreenUtil().setWidth(24 - iconButtonPadding),
               ScreenUtil().setWidth(8),
               ScreenUtil().setWidth(12),
               ScreenUtil().setWidth(8)),
           child: Row(
             children: [
-              IconButton(
-//                splashRadius: selectIconSize / 2 + selectIconButtonPadding,
-                highlightColor: Colors.transparent,
-                iconSize: ScreenUtil().setWidth(selectIconSize),
-                icon: _BottomSheetState.checkbox(
-                    widget.entries.every((element) => element['isSelected'])),
-                onPressed: () {
-                  setState(() {
-                    widget.allSelected = !widget.allSelected;
-                    widget.entries.forEach((element) {
-                      element['isSelected'] = widget.allSelected;
+              Container(
+                width: ScreenUtil().setWidth(selectIconSize+2*iconButtonPadding),
+                height:ScreenUtil().setWidth(selectIconSize+2*iconButtonPadding),
+                child: IconButton(
+                  highlightColor: Colors.transparent,
+                  iconSize: ScreenUtil().setWidth(selectIconSize),
+                  icon: _BottomSheetState.checkbox(
+                      widget.entries.every((element) => element['isSelected'])),
+                  onPressed: () {
+                    setState(() {
+                      widget.allSelected = !widget.allSelected;
+                      widget.entries.forEach((element) {
+                        element['isSelected'] = widget.allSelected;
+                      });
                     });
-                  });
-                },
+                  },
+                ),
               ),
               Padding(
                 padding:

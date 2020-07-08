@@ -168,6 +168,8 @@ class _DemoState extends State<_DemoPage> {
         context: context,
         title: "确认缺货",
         content: '1jljdljf;sfj;sflsjdf;ljks;fjs;lfj;slfsflkdjfl;sjf;sjf;',
+        verificationCode:'12345',
+        rightButtonTitle: '确认报缺',
         leftOnConfirmListener: (){
             print('取消');
         },

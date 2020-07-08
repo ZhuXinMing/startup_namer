@@ -64,6 +64,7 @@ class OneColumnPicker extends StatelessWidget {
             top: Radius.circular(8),
           ),
         ),
+        backgroundColor: Colors.white,
         builder: (BuildContext context) {
           return OneColumnPicker(
             title: title,
@@ -73,6 +74,11 @@ class OneColumnPicker extends StatelessWidget {
           );
         });
   }
+
+  //关闭按钮大小
+  double closeIconSize = 30;
+  //icon内间距
+  double iconButtonPadding = 8;
 
   @override
   Widget build(BuildContext context) {
@@ -98,14 +104,19 @@ class OneColumnPicker extends StatelessWidget {
                 ),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: IconButton(
-                      iconSize: ScreenUtil().setWidth(30),
-                      icon: Image.asset(
-                        "assets/images/close_gray@2x.png",
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      }),
+                  child: Container(
+                    margin: EdgeInsets.only(right:ScreenUtil().setWidth(20-iconButtonPadding)),
+                    height:ScreenUtil().setWidth(closeIconSize+2*iconButtonPadding),
+                    width:ScreenUtil().setWidth(closeIconSize+2*iconButtonPadding),
+                    child: IconButton(
+                        iconSize: ScreenUtil().setWidth(closeIconSize),
+                        icon: Image.asset(
+                          "assets/images/close_gray@2x.png",
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }),
+                  ),
                 )
               ],
             ),

@@ -9,39 +9,49 @@ typedef RightOnConfirmListener = Function();
 typedef LeftOnConfirmListener = Function();
 
 class ConfirmStockDialog extends Dialog {
+  //标题
   @required
   final String title;
+  //内容
   final String content;
+  //验证码
   @required
   final String verificationCode;
+  //左边按钮文本
   @required
   final String leftButtonTitle;
+  //右边按钮文本
   @required
   final String rightButtonTitle;
+  //左边按钮事件回调
   @required
   final LeftOnConfirmListener leftOnConfirmListener;
+  //右边按钮事件回调
   @required
   final RightOnConfirmListener rightOnConfirmListener;
 
   const ConfirmStockDialog(
       {Key key,
-      this.title,
+      String title,
       this.content,
       this.verificationCode,
-      this.leftButtonTitle,
-      this.rightButtonTitle,
+      String leftButtonTitle,
+      String rightButtonTitle,
       this.leftOnConfirmListener,
       this.rightOnConfirmListener})
-      : super(key: key);
+      : this.title = null ?? '',
+        this.leftButtonTitle = null ?? '取消',
+        this.rightButtonTitle = null ?? '确认',
+        assert(verificationCode != null),
+        super(key: key);
 
-  //如果为空，会传null给ConfirmStokDialog类的属性
   static void show({
     @required BuildContext context,
-    String title = '确认缺货',
+    @required String title,
     String content,
-    String verificationCode = '23621',
+    @required String verificationCode,
     String leftButtonTitle = '取消',
-    String rightButtonTitle = '确认报缺',
+    String rightButtonTitle = '确认',
     @required LeftOnConfirmListener leftOnConfirmListener,
     @required RightOnConfirmListener rightOnConfirmListener,
   }) {
