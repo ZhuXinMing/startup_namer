@@ -1,12 +1,32 @@
 //  Created by simon on 2020/6/28.
 
-// 确认缺货,是否需要回调验证码？
+import 'dart:math';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 typedef RightOnConfirmListener = Function();
 typedef LeftOnConfirmListener = Function();
+
+/*
+  //确认缺货
+  showConfirmStockDialog(){
+
+    ConfirmStockDialog.show(
+        context: context,
+        title: "确认缺货",
+        content: '1jljdljf;sfj;sflsjdf;ljks;fjs;lfj;slfsflkdjfl;sjf;sjf;',
+        verificationCode:'12345',
+        rightButtonTitle: '确认报缺',
+        leftOnConfirmListener: (){
+            print('取消');
+        },
+        rightOnConfirmListener: (){
+          print('右边按钮');
+    });
+  }
+ */
 
 class ConfirmStockDialog extends Dialog {
   //标题
@@ -32,16 +52,16 @@ class ConfirmStockDialog extends Dialog {
 
   const ConfirmStockDialog(
       {Key key,
-      String title,
-      this.content,
-      this.verificationCode,
-      String leftButtonTitle,
-      String rightButtonTitle,
-      this.leftOnConfirmListener,
-      this.rightOnConfirmListener})
-      : this.title = null ?? '',
-        this.leftButtonTitle = null ?? '取消',
-        this.rightButtonTitle = null ?? '确认',
+        String title,
+        this.content,
+        this.verificationCode,
+        String leftButtonTitle,
+        String rightButtonTitle,
+        this.leftOnConfirmListener,
+        this.rightOnConfirmListener})
+      : this.title = title ?? '',
+        this.leftButtonTitle = leftButtonTitle ?? '取消',
+        this.rightButtonTitle = rightButtonTitle ?? '确认',
         assert(verificationCode != null),
         super(key: key);
 
@@ -77,14 +97,14 @@ class ConfirmStockDialog extends Dialog {
       type: MaterialType.transparency,
       child: Center(
           child: _DialogPage(
-        title: title,
-        content: content,
-        verificationCode: verificationCode,
-        leftButtonTitle: leftButtonTitle,
-        rightButtonTitle: rightButtonTitle,
-        leftOnConfirmListener: leftOnConfirmListener,
-        rightOnConfirmListener: rightOnConfirmListener,
-      )),
+            title: title,
+            content: content,
+            verificationCode: verificationCode,
+            leftButtonTitle: leftButtonTitle,
+            rightButtonTitle: rightButtonTitle,
+            leftOnConfirmListener: leftOnConfirmListener,
+            rightOnConfirmListener: rightOnConfirmListener,
+          )),
     );
   }
 }
@@ -101,20 +121,21 @@ class _DialogPage extends StatefulWidget {
 
   const _DialogPage(
       {this.title,
-      this.content,
-      this.verificationCode,
-      this.leftButtonTitle,
-      this.rightButtonTitle,
-      this.leftOnConfirmListener,
-      this.rightOnConfirmListener});
+        this.content,
+        this.verificationCode,
+        this.leftButtonTitle,
+        this.rightButtonTitle,
+        this.leftOnConfirmListener,
+        this.rightOnConfirmListener});
 
   @override
   State<StatefulWidget> createState() => _DialogState();
 }
 
 class _DialogState extends State<_DialogPage> {
-
   TextEditingController _textEditingController = new TextEditingController();
+  String _verificationCode;
+
   double width;
   double height;
 
@@ -123,12 +144,42 @@ class _DialogState extends State<_DialogPage> {
   double btnWidth = 156;
   double btnHeight = 52;
 
+  _randomBit(int len) {
+    String scopeF = '123456789'; //首位
+    String scopeC = '0123456789'; //中间
+    String result = '';
+    for (int i = 0; i < len; i++) {
+      if (i == 1) {
+        result = scopeF[Random().nextInt(scopeF.length)];
+      } else {
+        result = result + scopeC[Random().nextInt(scopeC.length)];
+      }
+    }
+    return result;
+  }
+
+  void _showToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg ?? '',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     width = 384;
     height = widget.content != null ? 350.0 : 280.0;
+    _verificationCode = widget.verificationCode ?? _randomBit(5);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _textEditingController.dispose();
   }
 
   @override
@@ -160,7 +211,7 @@ class _DialogState extends State<_DialogPage> {
           Offstage(
             offstage: widget.content != null ? false : true,
             child: Container(
-              height: ScreenUtil().setWidth(50+20),
+              height: ScreenUtil().setWidth(50 + 20),
               child: Align(
                 child: Text(
                   '${widget.content}',
@@ -175,7 +226,7 @@ class _DialogState extends State<_DialogPage> {
           ),
           Align(
             child: Text(
-              '验证码：${widget.verificationCode}',
+              '验证码：$_verificationCode',
               style: TextStyle(
                 color: Color(0xffEF5D44),
                 fontSize: ScreenUtil().setSp(22),
@@ -187,14 +238,14 @@ class _DialogState extends State<_DialogPage> {
           ),
           Container(
             height: ScreenUtil().setWidth(62),
-            width: ScreenUtil().setWidth(width-2*contentPadding),
+            width: ScreenUtil().setWidth(width - 2 * contentPadding),
             decoration: BoxDecoration(
               color: Color(0xFFF2F1F6),
               borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
               border: Border.all(color: Colors.white, width: 1),
             ),
             padding:
-                EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(16)),
+            EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(16)),
             child: Row(
               children: [
                 Text(
@@ -227,7 +278,7 @@ class _DialogState extends State<_DialogPage> {
             ),
           ),
           Expanded(
-              child:SizedBox(),
+            child: SizedBox(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -237,8 +288,14 @@ class _DialogState extends State<_DialogPage> {
                 height: ScreenUtil().setWidth(btnHeight),
                 child: RaisedButton(
                   onPressed: () {
-                    Navigator.pop(context);
-                    widget.leftOnConfirmListener();
+                    if (_verificationCode
+                        .compareTo(_textEditingController.text) !=
+                        0) {
+                      _showToast('请输入有效的验证码');
+                    } else {
+                      Navigator.pop(context);
+                      widget.leftOnConfirmListener();
+                    }
                   },
                   child: Text(
                     widget.leftButtonTitle,
@@ -251,7 +308,7 @@ class _DialogState extends State<_DialogPage> {
                   textColor: Color(0xFF333333),
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(5)),
+                    BorderRadius.circular(ScreenUtil().setWidth(5)),
                     side: BorderSide(color: Color(0xffCCCCCC), width: 1),
                   ),
                 ),
@@ -272,7 +329,7 @@ class _DialogState extends State<_DialogPage> {
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(5)),
+                    BorderRadius.circular(ScreenUtil().setWidth(5)),
                     side: BorderSide(color: Color(0xffEF5D44)),
                   ),
                 ),

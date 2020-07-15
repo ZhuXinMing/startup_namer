@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'FlutterToastController.dart';
-import '../General/my_custom_dialog.dart';
-import '../General/input_several_dialog.dart';
-import '../General/select_item_dialog.dart';
-import '../General/product_list_dialog.dart';
-import '../General/confirm_stock_dialog.dart';
-import '../General/confirm_entry_product_dialog.dart';
+import '../../General/dialog/my_custom_dialog.dart';
+import '../../General/dialog/input_several_dialog.dart';
+import '../../General/dialog/select_item_dialog.dart';
+import '../../General/dialog/product_list_dialog.dart';
+import '../../General/dialog/confirm_stock_dialog.dart';
+import '../../General/dialog/confirm_entry_product_dialog.dart';
 
 // ignore: must_be_immutable
 class DialogDemo extends StatelessWidget {
@@ -24,11 +24,6 @@ class DialogDemo extends StatelessWidget {
       ),
       body: _DemoPage(
         customSelectIndex: customSelectIndex,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
       ),
     );
   }

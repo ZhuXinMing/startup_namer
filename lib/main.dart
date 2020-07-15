@@ -7,9 +7,8 @@ import 'General/dialog_nButton.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'ui/TextFieldDemoController.dart';
 import 'package:startupnamer/ui/ListViewDemoController.dart';
-import 'ui/bottom_sheet_demos.dart';
-import 'ui/dialog_demos.dart';
-import 'ui/reported_stockout_controller.dart';
+import 'tabs.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -19,13 +18,11 @@ class MyApp extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
       theme: ThemeData(
-        scaffoldBackgroundColor:Color(0xff445279),
-        primaryColor:Color(0xff445279),
+//        scaffoldBackgroundColor: Color(0xff445279),
+        scaffoldBackgroundColor: Color(0xffF2F1F6),
+        primaryColor: Color(0xff445279),
       ),
-      home: Scaffold(
-        appBar: AppBar(title: Text('Flutter Demo')),
-        body: MyHomePage(),
-      ),
+      home: MyHomePage(),
     );
   }
 }
@@ -33,56 +30,20 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _MyHomePageState();
   }
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    //    ScreenUtil.init(context, width: 1024, height: 768, allowFontScaling: false);
-    ScreenUtil.init(context, width: 480, height: 854, allowFontScaling: false);
-    return LayoutDemo();
+//    ScreenUtil.init(context, width: 480, height: 854, allowFontScaling: false);
+    ScreenUtil.init(context, width: 375*2, height: 667*2, allowFontScaling: false);
+    return Tabs();
   }
 }
 
-class LayoutDemo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          Container(
-            height: ScreenUtil().setWidth(100),
-            decoration: BoxDecoration(
-              color: Colors.orange,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(8.5)),
-              border: Border.all(color: Colors.amber),
-            ),
-          ),
-          RaisedButton(
-              child: Text('跳转'),
-              onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (BuildContext context) {
-//               return DialogDemo(title: '跳转到Dialog传值');
-//              return TextFieldDemoController();
-//            return ListViewDemoController();
-                  return BottomSheetDemo();
-//                return ReportedStockoutController();
-                }));
-              }),
-        ],
-      ),
-    );
-  }
-}
+
 
 //富文本；Text.rich
 /*

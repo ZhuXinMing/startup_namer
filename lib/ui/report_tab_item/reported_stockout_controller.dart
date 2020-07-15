@@ -18,6 +18,7 @@ class ReportedStockoutController extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('报缺'),
+        elevation: 0,
       ),
       body: ReportedStockout(),
     );
