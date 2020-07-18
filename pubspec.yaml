@@ -34,6 +34,8 @@ dependencies:
 #  http请求
   http: ^0.12.1
   dio: ^3.0.9
+#一个提供上拉加载和下拉刷新的组件,同时支持Android和Ios
+  pull_to_refresh: ^1.6.0
 
 dev_dependencies:
   flutter_test:

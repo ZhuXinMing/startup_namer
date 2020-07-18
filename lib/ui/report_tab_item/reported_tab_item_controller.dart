@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 ///
 ///   @Name    : startup_namer/ reported_tab_item_controller
 ///   @author  : simon
@@ -13,12 +14,123 @@ import 'package:startupnamer/utils/log_util.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 class ReportedTabItemController extends StatefulWidget {
   @override
   _ReportedTabItemControllerState createState() =>
       _ReportedTabItemControllerState();
 }
 
+class _ReportedTabItemControllerState extends State<ReportedTabItemController> {
+
+  List _dataMArray=[];
+
+  RefreshController _refreshController = RefreshController(initialRefresh: true);
+
+  //下拉刷新
+  void _onRefresh() async{
+
+    _dataMArray.clear();
+    await _dioRequestData();
+    _refreshController.refreshCompleted();
+  }
+
+  //上拉加载更多
+  void _onLoading() async{
+    await Future.delayed(Duration(milliseconds: 1000));
+    if(mounted){
+      setState(() {
+        _dataMArray.add({'artworkUrl60':'','trackName':'12','releaseNotes':'releaseNotes2'});
+      });
+    }
+    _refreshController.loadComplete();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  //请求数据
+  _dioRequestData() async {
+    var baseUrl = "https://itunes.apple.com/cn";
+    Map<String, dynamic> jsonData = {"id": '1180821282'};
+    Dio dio = Dio();
+    dio.options.baseUrl = baseUrl;
+    dio.options.connectTimeout = 5000;
+    dio.options.receiveTimeout = 3000;
+    Response response = await dio.post('/lookup', data: jsonData, queryParameters: jsonData);
+
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.data);
+      print(response.data);
+      setState(() {
+        this._dataMArray.addAll(jsonResponse['results']) ;
+      });
+    } else {
+      print(response.statusCode);
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Flutter Demo')),
+      floatingActionButton: FloatingActionButton(
+        child: Text('10'),
+        onPressed: () {},
+      ),
+      body: SmartRefresher(
+        enablePullDown: true,
+        enablePullUp: true,
+        header: WaterDropHeader(),
+        footer: CustomFooter(
+          builder: (BuildContext context, LoadStatus mode){
+            Widget body;
+            if(mode == LoadStatus.idle){
+              body = Text('pull up load');
+            }else if(mode == LoadStatus.loading){
+              body = CupertinoActivityIndicator();
+            }else if (mode == LoadStatus.failed){
+              body = Text('Load Failed! Click retry!');
+            }else if(mode == LoadStatus.canLoading){
+              body = Text('release to load more');
+            }else{
+              body == Text('No more Data');
+            }
+            return Container(
+              height: 55.0,
+              child:  Center(child: body),
+            );
+          },
+        ),
+        controller: _refreshController,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        child: ListView.builder(
+            itemCount: this._dataMArray.length,
+            itemBuilder:(BuildContext context, int index){
+              return ListTile(
+                leading: CircleAvatar(
+                  child: Image.network(
+                    this._dataMArray[index]['artworkUrl60'],
+                    fit: BoxFit.cover,
+                    width: 60,
+                    height: 60,
+                  ),
+                  radius: 30,
+                ),
+                title: Text(this._dataMArray[index]['trackName']),
+                subtitle: Text(this._dataMArray[index]['releaseNotes']),
+              );
+            }
+        ) ,
+      )
+    );
+  }
+}
+
+/*
 class _ReportedTabItemControllerState extends State<ReportedTabItemController> {
 
   List _dataMArray = [];
@@ -37,9 +149,6 @@ class _ReportedTabItemControllerState extends State<ReportedTabItemController> {
     dio.options.baseUrl = baseUrl;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 3000;
-//    dio.options.contentType = Headers.jsonContentType;
-//    Response response = await dio.get('/lookup',queryParameters: jsonData);
-//    Response response = await dio.post('/lookup', queryParameters: jsonData);
     Response response = await dio.post('/lookup', data: jsonData, queryParameters: jsonData);
 
     if (response.statusCode == 200) {
@@ -79,10 +188,11 @@ class _ReportedTabItemControllerState extends State<ReportedTabItemController> {
                );
             }
           )
-          : Text('加载中'),
+          : Text('加载中...'),
     );
   }
 }
+*/
 
 /*
  Center(

@@ -48,7 +48,7 @@ class _DemoState extends State<_DemoPage> {
 
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (BuildContext context) {
-        return DialogDemo(title: '跳转到Dialog传值');
+        return DialogDemo(title: null);
       }));
   }
 
@@ -161,7 +161,7 @@ class _DemoState extends State<_DemoPage> {
             IconButton(
               iconSize:21 ,
               icon: Image.asset(
-                "images/1x/icon_left.png",
+                "assets/images/left@2x.png",
 //                  width: 21,
 //                  height:20,
 //                  alignment: Alignment.bottomRight,

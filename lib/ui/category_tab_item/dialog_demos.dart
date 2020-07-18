@@ -20,7 +20,7 @@ class DialogDemo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(this.title),
+        title: Text(this.title??'title'),
       ),
       body: _DemoPage(
         customSelectIndex: customSelectIndex,

@@ -287,19 +287,14 @@ class _DialogState extends State<_DialogPage> {
                 width: ScreenUtil().setWidth(btnWidth),
                 height: ScreenUtil().setWidth(btnHeight),
                 child: RaisedButton(
-                  onPressed: () {
-                    if (_verificationCode
-                        .compareTo(_textEditingController.text) !=
-                        0) {
-                      _showToast('请输入有效的验证码');
-                    } else {
-                      Navigator.pop(context);
-                      widget.leftOnConfirmListener();
-                    }
+                  onPressed: ()
+                  {
+                    Navigator.pop(context);
+                    widget.leftOnConfirmListener();
                   },
                   child: Text(
                     widget.leftButtonTitle,
-                    style: TextStyle(fontSize: ScreenUtil().setSp(20)),
+                    style: TextStyle(fontSize: ScreenUtil().setSp(20),fontWeight: FontWeight.normal),
                   ),
                   color: Colors.white,
                   elevation: 0,
@@ -318,12 +313,21 @@ class _DialogState extends State<_DialogPage> {
                 height: ScreenUtil().setWidth(btnHeight),
                 child: RaisedButton(
                   onPressed: () {
-                    Navigator.pop(context);
-                    widget.rightOnConfirmListener();
+                    if (_verificationCode
+                        .compareTo(_textEditingController.text) !=
+                        0)
+                    {
+                      _showToast('请输入有效的验证码');
+                    }
+                    else {
+                      Navigator.pop(context);
+                      widget.rightOnConfirmListener();
+                    }
                   },
                   child: Text(
                     widget.rightButtonTitle,
-                    style: TextStyle(fontSize: ScreenUtil().setSp(20)),
+                    style: TextStyle(fontSize: ScreenUtil().setSp(20),
+                    ),
                   ),
                   color: Color(0xffEF5D44),
                   textColor: Colors.white,

@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'ui/TextFieldDemoController.dart';
 import 'package:startupnamer/ui/ListViewDemoController.dart';
 import 'tabs.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 
 void main() => runApp(MyApp());
@@ -15,14 +16,27 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return MaterialApp(
-      theme: ThemeData(
+
+    return RefreshConfiguration(
+      // 头部触发刷新的越界距离
+      headerTriggerDistance: 80,
+        headerBuilder: ()=> MaterialClassicHeader(),
+        footerBuilder: ()=> ClassicFooter(),
+        enableLoadingWhenNoData: false,
+        //这个属性不兼容PageView和TabBarView,如果你特别需要TabBarView左右滑动,你需要把它设置为true
+        enableScrollWhenRefreshCompleted: true,
+        // 可以通过惯性滑动触发加载更多
+        enableBallisticLoad:true ,
+        //当视窗少于一个屏幕时，禁用下拉功能以加载更多的功能
+//        hideFooterWhenNotFull: true,
+        child:MaterialApp(
+          theme: ThemeData(
 //        scaffoldBackgroundColor: Color(0xff445279),
-        scaffoldBackgroundColor: Color(0xffF2F1F6),
-        primaryColor: Color(0xff445279),
-      ),
-      home: MyHomePage(),
+            scaffoldBackgroundColor: Color(0xffF2F1F6),
+            primaryColor: Color(0xff445279),
+          ),
+          home: MyHomePage(),
+        )
     );
   }
 }
@@ -40,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //    ScreenUtil.init(context, width: 480, height: 854, allowFontScaling: false);
     ScreenUtil.init(context, width: 375*2, height: 667*2, allowFontScaling: false);
     return Tabs();
+//  return Center(child: Text('data'),);
   }
 }
 
