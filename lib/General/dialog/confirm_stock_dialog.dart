@@ -11,7 +11,6 @@ typedef LeftOnConfirmListener = Function();
 
 /*
   //确认缺货
-  //确认缺货
   void showConfirmStockDialog() {
     ConfirmStockDialog.show(
         context: context,
@@ -25,16 +24,15 @@ typedef LeftOnConfirmListener = Function();
           requestReportDeficiencyGoods();
         });
   }
-
  */
 
 class ConfirmStockDialog extends Dialog {
   //标题
   @required
   final String title;
-  //内容
+  //内容,不传的话内容UI不会展示；
   final String content;
-  //验证码，如果不传默认会是随机5位数
+  //验证码，如果不传默认会是随机位数；
   final String verificationCode;
   //左边按钮文本
   @required
@@ -134,13 +132,13 @@ class _DialogState extends State<_DialogPage> {
   TextEditingController _textEditingController = new TextEditingController();
   String _verificationCode;
 
-  double width;
-  double height;
+  double _width;
+  double _height;
 
-  double contentPadding = 24;
+  double _contentPadding = 24;
   //按钮width，height
-  double btnWidth = 156;
-  double btnHeight = 52;
+  double _btnWidth = 156;
+  double _btnHeight = 52;
 
   _randomBit(int len) {
     String scopeF = '123456789'; //首位
@@ -168,8 +166,8 @@ class _DialogState extends State<_DialogPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    width = 384;
-    height = widget.content != null ? 350.0 : 280.0;
+    _width = 384;
+    _height = widget.content != null ? 350.0 : 280.0;
     _verificationCode = widget.verificationCode ?? _randomBit(5);
   }
 
@@ -184,13 +182,13 @@ class _DialogState extends State<_DialogPage> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-      width: ScreenUtil().setWidth(width),
-      height: ScreenUtil().setWidth(height),
+      width: ScreenUtil().setWidth(_width),
+      height: ScreenUtil().setWidth(_height),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
       ),
-      padding: EdgeInsets.all(ScreenUtil().setWidth(contentPadding)),
+      padding: EdgeInsets.all(ScreenUtil().setWidth(_contentPadding)),
       child: Column(
         children: [
           Align(
@@ -236,7 +234,7 @@ class _DialogState extends State<_DialogPage> {
           ),
           Container(
             height: ScreenUtil().setWidth(62),
-            width: ScreenUtil().setWidth(width - 2 * contentPadding),
+            width: ScreenUtil().setWidth(_width - (_contentPadding * 2)),
             decoration: BoxDecoration(
               color: Color(0xFFF2F1F6),
               borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
@@ -260,6 +258,7 @@ class _DialogState extends State<_DialogPage> {
                   child: TextField(
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(22),
+                      color: Color(0xFF333333),
                     ),
                     keyboardType: TextInputType.number,
                     controller: _textEditingController,
@@ -282,8 +281,8 @@ class _DialogState extends State<_DialogPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: ScreenUtil().setWidth(btnWidth),
-                height: ScreenUtil().setWidth(btnHeight),
+                width: ScreenUtil().setWidth(_btnWidth),
+                height: ScreenUtil().setWidth(_btnHeight),
                 child: RaisedButton(
                   onPressed: ()
                   {
@@ -307,8 +306,8 @@ class _DialogState extends State<_DialogPage> {
                 ),
               ),
               Container(
-                width: ScreenUtil().setWidth(btnWidth),
-                height: ScreenUtil().setWidth(btnHeight),
+                width: ScreenUtil().setWidth(_btnWidth),
+                height: ScreenUtil().setWidth(_btnHeight),
                 child: RaisedButton(
                   onPressed: () {
                     if (_verificationCode
