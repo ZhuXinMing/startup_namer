@@ -11,21 +11,21 @@ typedef LeftOnConfirmListener = Function();
 
 /*
   //确认缺货
-  showConfirmStockDialog(){
-
+  //确认缺货
+  void showConfirmStockDialog() {
     ConfirmStockDialog.show(
         context: context,
         title: "确认缺货",
-        content: '1jljdljf;sfj;sflsjdf;ljks;fjs;lfj;slfsflkdjfl;sjf;sjf;',
-        verificationCode:'12345',
+        content: '请联系分拣经理，确认是否报缺。报缺后，待分拣的该商品将变为缺货状态。',
         rightButtonTitle: '确认报缺',
-        leftOnConfirmListener: (){
-            print('取消');
+        leftOnConfirmListener: () {
+          print('取消');
         },
-        rightOnConfirmListener: (){
-          print('右边按钮');
-    });
+        rightOnConfirmListener: () {
+          requestReportDeficiencyGoods();
+        });
   }
+
  */
 
 class ConfirmStockDialog extends Dialog {
@@ -34,8 +34,7 @@ class ConfirmStockDialog extends Dialog {
   final String title;
   //内容
   final String content;
-  //验证码
-  @required
+  //验证码，如果不传默认会是随机5位数
   final String verificationCode;
   //左边按钮文本
   @required
@@ -62,14 +61,13 @@ class ConfirmStockDialog extends Dialog {
       : this.title = title ?? '',
         this.leftButtonTitle = leftButtonTitle ?? '取消',
         this.rightButtonTitle = rightButtonTitle ?? '确认',
-        assert(verificationCode != null),
         super(key: key);
 
   static void show({
     @required BuildContext context,
     @required String title,
     String content,
-    @required String verificationCode,
+    String verificationCode,
     String leftButtonTitle = '取消',
     String rightButtonTitle = '确认',
     @required LeftOnConfirmListener leftOnConfirmListener,
@@ -149,7 +147,7 @@ class _DialogState extends State<_DialogPage> {
     String scopeC = '0123456789'; //中间
     String result = '';
     for (int i = 0; i < len; i++) {
-      if (i == 1) {
+      if (i == 0) {
         result = scopeF[Random().nextInt(scopeF.length)];
       } else {
         result = result + scopeC[Random().nextInt(scopeC.length)];
@@ -327,6 +325,7 @@ class _DialogState extends State<_DialogPage> {
                   child: Text(
                     widget.rightButtonTitle,
                     style: TextStyle(fontSize: ScreenUtil().setSp(20),
+                        fontWeight: FontWeight.normal
                     ),
                   ),
                   color: Color(0xffEF5D44),
