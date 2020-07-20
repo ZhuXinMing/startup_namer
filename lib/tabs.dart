@@ -74,7 +74,7 @@ class _TabsState extends State<Tabs> with Extensition{
           BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('首页')),
           BottomNavigationBarItem(icon: Icon(Icons.category), title: Text('分类')),
           BottomNavigationBarItem(icon: Icon(Icons.category), title: Text('报缺')),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('我的')),
+//          BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('我的')),
         ],
         selectedItemColor: Color(0xff307DF4),
         unselectedItemColor: Color(0xff34373A),

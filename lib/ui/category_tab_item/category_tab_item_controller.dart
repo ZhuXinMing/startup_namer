@@ -10,29 +10,49 @@ import 'package:flutter/material.dart';
 import '../category_tab_item/dialog_demos.dart';
 import '../category_tab_item/bottom_sheet_demos.dart';
 
+// DefaultTabController + TabBar + TabBarView
 
-class CategoryTabItemController extends StatelessWidget{
-
+class CategoryTabItemController extends StatelessWidget {
   final String title;
   CategoryTabItemController({
     Key key,
-    this.title = 'RaisedButtonDemo页面',
+    this.title = 'Demo页面',
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // 虽然上层已经有Scaffold了，但允许存在多次；/如果上层已经有appBar了，则不能有2个appBar；一般上层不设置；
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(this.title),
-      ),
-      body: _DemoPage(),
-    );
+    return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          // 注意：虽然上层已经有Scaffold了，但允许嵌套多次；但如果上层已经有appBar了，则不能2个appBar同时设置,不然会累加显示；
+          appBar: AppBar(
+            title: Row(
+              children: <Widget>[
+                Expanded(
+                    child: TabBar(
+                  tabs: <Widget>[
+                    Tab(
+                      text: '热门',
+                    ),
+                    Tab(
+                      text: '推荐',
+                    )
+                  ],
+                ))
+              ],
+            ),
+          ),
+          body: TabBarView(
+            children: <Widget>[
+              _DemoPage(),
+              DialogDemo(title: null),
+            ],
+          ),
+        ));
   }
 }
 
-class _DemoPage extends StatefulWidget{
-
+class _DemoPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -42,18 +62,7 @@ class _DemoPage extends StatefulWidget{
 
 //RaisedButton例子
 class _DemoState extends State<_DemoPage> {
-
-
-  void _pushDialogController(){
-
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (BuildContext context) {
-        return DialogDemo(title: null);
-      }));
-  }
-
-  void _pushBottomSheetDemoController(){
-
+  void _pushBottomSheetDemoController() {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
       return BottomSheetDemo(title: '标题传值');
@@ -67,10 +76,6 @@ class _DemoState extends State<_DemoPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            RaisedButton(
-              onPressed:_pushDialogController,
-              child: Text('跳转到Dialog'),
-            ),
             RaisedButton(
               onPressed: _pushBottomSheetDemoController,
               child: Text('跳转到BottomSheet'),
@@ -159,16 +164,15 @@ class _DemoState extends State<_DemoPage> {
               ),
             ),
             IconButton(
-              iconSize:21 ,
+              iconSize: 21,
               icon: Image.asset(
                 "assets/images/left@2x.png",
 //                  width: 21,
 //                  height:20,
 //                  alignment: Alignment.bottomRight,
               ),
-              onPressed:  () {
-
-              },)
+              onPressed: () {},
+            )
 //            Container(
 //              height: 30,
 //              width:31,

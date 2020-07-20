@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
             primaryColor: Color(0xff445279),
           ),
           home: MyHomePage(),
+          debugShowCheckedModeBanner: false,
         )
     );
   }

@@ -75,7 +75,23 @@ class _ReportedTabItemControllerState extends State<ReportedTabItemController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Flutter Demo')),
+      appBar: AppBar(
+        title: Text('title'),
+        //左侧配置
+        leading: IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: (){
+            }),
+        //右侧配置
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: (){
+
+              }),
+        ],
+        centerTitle: true,
+      ),
       floatingActionButton: FloatingActionButton(
         child: Text('10'),
         onPressed: () {},
