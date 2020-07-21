@@ -23,9 +23,9 @@ class BottomSheetDemo extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        title: Text(this.title),
-      ),
+//      appBar: AppBar(
+//        title: Text(this.title),
+//      ),
       body: _DemoPage(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

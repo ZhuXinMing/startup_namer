@@ -2,17 +2,31 @@
 
 //  商品库存列表
 
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
+/*
+  void _presentProductListDialog(){
+
+    List<GoodListModel> goods = _goodsArray.map((e) {
+      GoodListModel model = GoodListModel();
+      model.spuSpec = e.spuSpec;
+      model.spuId = e.spuId;
+      model.spuName = e.spuName;
+      return model;
+    }).toList();
+    ProduceListDialog.show(context: context, entries: goods);
+  }
+ */
+
 class ProduceListDialog extends Dialog {
-  @required
-  final List entries;
 
-  ProduceListDialog({Key key, List entries})
-      : this.entries = entries ?? [],
-        super(key: key);
+  @required final List<GoodListModel> entries;
 
+  ProduceListDialog({this.entries});
+
+  //如果为空，会传null给ConfirmStokDialog类的属性
   static void show({
     @required BuildContext context,
     @required List entries,
@@ -24,6 +38,7 @@ class ProduceListDialog extends Dialog {
           return ProduceListDialog(entries: entries);
         });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +54,7 @@ class ProduceListDialog extends Dialog {
 }
 
 class _DialogPage extends StatefulWidget {
-  final List entries;
+  final List<GoodListModel> entries;
   _DialogPage({this.entries = const []});
 
   @override
@@ -47,6 +62,7 @@ class _DialogPage extends StatefulWidget {
 }
 
 class _DialogState extends State<_DialogPage> {
+
   double width = 384;
   double height = 383;
 
@@ -55,7 +71,7 @@ class _DialogState extends State<_DialogPage> {
   double btnWidth = 336;
   double btnHeight = 52;
   //行高
-  double rowHeight = 25.0 + 10 * 2;
+  double rowHeight = 25.0+10*2;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +113,7 @@ class _DialogState extends State<_DialogPage> {
                       SizedBox(
                         width: ScreenUtil().setWidth(236),
                         child: Text(
-                          "(123456)商品名称商品名称商品名称",
+                          widget.entries !=null ?'(${widget.entries.elementAt(0).spuId})${widget.entries.elementAt(0).spuName}' :'',
                           style: TextStyle(
                             color: Color(0xff333333),
                             fontSize: ScreenUtil().setSp(18),
@@ -107,7 +123,7 @@ class _DialogState extends State<_DialogPage> {
                       ),
                       Expanded(
                         child: Text(
-                          "x${widget.entries != null ? widget.entries[index] : index}袋",
+                          widget.entries !=null ? "x${widget.entries.elementAt(0).spuSpec}" :'',
                           style: TextStyle(
                             color: Color(0xff333333),
                             fontSize: ScreenUtil().setSp(18),
@@ -136,7 +152,7 @@ class _DialogState extends State<_DialogPage> {
                   decoration: BoxDecoration(
                     color: const Color(0xffEF5D44),
                     borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(5)),
+                    BorderRadius.circular(ScreenUtil().setWidth(5)),
                   ),
                   child: Text(
                     "确定",
@@ -151,4 +167,17 @@ class _DialogState extends State<_DialogPage> {
       ),
     );
   }
+}
+
+class GoodListModel{
+  //id号
+  String spuId;
+  //名称
+  String spuName;
+  //数量
+  int stockNumber;
+  //标准单位
+  String baseUnitName;
+  //stockNumber和baseUnitName的组合字符串
+  String spuSpec;
 }

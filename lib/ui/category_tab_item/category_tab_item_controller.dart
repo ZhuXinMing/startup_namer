@@ -8,9 +8,10 @@
 ///
 import 'package:flutter/material.dart';
 import '../category_tab_item/dialog_demos.dart';
-import '../category_tab_item/bottom_sheet_demos.dart';
+import 'package:startupnamer/ui/category_tab_item/action_list_controller.dart';
+import 'package:startupnamer/ui/category_tab_item/bottom_sheet_demos.dart';
 
-// DefaultTabController + TabBar + TabBarView
+//DefaultTabController + TabBar + TabBarView
 
 class CategoryTabItemController extends StatelessWidget {
   final String title;
@@ -19,179 +20,35 @@ class CategoryTabItemController extends StatelessWidget {
     this.title = 'Demo页面',
   }) : super(key: key);
 
+  List<Widget> tabs = <Widget>[Tab(text: 'ActionListController'),Tab(text: '热门'), Tab(text: '推荐')];
+  List<Widget> tabBarViews = <Widget>[
+    ActionListController(),
+    DialogDemo(title: null),
+    BottomSheetDemo(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 2,
+        length: tabs.length,
         child: Scaffold(
           // 注意：虽然上层已经有Scaffold了，但允许嵌套多次；但如果上层已经有appBar了，则不能2个appBar同时设置,不然会累加显示；
           appBar: AppBar(
-            title: Row(
-              children: <Widget>[
-                Expanded(
-                    child: TabBar(
-                  tabs: <Widget>[
-                    Tab(
-                      text: '热门',
-                    ),
-                    Tab(
-                      text: '推荐',
-                    )
-                  ],
-                ))
-              ],
-            ),
+            title: Text(this.title),
+            bottom: TabBar(
+                tabs: tabs,
+                labelStyle:
+                    TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                unselectedLabelStyle:
+                    TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
+                indicatorColor: Color(0xffEF5D44),
+                indicatorWeight: 4,
+                indicatorSize: TabBarIndicatorSize.label),
           ),
           body: TabBarView(
-            children: <Widget>[
-              _DemoPage(),
-              DialogDemo(title: null),
-            ],
+            children: tabBarViews,
           ),
         ));
   }
 }
 
-class _DemoPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _DemoState();
-  }
-}
-
-//RaisedButton例子
-class _DemoState extends State<_DemoPage> {
-  void _pushBottomSheetDemoController() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) {
-      return BottomSheetDemo(title: '标题传值');
-    }));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-              onPressed: _pushBottomSheetDemoController,
-              child: Text('跳转到BottomSheet'),
-              padding: EdgeInsets.all(0),
-            ),
-            RaisedButton(
-              child: Text('有颜色按钮'),
-              color: Colors.blue,
-              textColor: Colors.white,
-              onPressed: () {},
-            ),
-            RaisedButton(
-              onPressed: () {},
-              child: Text('有阴影按钮'),
-              color: Colors.blue,
-              textColor: Colors.white,
-              elevation: 20,
-            ),
-            //圆形按钮-和头像一样
-            RaisedButton(
-              onPressed: () {},
-              child: Text('形状设置为圆'),
-              color: Colors.blue,
-              textColor: Colors.white,
-              elevation: 20,
-              shape: CircleBorder(
-                side: BorderSide(color: Colors.white),
-              ),
-            ),
-            //通过设置RaisedButton的父视图Container的宽度高度，来改变RaiseButton容器的宽度高度。
-            Container(
-              height: 35,
-              width: 200,
-              child: RaisedButton(
-                onPressed: () {},
-                child: Text(
-                  '指定宽度高度',
-                  style: TextStyle(fontSize: 13),
-                ),
-                color: Colors.blue,
-                textColor: Colors.white,
-                elevation: 20,
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            //在Row中使用Expanded让变成自适应宽度按钮
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                      height: 35,
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: RaisedButton(
-                        onPressed: () {},
-                        child: Text(
-                          '指定高度，使用Row+Expanded自适应宽度按钮',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                        color: Colors.blue,
-                        textColor: Colors.white,
-                        elevation: 20,
-                      )),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 35,
-              width: 200,
-              child: RaisedButton(
-                onPressed: () {},
-                child: Text(
-                  '指定宽高+设置圆角',
-                  style: TextStyle(fontSize: 13),
-                ),
-                color: Colors.blue,
-                textColor: Colors.white,
-                elevation: 20,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            IconButton(
-              iconSize: 21,
-              icon: Image.asset(
-                "assets/images/left@2x.png",
-//                  width: 21,
-//                  height:20,
-//                  alignment: Alignment.bottomRight,
-              ),
-              onPressed: () {},
-            )
-//            Container(
-//              height: 30,
-//              width:31,
-//              child: RaisedButton(
-//                onPressed: () {
-//
-//                },
-//                padding: EdgeInsets.all(0),
-//                child: Image.asset(
-//                  "images/1x/icon_left.png",
-//                  width: 21,
-//                  height:20,
-//                  alignment: Alignment.bottomRight,
-//                ),
-//              ),
-//            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
