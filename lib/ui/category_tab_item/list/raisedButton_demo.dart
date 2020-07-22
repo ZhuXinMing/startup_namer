@@ -9,8 +9,7 @@
 
 import 'package:flutter/material.dart';
 
-
-class RaisedButtonDemo extends StatelessWidget{
+class RaisedButtonDemo extends StatefulWidget{
 
   final String title;
   RaisedButtonDemo({
@@ -18,24 +17,6 @@ class RaisedButtonDemo extends StatelessWidget{
     this.title = 'RaisedButtonDemo页面',
   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(this.title),
-      ),
-      body: _DemoPage(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-    );
-  }
-}
-
-class _DemoPage extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState() {
@@ -45,11 +26,15 @@ class _DemoPage extends StatefulWidget{
 }
 
 //RaisedButton例子
-class _DemoState extends State<_DemoPage> {
+class _DemoState extends State<RaisedButtonDemo> {
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      appBar: AppBar(
+        title: Text('${widget.title}'),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

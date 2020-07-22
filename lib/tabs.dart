@@ -19,20 +19,26 @@ class Tabs extends StatefulWidget {
 class _TabsState extends State<Tabs> with Extensition{
 
   int _selectedIndex = 0;
-  List<Widget> _widgetOptions;
-  static const TextStyle optionStyle = TextStyle(
-      fontSize: 22,fontWeight: FontWeight.bold
-  );
+  List<Widget> _bodyList;
+
+
+  final _itmes =  [
+    BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('首页')),
+    BottomNavigationBarItem(icon: Icon(Icons.category), title: Text('分类')),
+    BottomNavigationBarItem(icon: Icon(Icons.category), title: Text('报缺')),
+//          BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('我的')),
+  ];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _widgetOptions = <Widget>[
+
+    _bodyList = <Widget>[
       HomePageTabItemController(delegate: this),
       CategoryTabItemController(),
       ReportedTabItemController(),
-      Text('Index 2 :我的',style: optionStyle,)
+      Text('Index 2 :我的')
     ];
   }
 
@@ -40,17 +46,8 @@ class _TabsState extends State<Tabs> with Extensition{
   void changeSelectIndex(int index){
     setState(() {
       _selectedIndex = index;
-//      _pageController.jumpToPage(_selectedIndex);
     });
   }
-
-
-
-  static const List<Widget> _widgetAppBarTitle = <Widget>[
-    Text('首页',style: optionStyle,),
-    Text('分类',style: optionStyle,),
-    Text('我的',style: optionStyle,)
-  ];
 
   //实现点击之后回调选中哪个；跟踪所选的[BottomNavigationBarItem]的索引，
   // 并调用'setState'根据新的[currentIndex]重建底部导航栏。
@@ -70,21 +67,14 @@ class _TabsState extends State<Tabs> with Extensition{
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: this._selectedIndex,
         onTap: _onItemTapped,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('首页')),
-          BottomNavigationBarItem(icon: Icon(Icons.category), title: Text('分类')),
-          BottomNavigationBarItem(icon: Icon(Icons.category), title: Text('报缺')),
-//          BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('我的')),
-        ],
+        items:_itmes,
         selectedItemColor: Color(0xff307DF4),
         unselectedItemColor: Color(0xff34373A),
         selectedFontSize: 10,
         unselectedFontSize: 10,
       ),
       //选中之后动态改变body的内容；一般是几个不同的页面；
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: _bodyList.elementAt(_selectedIndex),
 
     );
   }

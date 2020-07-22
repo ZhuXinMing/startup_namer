@@ -12,79 +12,80 @@ import 'package:startupnamer/General/bottomSheet/one_column_picker.dart';
 import 'package:startupnamer/General/bottomSheet/shift_quantity_selection_bottomSheet.dart';
 import 'package:startupnamer/General/bottomSheet/product_selection_bottomSheet.dart';
 
-class BottomSheetDemo extends StatelessWidget {
+
+class BottomSheetDemo extends StatefulWidget {
+
   final String title;
   BottomSheetDemo({
     Key key,
     this.title = 'BottomSheet页面',
   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-//      appBar: AppBar(
-//        title: Text(this.title),
-//      ),
-      body: _DemoPage(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-    );
-  }
-}
 
-class _DemoPage extends StatefulWidget {
   @override
-//  State<StatefulWidget> createState()=>_DemoState();
   State<StatefulWidget> createState() {
     // TODO: implement createState
     return _DemoState();
   }
 }
 
-class _DemoState extends State<_DemoPage> {
+class _DemoState extends State<BottomSheetDemo> with AutomaticKeepAliveClientMixin {
+
+  int _count = 0;
+
+  void _add() {
+    setState(() {
+      _count++;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          RaisedButton(
-            onPressed: _presentModelBottomSheetHeight,
-            child: Text('设置BottomSheet的child高度'),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          RaisedButton(
-            onPressed: _presentModelBottomSheet,
-            child: Text('ActionSheet底部弹出框-_modelBottomSheet'),
-          ),
-          RaisedButton(
-            child: Text('一列'),
-            color: Colors.blue,
-            textColor: Colors.white,
-            onPressed: _presentOneColumnPicker,
-          ),
-          RaisedButton(
-            onPressed: _presentShiftSelectionSheet,
-            child: Text('移位量选择弹窗'),
-            color: Colors.blue,
-            textColor: Colors.white,
-            elevation: 20,
-          ),
-          RaisedButton(
-            onPressed: _presentProductSelectionSheet,
-            child: Text('商品选择弹窗'),
-            color: Colors.blue,
-            textColor: Colors.white,
-            elevation: 20,
-          ),
-        ],
+    super.build(context);
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: _add,
+        child: Icon(Icons.add),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('测试加号值=${_count}'),
+            SizedBox(height: 10,),
+            RaisedButton(
+              onPressed: _presentModelBottomSheetHeight,
+              child: Text('设置BottomSheet的child高度'),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            RaisedButton(
+              onPressed: _presentModelBottomSheet,
+              child: Text('ActionSheet底部弹出框-_modelBottomSheet'),
+            ),
+            RaisedButton(
+              child: Text('一列'),
+              color: Colors.blue,
+              textColor: Colors.white,
+              onPressed: _presentOneColumnPicker,
+            ),
+            RaisedButton(
+              onPressed: _presentShiftSelectionSheet,
+              child: Text('移位量选择弹窗'),
+              color: Colors.blue,
+              textColor: Colors.white,
+              elevation: 20,
+            ),
+            RaisedButton(
+              onPressed: _presentProductSelectionSheet,
+              child: Text('商品选择弹窗'),
+              color: Colors.blue,
+              textColor: Colors.white,
+              elevation: 20,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -214,4 +215,8 @@ class _DemoState extends State<_DemoPage> {
         });
     print("result= $result");
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
