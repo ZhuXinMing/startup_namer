@@ -97,22 +97,29 @@ class _DemoState extends State<BottomSheetDemo> with AutomaticKeepAliveClientMix
       {
         "spuId": "123343435",
         "spuName": "萝卜,商品名称商品名称商品名称商品名称商品名称",
-        "remainNum": 3,
-        "num": 1,
+        "spuSpec": '3斤',
         "isSelected": true
       },
       {
         "spuId": "3434343435",
         "spuName": "土豆,商品名称商品名称商品名称商品名称商品名称",
-        "remainNum": 10,
-        "num": 1,
+        "spuSpec": '10斤',
         "isSelected": true
       }
     ];
-    ProductSelectionBottomSheet.show(
+   List<SelectGoodListModel> goods = entries.map((e) {
+     SelectGoodListModel model = SelectGoodListModel();
+     model.spuSpec = e['spuSpec'];
+     model.spuId = e['spuId'];
+     model.spuName = e["spuName"];
+     model.isSelected = e['isSelected'];
+     return model;
+   }).toList();
+
+   ProductSelectionBottomSheet.show(
         context: context,
         title: '商品选择',
-        entries: entries,
+        entries: goods,
         onConfirmListener: (List items) {
           print(items);
         });
@@ -124,14 +131,22 @@ class _DemoState extends State<BottomSheetDemo> with AutomaticKeepAliveClientMix
       {
         "spuId": "123343435",
         "spuName": "萝卜,商品名称商品名称商品名称商品名称商品名称",
-        "remainNum": 3,
-        "num": 1
+        "stockNumber": 3,
+        "changedNumber": 3
       }
     ];
+    List<ShiftNumberGoodListModel> models = entries.map((e) {
+      ShiftNumberGoodListModel model = ShiftNumberGoodListModel();
+      model.sourceNumber = e['stockNumber'];
+      model.changedNumber = e['changedNumber'];
+      model.spuId = e['spuId'];
+      model.spuName = e["spuName"];
+      return model;
+    }).toList();
     ShiftQuantitySelectionBottomSheet.show(
         context: context,
         title: '移位量选择',
-        entries: entries,
+        entries: models,
         onConfirmListener: (List items) {
           print(items);
         });
