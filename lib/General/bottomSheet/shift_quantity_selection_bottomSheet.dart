@@ -4,60 +4,77 @@
 ///   @date    : 2020/7/2 5:58 PM
 ///   @desc    :
 ///   @version : 1.0
-// 移位量选择
-//  逻辑没写；
+//    商品数量修改
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:math' as math;
 
-typedef OnConfirmListener = Function(List entries);
+typedef OnConfirmListener = Function(List<ShiftNumberGoodListModel>models);
 
 /*
-  //移位量选择弹窗
+//移位量选择
   _presentShiftSelectionSheet() {
-    List<Map> entries = [
-      {
-        "spuId": "123343435",
-        "spuName": "萝卜,商品名称商品名称商品名称商品名称商品名称",
-        "remainNum": 3,
-        "num": 1
-      }
-    ];
+
+    if(_selectGoodsArray  ==null || _selectGoodsArray.length ==0){
+      return;
+    }
+    List<ShiftNumberGoodListModel> models = _selectGoodsArray.map((e) {
+      ShiftNumberGoodListModel model = ShiftNumberGoodListModel();
+      model.spuId = e.spuId;
+      model.spuName = e.spuName;
+      model.sourceNumber = e.stockNumber;
+      model.changedNumber = e.changedNumber;
+      return model;
+    }).toList();
+
     ShiftQuantitySelectionBottomSheet.show(
         context: context,
         title: '移位量选择',
-        entries: entries,
-        onConfirmListener: (List items) {
-          print(items);
-        });
+        entries: models,
+        onConfirmListener: (List<ShiftNumberGoodListModel>models) {
+          print(models);
+          setState(() {
+            this._selectGoodsArray.forEach((element) {
+              int index = this._selectGoodsArray.indexOf(element);
+              element.changedNumber = models[index].changedNumber;
+            });
+            List<String> shiftQuantityStrings = this._selectGoodsArray.map((e){
+              String str = '（${e.spuId}）${e.changedNumber}${e.baseUnitName}';
+              return str;
+            }).toList();
+            _editingController3.text = shiftQuantityStrings.join(';');
+          });
 
+        });
+  }
  */
 
 
 // ignore: must_be_immutable
 class ShiftQuantitySelectionBottomSheet extends StatefulWidget {
   //标题
-  @required
-  String title;
-  //map数据的数组集合
-  List<Map> entries;
+  @required String title;
+  //列表数组集合
+  @required List<ShiftNumberGoodListModel> entries;
   //确定按钮事件回调
-  @required
-  final OnConfirmListener onConfirmListener;
+  @required final OnConfirmListener onConfirmListener;
 
   ShiftQuantitySelectionBottomSheet(
-      {Key key, String title, List<Map> entries, this.onConfirmListener})
+      { Key key,
+        String title,
+        List<ShiftNumberGoodListModel> entries,
+        this.onConfirmListener})
       : this.title = title ?? "",
-        this.entries = entries ?? List<Map>(),
+        this.entries = entries,
         super(key: key);
 
   static void show(
-      {@required BuildContext context,
-      String title,
-      List<Map> entries,
-      OnConfirmListener onConfirmListener}) {
+      { @required BuildContext context,
+        @required String title,
+        @required List<ShiftNumberGoodListModel> entries,
+        OnConfirmListener onConfirmListener}) {
 
     showModalBottomSheet(
         context: context,
@@ -108,7 +125,7 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
   //按钮大小
   double btnHeight = 64;
 
-  void showCenterShortToast() {
+  void showCenterShortToast({String msg}) {
     Fluttertoast.showToast(
         msg: "已达该商品待投量",
         toastLength: Toast.LENGTH_SHORT,
@@ -116,33 +133,26 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
         timeInSecForIosWeb: 1);
   }
 
-  void showMinusCenterShortToast() {
-    Fluttertoast.showToast(
-        msg: "已达最小量",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1);
-  }
 
   void _reduceAction(int index) {
     setState(() {
-      int a = widget.entries[index]['num'];
-      if (a == 1) {
-        showMinusCenterShortToast();
+      double a = widget.entries[index].changedNumber;
+      if (a <= 1.0) {
+        showCenterShortToast(msg:"已达最小量");
       } else {
-        widget.entries[index]['num'] = (a - 1);
+        widget.entries[index].changedNumber = (a - 1);
       }
     });
   }
 
   void _increaseAction(int index) {
     setState(() {
-      int r = widget.entries[index]['remainNum'];
-      int a = widget.entries[index]['num'];
-      if (a >= r) {
-        showCenterShortToast();
+      double from = widget.entries[index].sourceNumber;
+      double to = widget.entries[index].changedNumber;
+      if (to >= from) {
+        showCenterShortToast(msg:"已达该商品待投量");
       } else {
-        widget.entries[index]['num'] = (a + 1);
+        widget.entries[index].changedNumber = (to + 1);
       }
     });
   }
@@ -202,15 +212,14 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
                       ScreenUtil().setWidth(rowPaddingRight - reduceIconExtend),
                       0),
                   decoration: BoxDecoration(
-//                    color: Colors.white,
 //                    color: Colors.blue,
-                      ),
+                  ),
                   child: Row(
                     children: [
                       SizedBox(
-                        width: ScreenUtil().setWidth(305),
+                        width: ScreenUtil().setWidth(305-48*0.8),
                         child: Text(
-                          "(${widget.entries[index]['spuId']})${widget.entries[index]['spuName']}",
+                          "(${widget.entries[index].spuId})${widget.entries[index].spuName}",
                           style: TextStyle(
                             color: Color(0xff333333),
                             fontSize: ScreenUtil().setSp(20),
@@ -220,11 +229,11 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
                       ),
                       Expanded(child: SizedBox()),
                       Container(
-                        width: ScreenUtil().setWidth(reduceIconExtend +
-                            reduceIconWidth +
-                            48 +
-                            reduceIconWidth +
-                            reduceIconExtend),
+                        width: ScreenUtil().setWidth(reduceIconExtend
+                            + reduceIconWidth
+                            + 48 + 48*0.8
+                            + reduceIconWidth
+                            + reduceIconExtend),
                         height: ScreenUtil()
                             .setWidth(reduceIconHeight + reduceIconExtend * 2),
 //                        color: Colors.amber,
@@ -242,7 +251,7 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
                                 child: SizedBox(
                                   width: ScreenUtil().setWidth(reduceIconWidth),
                                   height:
-                                      ScreenUtil().setWidth(reduceIconHeight),
+                                  ScreenUtil().setWidth(reduceIconHeight),
                                   child: Image.asset(
                                     "assets/images/left@2x.png",
                                   ),
@@ -253,7 +262,7 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
                               },
                             ),
                             Container(
-                              width: ScreenUtil().setWidth(48),
+                              width: ScreenUtil().setWidth(48+48*0.8),
                               height: ScreenUtil().setWidth(reduceIconHeight),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
@@ -264,7 +273,8 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
                                       ),
                                       fit: BoxFit.fill)),
                               child: Text(
-                                widget.entries[index]['num'].toString(),
+                                widget.entries[index].changedNumber.toString(),
+                                maxLines: 1,
                                 style: TextStyle(
                                   fontSize: ScreenUtil().setSp(20),
                                   color: Color(0xFF333333),
@@ -322,7 +332,7 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
                   decoration: BoxDecoration(
                     color: const Color(0xffEF5D44),
                     borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(5)),
+                    BorderRadius.circular(ScreenUtil().setWidth(5)),
                   ),
                   child: Text(
                     '确定',
@@ -338,4 +348,15 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
       ),
     );
   }
+}
+
+class ShiftNumberGoodListModel {
+  //id
+  String spuId;
+  //名称
+  String spuName;
+  //源数量
+  double sourceNumber;
+  //修改后的数量,初始值 = 源数量
+  double changedNumber;
 }

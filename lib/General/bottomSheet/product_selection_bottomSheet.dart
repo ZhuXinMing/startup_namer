@@ -11,63 +11,72 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:math' as math;
 
-typedef OnConfirmListener = Function(List entries);
+typedef OnConfirmListener = Function(List<SelectGoodListModel> entries);
 
 /*
   //商品选择弹窗
   void _presentProductSelectionSheet() {
 
-   List<Map> entries = [
-      {
-        "spuId": "123343435",
-        "spuName": "萝卜,商品名称商品名称商品名称商品名称商品名称",
-        "remainNum": 3,
-        "num": 1,
-        "isSelected": true
-      },
-      {
-        "spuId": "3434343435",
-        "spuName": "土豆,商品名称商品名称商品名称商品名称商品名称",
-        "remainNum": 10,
-        "num": 1,
-        "isSelected": true
-      }
-    ];
+    if(_goodsArray  ==null || _goodsArray.length ==0){
+      return;
+    }
+    List<SelectGoodListModel> goods = _goodsArray.map((e) {
+      SelectGoodListModel model = SelectGoodListModel();
+      model.spuSpec = e.spuSpec;
+      model.spuId = e.spuId;
+      model.spuName = e.spuName;
+      model.isSelected = e.isSelected;
+      return model;
+    }).toList();
+
     ProductSelectionBottomSheet.show(
         context: context,
         title: '商品选择',
-        entries: entries,
-        onConfirmListener: (List items) {
-          print(items);
+        entries: goods,
+        onConfirmListener: (List<SelectGoodListModel> items) {
+           if(items.every((element) => !element.isSelected)){
+             ToastUtil.show(msg: '请选择商品');
+             return;
+           }
+           setState(() {
+                this._goodsArray.forEach((element) {
+                  int index = this._goodsArray.indexOf(element);
+                  element.isSelected = items[index].isSelected;
+                });
+                this._selectGoodsArray = this._goodsArray.where((element) =>
+                   element.isSelected
+                ).toList();
+                _editingController2.text =(this._goodsArray.length == this._selectGoodsArray.length) ?'全部':'部分';
+           });
         });
   }
  */
 
-
-// ignore: must_be_immutable
 class ProductSelectionBottomSheet extends StatelessWidget {
   //标题
   @required
   final String title;
+  @required
   //数据源数组
-  List<Map> entries;
+  final List<SelectGoodListModel> entries;
   //确定按钮事件回调
   @required
   final OnConfirmListener onConfirmListener;
 
-
   ProductSelectionBottomSheet(
-      {Key key, String title, List<Map> entries, this.onConfirmListener})
+      {Key key,
+        String title,
+        List<SelectGoodListModel> entries,
+        this.onConfirmListener})
       : this.title = title ?? "",
-        this.entries = entries ?? List<Map>(),
+        this.entries = entries,
         super(key: key);
 
   static void show(
       {@required BuildContext context,
-      String title,
-      List<Map> entries,
-      OnConfirmListener onConfirmListener}) {
-
+        @required String title,
+        @required List<SelectGoodListModel> entries,
+        @required OnConfirmListener onConfirmListener}) {
     showModalBottomSheet(
         context: context,
         //设置形状
@@ -97,7 +106,8 @@ class ProductSelectionBottomSheet extends StatelessWidget {
 class _BottomSheetPage extends StatefulWidget {
   @required
   final String title;
-  List<Map> entries;
+  @required
+  List<SelectGoodListModel> entries;
   @required
   final OnConfirmListener onConfirmListener;
 
@@ -118,12 +128,8 @@ class _BottomSheetState extends State<_BottomSheetPage> {
     // TODO: implement initState
     super.initState();
 
-    widget.allSelected =  widget.entries.every((element) => element['isSelected']);
-//    widget.entries.forEach((element) {
-//      element['isSelected'] = widget.allSelected;
-//    });
+    widget.allSelected = widget.entries.every((element) => element.isSelected);
   }
-
 
   double bottomSheetHeight = 412;
 
@@ -148,7 +154,6 @@ class _BottomSheetState extends State<_BottomSheetPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       height: ScreenUtil().setWidth(bottomSheetHeight),
       child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -168,84 +173,88 @@ class _BottomSheetState extends State<_BottomSheetPage> {
               ),
             ),
             Align(
-              alignment: Alignment.centerRight,
-              child:Container(
-                margin: EdgeInsets.only(right:ScreenUtil().setWidth(20-iconButtonPadding)),
-                height:ScreenUtil().setWidth(closeIconSize+2*iconButtonPadding),
-                width:ScreenUtil().setWidth(closeIconSize+2*iconButtonPadding),
-                child: IconButton(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  margin: EdgeInsets.only(
+                      right: ScreenUtil().setWidth(20 - iconButtonPadding)),
+                  height: ScreenUtil()
+                      .setWidth(closeIconSize + 2 * iconButtonPadding),
+                  width: ScreenUtil()
+                      .setWidth(closeIconSize + 2 * iconButtonPadding),
+                  child: IconButton(
 //                  splashRadius: 20,
-                    highlightColor: Colors.transparent,
-                    iconSize: ScreenUtil().setWidth(closeIconSize),
-                    icon: Image.asset(
-                      "assets/images/close_gray@2x.png",
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    }),
-              )
-            ),
+                      highlightColor: Colors.transparent,
+                      iconSize: ScreenUtil().setWidth(closeIconSize),
+                      icon: Image.asset(
+                        "assets/images/close_gray@2x.png",
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
+                )),
           ]),
         ),
         Expanded(
             child: ListView.separated(
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              height: ScreenUtil().setWidth(rowHeight),
-              padding: EdgeInsets.fromLTRB(
-                  ScreenUtil()
-                      .setWidth(rowPaddingLeft - iconButtonPadding),
-                  0,
-                  ScreenUtil().setWidth(rowPaddingRight),
-                  0),
-              decoration: BoxDecoration(
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: ScreenUtil().setWidth(rowHeight),
+                  padding: EdgeInsets.fromLTRB(
+                      ScreenUtil().setWidth(rowPaddingLeft - iconButtonPadding),
+                      0,
+                      ScreenUtil().setWidth(rowPaddingRight),
+                      0),
+                  decoration: BoxDecoration(
 //                    color: Colors.white,
 //                    color: Colors.blue,
                   ),
-              child: Row(
-                children: [
-                  Container(
-                    width: ScreenUtil().setWidth(selectIconSize+2*iconButtonPadding),
-                    height:ScreenUtil().setWidth(selectIconSize+2*iconButtonPadding),
-                    child: IconButton(
+                  child: Row(
+                    children: [
+                      Container(
+                        width: ScreenUtil()
+                            .setWidth(selectIconSize + 2 * iconButtonPadding),
+                        height: ScreenUtil()
+                            .setWidth(selectIconSize + 2 * iconButtonPadding),
+                        child: IconButton(
 //                      splashRadius:
 //                          selectIconSize / 2 + selectIconButtonPadding,
-                        highlightColor: Colors.transparent,
-                        iconSize: ScreenUtil().setWidth(selectIconSize),
-                        icon: _BottomSheetState.checkbox(
-                            widget.entries[index]['isSelected']),
-                        onPressed: () {
-                          setState(() {
-                            widget.entries[index]['isSelected'] =
-                            !widget.entries[index]['isSelected'];
-                            widget.allSelected = widget.entries.every((element) => element['isSelected']);
-                          });
-                        }),
-                  ),
-                  SizedBox(
-                    width: 2,
-                  ),
-                  Expanded(
-                    child: Text(
-                      "(${widget.entries[index]['spuId']})${widget.entries[index]['spuName']}",
-                      style: TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: ScreenUtil().setSp(20),
+                            highlightColor: Colors.transparent,
+                            iconSize: ScreenUtil().setWidth(selectIconSize),
+                            icon: _BottomSheetState.checkbox(
+                                widget.entries[index].isSelected),
+                            onPressed: () {
+                              setState(() {
+                                widget.entries[index].isSelected =
+                                !widget.entries[index].isSelected;
+                                widget.allSelected = widget.entries
+                                    .every((element) => element.isSelected);
+                              });
+                            }),
                       ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                      SizedBox(
+                        width: 2,
+                      ),
+                      Expanded(
+                        child: Text(
+                          "(${widget.entries[index].spuId})${widget.entries[index].spuName}",
+                          style: TextStyle(
+                            color: Color(0xff333333),
+                            fontSize: ScreenUtil().setSp(20),
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            );
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return SizedBox(
-              height: 2,
-            );
-          },
-          itemCount: widget.entries != null ? widget.entries.length : 0,
-        )),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                  height: 2,
+                );
+              },
+              itemCount: widget.entries != null ? widget.entries.length : 0,
+            )),
         Divider(
           height: 2,
         ),
@@ -259,18 +268,20 @@ class _BottomSheetState extends State<_BottomSheetPage> {
           child: Row(
             children: [
               Container(
-                width: ScreenUtil().setWidth(selectIconSize+2*iconButtonPadding),
-                height:ScreenUtil().setWidth(selectIconSize+2*iconButtonPadding),
+                width: ScreenUtil()
+                    .setWidth(selectIconSize + 2 * iconButtonPadding),
+                height: ScreenUtil()
+                    .setWidth(selectIconSize + 2 * iconButtonPadding),
                 child: IconButton(
                   highlightColor: Colors.transparent,
                   iconSize: ScreenUtil().setWidth(selectIconSize),
                   icon: _BottomSheetState.checkbox(
-                      widget.entries.every((element) => element['isSelected'])),
+                      widget.entries.every((element) => element.isSelected)),
                   onPressed: () {
                     setState(() {
                       widget.allSelected = !widget.allSelected;
                       widget.entries.forEach((element) {
-                        element['isSelected'] = widget.allSelected;
+                        element.isSelected = widget.allSelected;
                       });
                     });
                   },
@@ -278,7 +289,7 @@ class _BottomSheetState extends State<_BottomSheetPage> {
               ),
               Padding(
                 padding:
-                    EdgeInsets.fromLTRB(0, 0, ScreenUtil().setWidth(14), 0),
+                EdgeInsets.fromLTRB(0, 0, ScreenUtil().setWidth(14), 0),
                 child: Text(
                   '全选',
                   style: TextStyle(
@@ -300,7 +311,7 @@ class _BottomSheetState extends State<_BottomSheetPage> {
                       decoration: BoxDecoration(
                         color: const Color(0xffEF5D44),
                         borderRadius:
-                            BorderRadius.circular(ScreenUtil().setWidth(5)),
+                        BorderRadius.circular(ScreenUtil().setWidth(5)),
                       ),
                       child: Text(
                         '确定',
@@ -329,16 +340,25 @@ class _BottomSheetState extends State<_BottomSheetPage> {
           border: check
               ? null
               : Border.all(
-                  color: Color(0xff999999), width: ScreenUtil().setWidth(1.5)),
+              color: Color(0xff999999), width: ScreenUtil().setWidth(1.5)),
           shape: BoxShape.circle),
       alignment: Alignment.center,
       child: check
           ? Icon(
-              Icons.check,
-              color: Colors.white,
-              size: ScreenUtil().setWidth(20),
-            )
+        Icons.check,
+        color: Colors.white,
+        size: ScreenUtil().setWidth(20),
+      )
           : null,
     );
   }
+}
+
+class SelectGoodListModel {
+  String spuId;
+  String spuName;
+  double stockNumber;
+  String baseUnitName;
+  String spuSpec;
+  bool isSelected;
 }
