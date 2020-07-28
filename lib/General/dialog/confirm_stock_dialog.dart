@@ -277,67 +277,71 @@ class _DialogState extends State<_DialogPage> {
           Expanded(
             child: SizedBox(),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: ScreenUtil().setWidth(_btnWidth),
-                height: ScreenUtil().setWidth(_btnHeight),
-                child: RaisedButton(
-                  onPressed: ()
-                  {
-                    Navigator.pop(context);
-                    widget.leftOnConfirmListener();
-                  },
-                  child: Text(
-                    widget.leftButtonTitle,
-                    style: TextStyle(fontSize: ScreenUtil().setSp(20),fontWeight: FontWeight.normal),
-                  ),
-                  color: Colors.white,
-                  elevation: 0,
-                  highlightElevation: 0,
-                  disabledElevation: 0,
-                  textColor: Color(0xFF333333),
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                    BorderRadius.circular(ScreenUtil().setWidth(5)),
-                    side: BorderSide(color: Color(0xffCCCCCC), width: 1),
-                  ),
-                ),
-              ),
-              Container(
-                width: ScreenUtil().setWidth(_btnWidth),
-                height: ScreenUtil().setWidth(_btnHeight),
-                child: RaisedButton(
-                  onPressed: () {
-                    if (_verificationCode
-                        .compareTo(_textEditingController.text) !=
-                        0)
+          Container(
+//            color: Colors.amber,
+            child:Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: ScreenUtil().setWidth(_btnWidth),
+                  height: ScreenUtil().setWidth(_btnHeight),
+                  child: RaisedButton(
+                    onPressed: ()
                     {
-                      _showToast('请输入有效的验证码');
-                    }
-                    else {
                       Navigator.pop(context);
-                      widget.rightOnConfirmListener();
-                    }
-                  },
-                  child: Text(
-                    widget.rightButtonTitle,
-                    style: TextStyle(fontSize: ScreenUtil().setSp(20),
-                        fontWeight: FontWeight.normal
+                      widget.leftOnConfirmListener();
+                    },
+                    child: Text(
+                      widget.leftButtonTitle,
+                      style: TextStyle(fontSize: ScreenUtil().setSp(20),fontWeight: FontWeight.normal),
+                    ),
+                    color: Colors.white,
+                    elevation: 0,
+                    highlightElevation: 0,
+                    disabledElevation: 0,
+                    textColor: Color(0xFF333333),
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.circular(ScreenUtil().setWidth(5)),
+                      side: BorderSide(color: Color(0xffCCCCCC), width: 1),
                     ),
                   ),
-                  color: Color(0xffEF5D44),
-                  textColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                    BorderRadius.circular(ScreenUtil().setWidth(5)),
-                    side: BorderSide(color: Color(0xffEF5D44)),
+                ),
+                Container(
+                  width: ScreenUtil().setWidth(_btnWidth),
+                  height: ScreenUtil().setWidth(_btnHeight),
+                  child: RaisedButton(
+                    onPressed: () {
+                      if (_verificationCode
+                          .compareTo(_textEditingController.text) !=
+                          0)
+                      {
+                        _showToast('请输入有效的验证码');
+                      }
+                      else {
+                        Navigator.pop(context);
+                        widget.rightOnConfirmListener();
+                      }
+                    },
+                    child: Text(
+                      widget.rightButtonTitle,
+                      style: TextStyle(fontSize: ScreenUtil().setSp(20),
+                          fontWeight: FontWeight.normal
+                      ),
+                    ),
+                    color: Color(0xffEF5D44),
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.circular(ScreenUtil().setWidth(5)),
+                      side: BorderSide(color: Color(0xffEF5D44)),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          )
+              ],
+            ) ,
+          ),
+
         ],
       ),
     );

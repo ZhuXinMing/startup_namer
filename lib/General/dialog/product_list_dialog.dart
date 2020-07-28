@@ -24,12 +24,14 @@ class ProduceListDialog extends Dialog {
 
   @required final List<GoodListModel> entries;
 
-  ProduceListDialog({this.entries});
+  ProduceListDialog({this.entries}) {
+    print('');
+  }
 
   //如果为空，会传null给ConfirmStokDialog类的属性
   static void show({
     @required BuildContext context,
-    @required List entries,
+    @required List<GoodListModel> entries,
   }) {
     showDialog(
         context: context,
@@ -113,7 +115,7 @@ class _DialogState extends State<_DialogPage> {
                       SizedBox(
                         width: ScreenUtil().setWidth(236),
                         child: Text(
-                          widget.entries !=null ?'(${widget.entries.elementAt(0).spuId})${widget.entries.elementAt(0).spuName}' :'',
+                          widget.entries !=null ?'(${widget.entries.elementAt(index).spuId})${widget.entries.elementAt(index).spuName}' :'',
                           style: TextStyle(
                             color: Color(0xff333333),
                             fontSize: ScreenUtil().setSp(18),
@@ -123,7 +125,7 @@ class _DialogState extends State<_DialogPage> {
                       ),
                       Expanded(
                         child: Text(
-                          widget.entries !=null ? "x${widget.entries.elementAt(0).spuSpec}" :'',
+                          widget.entries !=null ? "x${widget.entries.elementAt(index).spuSpec}" :'',
                           style: TextStyle(
                             color: Color(0xff333333),
                             fontSize: ScreenUtil().setSp(18),

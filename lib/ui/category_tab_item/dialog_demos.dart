@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'FlutterToastController.dart';
 import '../../General/dialog/my_custom_dialog.dart';
 import '../../General/dialog/input_several_dialog.dart';
@@ -6,6 +7,8 @@ import '../../General/dialog/select_item_dialog.dart';
 import '../../General/dialog/product_list_dialog.dart';
 import '../../General/dialog/confirm_stock_dialog.dart';
 import '../../General/dialog/confirm_entry_product_dialog.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:startupnamer/General/dialog/textField_alert_dialog.dart';
 
 // ignore: must_be_immutable
 class DialogDemo extends StatelessWidget {
@@ -67,6 +70,44 @@ class _DemoState extends State<_DemoPage> {
       },
     );
     print("result= $result");
+  }
+
+  _presentCustomTextFieldAlertDialog(){
+
+    TextFieldAlertDialog.show(context: context, title:'请输入所需数量', onConfirmListener: (string){
+
+    });
+  }
+
+  _presentTextFieldAlertDialog() {
+
+    AlertDialog dialog = AlertDialog(
+      title: Text('请输入所需数量'),
+      titleTextStyle:TextStyle(
+          color:Colors.black ,
+          fontSize: ScreenUtil().setWidth(22),
+          fontWeight: FontWeight.bold
+      ) ,
+      titlePadding: EdgeInsets.fromLTRB(
+          ScreenUtil().setWidth(112),
+          ScreenUtil().setWidth(24),
+          ScreenUtil().setWidth(24), 0
+      ),
+      actions: <Widget>[
+        RaisedButton(onPressed: () {}, child: Text('Button 1')),
+        RaisedButton(onPressed: () {}, child: Text('Button 2')),
+      ],
+      actionsPadding: EdgeInsets.all(ScreenUtil().setWidth(24)),
+    );
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return  dialog;
+      },
+    );
+
+
   }
 
 // SimpleDialog
@@ -149,10 +190,19 @@ class _DemoState extends State<_DemoPage> {
     });
   }
   //商品列表
-  showProduceListDialog() {
+  void _presentProductListDialog(){
 
-    ProduceListDialog.show(context: context, entries: ['1', '2', '3', '12', '1', '2', '5', '5']);
+    List list =  ['1', '2', '3', '12', '1', '2', '5', '5'];
+    List<GoodListModel> goods = list.map((e) {
+      GoodListModel model = GoodListModel();
+      model.spuSpec = 'e.spuSpec';
+      model.spuId = 'e.spuId';
+      model.spuName = 'e.spuName';
+      return model;
+    }).toList();
+    ProduceListDialog.show(context: context, entries: goods);
   }
+
   //确认缺货
   showConfirmStockDialog(){
 
@@ -195,52 +245,59 @@ class _DemoState extends State<_DemoPage> {
     // TODO: implement build
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-              onPressed: _showAlertDialog,
-              child: Text('alert弹出框-AlertDialog'),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            RaisedButton(
-              child: Text('select弹出框-SimpleDialog'),
-              onPressed: _showSimpleDialog,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            RaisedButton(
-              onPressed: _pushToastView,
-              child: Text('toast-fluttertoast第三方库'),
-            ),
-            RaisedButton(
-              onPressed: showCustomDialog,
-              child: Text('自定义dialog'),
-            ),
-            RaisedButton(
-              onPressed: showCustomDialog2,
-              child: Text('自定义选择标签弹窗'),
-            ),
-            RaisedButton(
-              onPressed: showCustomInputDialog,
-              child: Text('自定义输入框dialog'),
-            ),
-            RaisedButton(
-              onPressed: showProduceListDialog,
-              child: Text('自定义列表dialog'),
-            ),
-            RaisedButton(
-              onPressed: showConfirmStockDialog,
-              child: Text('确认缺货输入dialog'),
-            ),
-            RaisedButton(
-              onPressed: showConfirmEntryProductDialog,
-              child: Text('商品录入确认dialog'),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                onPressed: _showAlertDialog,
+                child: Text('AlertDialog-alert弹出框'),
+              ),
+              RaisedButton(
+                onPressed:_presentTextFieldAlertDialog,
+                child: Text('AlertDialog改造-alert输入弹出框'),
+              ),
+              RaisedButton(
+                onPressed:_presentCustomTextFieldAlertDialog,
+                child: Text('自定义alert输入弹出框'),
+              ),
+              RaisedButton(
+                child: Text('SimpleDialog-select弹出框'),
+                onPressed: _showSimpleDialog,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              RaisedButton(
+                onPressed: _pushToastView,
+                child: Text('fluttertoast第三方库-toast'),
+              ),
+              RaisedButton(
+                onPressed: showCustomDialog,
+                child: Text('自定义dialog'),
+              ),
+              RaisedButton(
+                onPressed: showCustomDialog2,
+                child: Text('自定义选择标签弹窗'),
+              ),
+              RaisedButton(
+                onPressed: showCustomInputDialog,
+                child: Text('自定义输入框dialog'),
+              ),
+              RaisedButton(
+                onPressed: _presentProductListDialog,
+                child: Text('自定义列表dialog'),
+              ),
+              RaisedButton(
+                onPressed: showConfirmStockDialog,
+                child: Text('确认缺货输入dialog'),
+              ),
+              RaisedButton(
+                onPressed: showConfirmEntryProductDialog,
+                child: Text('商品录入确认dialog'),
+              ),
+            ],
+          ),
         ),
       ),
     );

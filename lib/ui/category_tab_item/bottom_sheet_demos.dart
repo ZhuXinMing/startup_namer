@@ -51,7 +51,13 @@ class _DemoState extends State<BottomSheetDemo> with AutomaticKeepAliveClientMix
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('测试加号值=${_count}'),
+            Text(
+                '测试加号值=${_count}',
+              style: TextStyle(
+                backgroundColor: Colors.brown,
+                fontSize: 20
+              ),
+            ),
             SizedBox(height: 10,),
             RaisedButton(
               onPressed: _presentModelBottomSheetHeight,
@@ -125,14 +131,14 @@ class _DemoState extends State<BottomSheetDemo> with AutomaticKeepAliveClientMix
         });
   }
 
-  //移位量选择弹窗
+  //商品数量修改弹窗
   _presentShiftSelectionSheet() {
     List<Map> entries = [
       {
         "spuId": "123343435",
         "spuName": "萝卜,商品名称商品名称商品名称商品名称商品名称",
-        "stockNumber": 3,
-        "changedNumber": 3
+        "stockNumber": 3.0,
+        "changedNumber": 3.0
       }
     ];
     List<ShiftNumberGoodListModel> models = entries.map((e) {

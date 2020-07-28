@@ -52,8 +52,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-//    ScreenUtil.init(context, width: 480, height: 854, allowFontScaling: false);
-    ScreenUtil.init(context, width: 375*2, height: 667*2, allowFontScaling: false);
+    ScreenUtil.init(context, width: 480, height: 854, allowFontScaling: false);
+//    ScreenUtil.init(context, width: 375*2, height: 667*2, allowFontScaling: false);
     return Tabs();
 //  return Center(child: Text('data'),);
   }

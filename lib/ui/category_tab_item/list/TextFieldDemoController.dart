@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:startupnamer/widgets/text_number_limit_formatter.dart';
 
 class TextFieldDemoController extends StatefulWidget {
   TextFieldDemoController({Key key}) : super(key: key);
@@ -93,7 +94,7 @@ class _TextFieldDemoPageState extends State<TextFieldDemoController> {
                 TextField(
                   decoration: InputDecoration(
                     icon: Icon(Icons.send),
-                    hintText: "设置icon属性，helper等",
+                    hintText: "设置icon属性，helper,hintText等",
                     helperText: "Helper Text",
                     counterText: "0 characters",
 //                  border: OutlineInputBorder(),
@@ -107,6 +108,16 @@ class _TextFieldDemoPageState extends State<TextFieldDemoController> {
                   decoration: InputDecoration(
                     hintText: "设置外边框",
                     border: OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: "设置labelText",
+                    border: OutlineInputBorder(),
+                    hintText:  "设置hintText",
                   ),
                 ),
                 SizedBox(
@@ -172,7 +183,14 @@ class _TextFieldDemoPageState extends State<TextFieldDemoController> {
                       style: TextStyle(
                         fontSize: 28.0,
                       ),
+                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                      inputFormatters: [TextNumberLimitFormatter(5,2)],
                       decoration: InputDecoration(
+//                        labelText:  "请输入份数",
+//                        labelStyle:TextStyle(
+//                          color: Color(0xff999999),
+//                          fontSize: 28.0,
+//                        ),
                         hintText: "请输入份数",
                         hintStyle: TextStyle(
                           color: Color(0xff999999),
@@ -181,18 +199,20 @@ class _TextFieldDemoPageState extends State<TextFieldDemoController> {
                         isDense: true,
                         contentPadding: EdgeInsets.fromLTRB(162, 15, 20, 15),
                         filled: true,
-                        fillColor: Color(0xffF2F1F6),
+                        fillColor:Colors.white,
                         border: OutlineInputBorder(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(5.0)),
                           borderSide: BorderSide(),
                         ),
+                        //默认情况下的边框
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            color: Color(0xFFDDDDDD),
+                            color: Colors.white,
                             width: 0.64,
                           ),
                         ),
+                        //有焦点的时候边框
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Colors.blue,
