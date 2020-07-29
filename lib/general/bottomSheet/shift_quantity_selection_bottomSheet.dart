@@ -1,17 +1,19 @@
+import 'package:flutter/material.dart';
 ///
 ///   @Name    : startup_namer/ shift_quantity_selection_sheet
 ///   @author  : simon
 ///   @date    : 2020/7/2 5:58 PM
 ///   @desc    :
 ///   @version : 1.0
-//    商品数量修改
+//    移位量选择
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'dart:math' as math;
+import 'package:startupnamer/General/dialog/textField_alert_dialog.dart';
 
 typedef OnConfirmListener = Function(List<ShiftNumberGoodListModel>models);
+
+typedef ChangeTextFieldTextListener = Function(int index,String text);
 
 /*
 //移位量选择
@@ -61,11 +63,14 @@ class ShiftQuantitySelectionBottomSheet extends StatefulWidget {
   //确定按钮事件回调
   @required final OnConfirmListener onConfirmListener;
 
+  final ChangeTextFieldTextListener changeTextFieldTextListener;
   ShiftQuantitySelectionBottomSheet(
       { Key key,
         String title,
         List<ShiftNumberGoodListModel> entries,
-        this.onConfirmListener})
+        this.onConfirmListener,
+        this.changeTextFieldTextListener,
+      })
       : this.title = title ?? "",
         this.entries = entries,
         super(key: key);
@@ -74,7 +79,9 @@ class ShiftQuantitySelectionBottomSheet extends StatefulWidget {
       { @required BuildContext context,
         @required String title,
         @required List<ShiftNumberGoodListModel> entries,
-        OnConfirmListener onConfirmListener}) {
+        OnConfirmListener onConfirmListener,
+        ChangeTextFieldTextListener changeTextFieldTextListener,
+      }) {
 
     showModalBottomSheet(
         context: context,
@@ -90,6 +97,7 @@ class ShiftQuantitySelectionBottomSheet extends StatefulWidget {
             title: title,
             entries: entries,
             onConfirmListener: onConfirmListener,
+            changeTextFieldTextListener: changeTextFieldTextListener,
           );
         });
   }
@@ -127,7 +135,7 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
 
   void showCenterShortToast({String msg}) {
     Fluttertoast.showToast(
-        msg: "已达该商品待投量",
+        msg:msg,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1);
@@ -150,16 +158,20 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
       double from = widget.entries[index].sourceNumber;
       double to = widget.entries[index].changedNumber;
       if (to >= from) {
-        showCenterShortToast(msg:"已达该商品待投量");
+        showCenterShortToast(msg:"已达该商品库存量");
       } else {
         widget.entries[index].changedNumber = (to + 1);
       }
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    final DefaultTextStyle defaultTextStyle = DefaultTextStyle.of(context);
+    TextOverflow overflow = defaultTextStyle.overflow;
+    print(overflow);//TextOverflow.clip
     return Container(
       height: ScreenUtil().setWidth(bottomSheetHeight),
       child: Column(
@@ -167,7 +179,7 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
         children: [
           Container(
             padding: EdgeInsets.only(top: 10.0),
-            height: ScreenUtil().setWidth(closeIconSize + 20 + 10),
+            height: ScreenUtil().setWidth(20.0 + closeIconSize + 10.0),
 //            color: Colors.amber,
             child: Stack(
               children: [
@@ -178,7 +190,7 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: ScreenUtil().setSp(22),
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.w500),
                   ),
                 ),
                 Align(
@@ -261,23 +273,30 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
                                 _reduceAction(index);
                               },
                             ),
-                            Container(
-                              width: ScreenUtil().setWidth(48+48*0.8),
-                              height: ScreenUtil().setWidth(reduceIconHeight),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-//                                    color: Colors.blue,
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                        "assets/images/mid@2x.png",
-                                      ),
-                                      fit: BoxFit.fill)),
-                              child: Text(
-                                widget.entries[index].changedNumber.toString(),
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(20),
-                                  color: Color(0xFF333333),
+                            GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: (){
+                                _changeTextFieldNumAction(index);
+                              },
+                              child: Container(
+                                width: ScreenUtil().setWidth(48+48*0.8),
+                                height: ScreenUtil().setWidth(reduceIconHeight),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                          "assets/images/mid@2x.png",
+                                        ),
+                                        fit: BoxFit.fill)
+                                ),
+                                child: Text(
+                                  widget.entries[index].changedNumber.toString(),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.clip,//默认值
+                                  style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(20),
+                                    color: Color(0xFF333333),
+                                  ),
                                 ),
                               ),
                             ),
@@ -339,7 +358,7 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: ScreenUtil().setSp(24),
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 )),
@@ -347,6 +366,24 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
         ],
       ),
     );
+  }
+
+  _changeTextFieldNumAction(int index){
+
+    if (widget.changeTextFieldTextListener != null) {
+
+      double number = widget.entries[index].changedNumber;
+      widget.changeTextFieldTextListener(index,number.toString());
+
+
+      TextFieldAlertDialog.show(context: context,
+          title: '请输入所需数量',
+          maxNum: widget.entries[index].sourceNumber,
+          minNum: 1.0,
+          onConfirmListener: (text){
+            widget.entries[index].changedNumber = double.parse(text);
+          });
+    }
   }
 }
 

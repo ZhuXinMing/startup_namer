@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 ///
 ///   @Name    : startup_namer/ product_selection_bottomSheet
 ///   @author  : simon
@@ -7,9 +8,6 @@
 ///
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'dart:math' as math;
 
 typedef OnConfirmListener = Function(List<SelectGoodListModel> entries);
 
@@ -107,11 +105,9 @@ class _BottomSheetPage extends StatefulWidget {
   @required
   final String title;
   @required
-  List<SelectGoodListModel> entries;
+  final List<SelectGoodListModel> entries;
   @required
   final OnConfirmListener onConfirmListener;
-
-  bool allSelected = true;
 
   _BottomSheetPage({this.title, this.entries, this.onConfirmListener});
 
@@ -123,13 +119,8 @@ class _BottomSheetPage extends StatefulWidget {
 }
 
 class _BottomSheetState extends State<_BottomSheetPage> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
 
-    widget.allSelected = widget.entries.every((element) => element.isSelected);
-  }
+  bool isAllSelected = true;
 
   double bottomSheetHeight = 412;
 
@@ -151,6 +142,15 @@ class _BottomSheetState extends State<_BottomSheetPage> {
 
   //按钮大小
   double btnHeight = 64;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    isAllSelected = widget.entries.every((element) => element.isSelected);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -226,7 +226,7 @@ class _BottomSheetState extends State<_BottomSheetPage> {
                               setState(() {
                                 widget.entries[index].isSelected =
                                 !widget.entries[index].isSelected;
-                                widget.allSelected = widget.entries
+                                isAllSelected = widget.entries
                                     .every((element) => element.isSelected);
                               });
                             }),
@@ -279,9 +279,9 @@ class _BottomSheetState extends State<_BottomSheetPage> {
                       widget.entries.every((element) => element.isSelected)),
                   onPressed: () {
                     setState(() {
-                      widget.allSelected = !widget.allSelected;
+                      isAllSelected = !isAllSelected;
                       widget.entries.forEach((element) {
-                        element.isSelected = widget.allSelected;
+                        element.isSelected = isAllSelected;
                       });
                     });
                   },
@@ -357,8 +357,10 @@ class _BottomSheetState extends State<_BottomSheetPage> {
 class SelectGoodListModel {
   String spuId;
   String spuName;
+  //数量
   double stockNumber;
   String baseUnitName;
   String spuSpec;
+  //是否选中
   bool isSelected;
 }

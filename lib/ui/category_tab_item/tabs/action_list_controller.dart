@@ -6,9 +6,8 @@
 ///   @version : 1.0
 
 import 'package:flutter/material.dart';
-import '../category_tab_item/bottom_sheet_demos.dart';
-import 'package:startupnamer/ui/category_tab_item/list/TextFieldDemoController.dart';
-import 'package:startupnamer/ui/category_tab_item/list/raisedButton_demo.dart';
+import 'package:startupnamer/ui/category_tab_item/tabs/list/TextFieldDemoController.dart';
+import 'package:startupnamer/ui/category_tab_item/tabs/list/raisedButton_demo.dart';
 
 
 class ActionListController extends StatefulWidget {

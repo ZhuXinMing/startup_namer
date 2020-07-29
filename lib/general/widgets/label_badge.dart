@@ -18,7 +18,7 @@ class LabelBadge extends StatefulWidget {
   //背景色
   final Color backgroundColor;
   //文本样式
-  TextStyle titleStyle;
+  final TextStyle titleStyle;
   //边框
   final BoxBorder border;
 

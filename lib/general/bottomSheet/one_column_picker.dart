@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 ///
 ///   @Name    : startup_namer/ one_column_picker
 ///   @author  : simon
@@ -7,8 +9,6 @@
 ///
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 typedef OnConfirmListener = Function(int selectIndex);
 
@@ -41,11 +41,11 @@ class OneColumnPicker extends StatelessWidget {
 
   OneColumnPicker(
       {Key key,
-      String title,
-      List<String> titleArray,
-      this.itemExtent = 48.0,
-      String onButtonTitle,
-      this.onConfirmListener})
+        String title,
+        List<String> titleArray,
+        this.itemExtent = 64.0,
+        String onButtonTitle,
+        this.onConfirmListener})
       : this.title = title ?? "",
         this.titleArray = titleArray ?? [],
         this.onButtonTitle = onButtonTitle ?? '确认',
@@ -53,10 +53,10 @@ class OneColumnPicker extends StatelessWidget {
 
   static void show(
       {@required BuildContext context,
-      @required String title,
-      @required List<String> titleArray,
-      String onButtonTitle,
-      @required OnConfirmListener onConfirmListener}) {
+        @required String title,
+        @required List<String> titleArray,
+        String onButtonTitle,
+        @required OnConfirmListener onConfirmListener}) {
     showModalBottomSheet(
         context: context,
         shape: RoundedRectangleBorder(
@@ -76,9 +76,9 @@ class OneColumnPicker extends StatelessWidget {
   }
 
   //关闭按钮大小
-  double closeIconSize = 30;
+  double closeIconSize = 30.0;
   //icon内间距
-  double iconButtonPadding = 8;
+  double iconButtonPadding = 8.0 + 5.0;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +89,8 @@ class OneColumnPicker extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            height: ScreenUtil().setWidth(30 + 20 + 20),
+//            color: Colors.amber,
+            height: ScreenUtil().setWidth(20.0 +30.0 + 20.0),
             child: Stack(
               children: [
                 Align(
@@ -105,11 +106,13 @@ class OneColumnPicker extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Container(
-                    margin: EdgeInsets.only(right:ScreenUtil().setWidth(20-iconButtonPadding)),
-                    height:ScreenUtil().setWidth(closeIconSize+2*iconButtonPadding),
-                    width:ScreenUtil().setWidth(closeIconSize+2*iconButtonPadding),
+                    margin: EdgeInsets.only(right:ScreenUtil().setWidth(20.0 - iconButtonPadding)),
+                    height:ScreenUtil().setWidth(closeIconSize + 2*iconButtonPadding),
+                    width:ScreenUtil().setWidth(closeIconSize + 2*iconButtonPadding),
+//                    color: Colors.brown,
                     child: IconButton(
                         iconSize: ScreenUtil().setWidth(closeIconSize),
+                        padding: EdgeInsets.all(ScreenUtil().setWidth(iconButtonPadding)) ,
                         icon: Image.asset(
                           "assets/images/close_gray@2x.png",
                         ),
@@ -168,7 +171,7 @@ class OneColumnPicker extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: const Color(0xffEF5D44),
                     borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(5)),
+                    BorderRadius.circular(ScreenUtil().setWidth(5)),
                   ),
                   child: Text(
                     onButtonTitle,

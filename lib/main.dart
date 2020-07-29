@@ -1,12 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
-import 'package:flutter/services.dart';
-import 'listData.dart';
-import 'General/dialog_nButton.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'ui/category_tab_item/list/TextFieldDemoController.dart';
-import 'package:startupnamer/ui/ListViewDemoController.dart';
 import 'tabs.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -1376,6 +1369,7 @@ class _MyFadeTest extends State<MyFadeTest> with TickerProviderStateMixin {
   @override
   void initState() {
     // TODO: implement initState
+    super.initState();
     controller = AnimationController(
         duration: const Duration(microseconds: 2000), vsync: this);
     curve = CurvedAnimation(parent: controller, curve: Curves.easeIn);

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 ///
 ///   @Name    : startup_namer/ textField_alert_dialog
 ///   @author  : simon
@@ -6,7 +7,8 @@
 ///   @version : 1.0
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:startupnamer/widgets/text_number_limit_formatter.dart';
 
 typedef OnConfirmListener = Function(String text);
 
@@ -25,6 +27,10 @@ class TextFieldAlertDialog extends Dialog {
   final TextStyle textFieldHintStyle;
   final EdgeInsetsGeometry actionsPadding;
 
+  final double maxNum;
+  final double minNum;
+
+
   TextFieldAlertDialog({
     Key key,
     String title,
@@ -37,6 +43,8 @@ class TextFieldAlertDialog extends Dialog {
     this.textFieldHintText,
     this.textFieldHintStyle,
     this.actionsPadding = EdgeInsets.zero,
+    this.maxNum,
+    this.minNum
   })  : this.title = title ?? '',
         super(key: key);
 
@@ -51,6 +59,8 @@ class TextFieldAlertDialog extends Dialog {
     final TextStyle textFieldPrefixStyle,
     final String textFieldHintText,
     final TextStyle textFieldHintStyle,
+    final double maxNum,
+    final double minNum
   }) {
     showDialog(
         context: context,
@@ -66,6 +76,8 @@ class TextFieldAlertDialog extends Dialog {
             textFieldPrefixStyle: textFieldPrefixStyle,
             textFieldHintText: textFieldHintText,
             textFieldHintStyle: textFieldHintStyle,
+            maxNum: maxNum,
+            minNum: minNum,
           );
         });
   }
@@ -85,6 +97,8 @@ class TextFieldAlertDialog extends Dialog {
           textFieldPrefixStyle: textFieldPrefixStyle,
           textFieldHintText: textFieldHintText,
           textFieldHintStyle: textFieldHintStyle,
+          maxNum: maxNum,
+          minNum: minNum,
         ),
       ),
     );
@@ -102,6 +116,8 @@ class _DialogPage extends StatefulWidget {
   final TextStyle textFieldPrefixStyle;
   final String textFieldHintText;
   final TextStyle textFieldHintStyle;
+  final double maxNum;
+  final double minNum;
 
   _DialogPage({
     this.title = "",
@@ -113,6 +129,8 @@ class _DialogPage extends StatefulWidget {
     this.textFieldPrefixStyle,
     this.textFieldHintText,
     this.textFieldHintStyle,
+    this.maxNum,
+    this.minNum
   });
 
   @override
@@ -124,17 +142,12 @@ class _DialogPage extends StatefulWidget {
 
 class _DialogPageState extends State<_DialogPage> {
   static double width = 384.0;
-  static double height = 240.0 + 13.0;
+  static double height = 240.0;
 
   TextEditingController _textEditingController = new TextEditingController();
 
   final EdgeInsetsGeometry contentPadding =
-      EdgeInsets.all(ScreenUtil().setWidth(24));
-  final EdgeInsetsGeometry actionPadding = EdgeInsets.fromLTRB(
-      ScreenUtil().setWidth(24),
-      0,
-      ScreenUtil().setWidth(24),
-      ScreenUtil().setWidth(24));
+  EdgeInsets.all(ScreenUtil().setWidth(24));
 
   @override
   void initState() {
@@ -153,18 +166,22 @@ class _DialogPageState extends State<_DialogPage> {
         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
       ),
       child: Column(
+//        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.fromLTRB(ScreenUtil().setWidth(24),
-                ScreenUtil().setWidth(24), ScreenUtil().setWidth(24), 0),
+            margin: EdgeInsets.fromLTRB(
+                ScreenUtil().setWidth(24),
+                ScreenUtil().setWidth(24),
+                ScreenUtil().setWidth(24),
+                0),
             child: Text(
               widget.title,
               style: widget.titleTextStyle != null
                   ? widget.titleTextStyle
                   : TextStyle(
-                      color: Colors.black,
-                      fontSize: ScreenUtil().setWidth(22),
-                      fontWeight: FontWeight.bold),
+                  color: Colors.black,
+                  fontSize: ScreenUtil().setWidth(22),
+                  fontWeight: FontWeight.w500),
             ),
           ),
           Container(
@@ -198,8 +215,10 @@ class _DialogPageState extends State<_DialogPage> {
                       child: TextField(
                         style: TextStyle(
                           fontSize: ScreenUtil().setSp(22),
+                          color: Color(0xFF333333),
                         ),
-                        keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                        inputFormatters: [TextNumberLimitFormatter(5,2)],
                         controller: _textEditingController,
                         onChanged: (value) {
 //                              _username.text = value;
@@ -217,8 +236,13 @@ class _DialogPageState extends State<_DialogPage> {
                 ),
               )),
           Container(
-            margin: actionPadding,
-            color: Colors.amber,
+            margin: EdgeInsets.fromLTRB(
+                ScreenUtil().setWidth(24),
+                0,
+                ScreenUtil().setWidth(24),
+                0),
+//            color: Colors.amber,
+            height:ScreenUtil().setWidth(52) ,
             child: ButtonBar(
               alignment: MainAxisAlignment.spaceBetween,
               buttonPadding: EdgeInsets.all(0),
@@ -242,15 +266,12 @@ class _DialogPageState extends State<_DialogPage> {
                   textColor: Color(0xFF333333),
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(5)),
+                    BorderRadius.circular(ScreenUtil().setWidth(5)),
                     side: BorderSide(color: Color(0xffCCCCCC), width: 1),
                   ),
                 ),
                 RaisedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    widget.onConfirmListener(_textEditingController.text);
-                  },
+                  onPressed: () {_onButtonAction();},
                   child: Text(
                     '确定',
                     style: TextStyle(
@@ -261,7 +282,7 @@ class _DialogPageState extends State<_DialogPage> {
                   textColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(5)),
+                    BorderRadius.circular(ScreenUtil().setWidth(5)),
                     side: BorderSide(color: Color(0xffEF5D44)),
                   ),
                 ),
@@ -272,4 +293,32 @@ class _DialogPageState extends State<_DialogPage> {
       ),
     );
   }
+
+  _onButtonAction(){
+    String text = _textEditingController.text;
+    if(text.isEmpty){
+      return;
+    }
+    double num = double.parse(text);
+    if(widget.maxNum != null && widget.maxNum<num){
+      showCenterShortToast(msg:"已达该商品库存量");
+      return;
+    }
+    if(widget.minNum != null && widget.minNum>num){
+      showCenterShortToast(msg:"已达最小量");
+      return;
+    }
+    Navigator.pop(context);
+    widget.onConfirmListener(_textEditingController.text);
+    return;
+  }
+
+  void showCenterShortToast({String msg}) {
+    Fluttertoast.showToast(
+        msg:msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1);
+  }
+
 }

@@ -24,7 +24,7 @@ class LayoutDemo extends StatelessWidget{
 
 class DialogNButton extends StatelessWidget {
 
-  String title;
+  final String title;
   final GestureTapCallback onTap;
 
   DialogNButton({

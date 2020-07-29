@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 class MyDialog extends Dialog {
 
-  String title;
-  String content;
+  final String title;
+  final String content;
   MyDialog({
     Key key,
     this.title = "",

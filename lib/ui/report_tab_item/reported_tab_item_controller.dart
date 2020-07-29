@@ -7,10 +7,6 @@ import 'package:flutter/cupertino.dart';
 ///   @version : 1.0
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
-import 'reported_stockout_controller.dart';
-import 'package:startupnamer/utils/log_util.dart';
-
 import 'dart:convert';
 import 'package:dio/dio.dart';
 
@@ -112,7 +108,7 @@ class _ReportedTabItemControllerState extends State<ReportedTabItemController> {
             }else if(mode == LoadStatus.canLoading){
               body = Text('release to load more');
             }else{
-              body == Text('No more Data');
+              body = Text('No more Data');
             }
             return Container(
               height: 55.0,

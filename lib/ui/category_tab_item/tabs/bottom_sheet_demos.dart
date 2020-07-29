@@ -6,7 +6,6 @@
 ///   @version : 1.0
 ///
 
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:startupnamer/General/bottomSheet/one_column_picker.dart';
 import 'package:startupnamer/General/bottomSheet/shift_quantity_selection_bottomSheet.dart';
@@ -52,7 +51,7 @@ class _DemoState extends State<BottomSheetDemo> with AutomaticKeepAliveClientMix
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-                '测试加号值=${_count}',
+                '测试加号值=$_count',
               style: TextStyle(
                 backgroundColor: Colors.brown,
                 fontSize: 20

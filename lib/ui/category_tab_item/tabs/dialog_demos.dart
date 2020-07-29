@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'FlutterToastController.dart';
-import '../../General/dialog/my_custom_dialog.dart';
-import '../../General/dialog/input_several_dialog.dart';
-import '../../General/dialog/select_item_dialog.dart';
-import '../../General/dialog/product_list_dialog.dart';
-import '../../General/dialog/confirm_stock_dialog.dart';
-import '../../General/dialog/confirm_entry_product_dialog.dart';
+import '../../../general/dialog/my_custom_dialog.dart';
+import '../../../general/dialog/input_several_dialog.dart';
+import '../../../general/dialog/select_item_dialog.dart';
+import '../../../general/dialog/product_list_dialog.dart';
+import '../../../general/dialog/confirm_stock_dialog.dart';
+import '../../../general/dialog/confirm_entry_product_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:startupnamer/General/dialog/textField_alert_dialog.dart';
+import 'package:startupnamer/general/dialog/textField_alert_dialog.dart';
 
 // ignore: must_be_immutable
 class DialogDemo extends StatelessWidget {

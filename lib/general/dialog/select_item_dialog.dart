@@ -122,7 +122,6 @@ class SelectItemDialogState extends State<SelectItemDialogPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    double bottomContentHeight = height - topContentHeight - 10;
 
     return Container(
       width: ScreenUtil().setWidth(width),
