@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:startupnamer/General/dialog/textField_alert_dialog.dart';
+import 'package:startupnamer/general/dialog/textField_alert_dialog.dart';
 
 typedef OnConfirmListener = Function(List<ShiftNumberGoodListModel>models);
 
@@ -376,10 +376,12 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
       widget.changeTextFieldTextListener(index,number.toString());
 
 
-      TextFieldAlertDialog.show(context: context,
-          title: '请输入所需数量',
-          maxNum: widget.entries[index].sourceNumber,
-          minNum: 1.0,
+      TextFieldAlertDialog.showTextFieldAlert(context: context,
+          title: Text('请输入所需数量'),
+          content:ZXCustomTextField(
+            maxNum: widget.entries[index].sourceNumber,
+            minNum: 0.01,
+          ),
           onConfirmListener: (text){
             widget.entries[index].changedNumber = double.parse(text);
           });

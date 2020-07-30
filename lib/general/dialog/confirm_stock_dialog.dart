@@ -46,6 +46,8 @@ class ConfirmStockDialog extends Dialog {
   //右边按钮事件回调
   @required
   final RightOnConfirmListener rightOnConfirmListener;
+  //取消按钮是否在左边，或在右边；
+  final bool cancleConfirmIsLeft;
 
   const ConfirmStockDialog(
       {Key key,
@@ -55,10 +57,13 @@ class ConfirmStockDialog extends Dialog {
         String leftButtonTitle,
         String rightButtonTitle,
         this.leftOnConfirmListener,
-        this.rightOnConfirmListener})
+        this.rightOnConfirmListener,
+        bool cancleConfirmIsLeft
+      })
       : this.title = title ?? '',
         this.leftButtonTitle = leftButtonTitle ?? '取消',
         this.rightButtonTitle = rightButtonTitle ?? '确认',
+        this.cancleConfirmIsLeft = cancleConfirmIsLeft ?? true,
         super(key: key);
 
   static void show({
@@ -70,6 +75,7 @@ class ConfirmStockDialog extends Dialog {
     String rightButtonTitle = '确认',
     @required LeftOnConfirmListener leftOnConfirmListener,
     @required RightOnConfirmListener rightOnConfirmListener,
+    final bool cancleConfirmIsLeft,
   }) {
     showDialog(
         context: context,
@@ -83,6 +89,7 @@ class ConfirmStockDialog extends Dialog {
             rightButtonTitle: rightButtonTitle,
             leftOnConfirmListener: leftOnConfirmListener,
             rightOnConfirmListener: rightOnConfirmListener,
+            cancleConfirmIsLeft: cancleConfirmIsLeft,
           );
         });
   }
@@ -100,6 +107,7 @@ class ConfirmStockDialog extends Dialog {
             rightButtonTitle: rightButtonTitle,
             leftOnConfirmListener: leftOnConfirmListener,
             rightOnConfirmListener: rightOnConfirmListener,
+            cancleConfirmIsLeft: cancleConfirmIsLeft,
           )),
     );
   }
@@ -114,6 +122,7 @@ class _DialogPage extends StatefulWidget {
   final String rightButtonTitle;
   final RightOnConfirmListener rightOnConfirmListener;
   final LeftOnConfirmListener leftOnConfirmListener;
+  final bool cancleConfirmIsLeft;
 
   const _DialogPage(
       {this.title,
@@ -122,7 +131,9 @@ class _DialogPage extends StatefulWidget {
         this.leftButtonTitle,
         this.rightButtonTitle,
         this.leftOnConfirmListener,
-        this.rightOnConfirmListener});
+        this.rightOnConfirmListener,
+        this.cancleConfirmIsLeft
+      });
 
   @override
   State<StatefulWidget> createState() => _DialogState();
@@ -288,8 +299,7 @@ class _DialogState extends State<_DialogPage> {
                   child: RaisedButton(
                     onPressed: ()
                     {
-                      Navigator.pop(context);
-                      widget.leftOnConfirmListener();
+                      widget.cancleConfirmIsLeft ?  cancleAction() :onAction();
                     },
                     child: Text(
                       widget.leftButtonTitle,
@@ -312,16 +322,7 @@ class _DialogState extends State<_DialogPage> {
                   height: ScreenUtil().setWidth(_btnHeight),
                   child: RaisedButton(
                     onPressed: () {
-                      if (_verificationCode
-                          .compareTo(_textEditingController.text) !=
-                          0)
-                      {
-                        _showToast('请输入有效的验证码');
-                      }
-                      else {
-                        Navigator.pop(context);
-                        widget.rightOnConfirmListener();
-                      }
+                       widget.cancleConfirmIsLeft ? onAction() :cancleAction();
                     },
                     child: Text(
                       widget.rightButtonTitle,
@@ -345,5 +346,24 @@ class _DialogState extends State<_DialogPage> {
         ],
       ),
     );
+  }
+
+  void cancleAction(){
+    Navigator.pop(context);
+    widget.leftOnConfirmListener();
+  }
+
+  void onAction(){
+
+    if (_verificationCode
+        .compareTo(_textEditingController.text) !=
+        0)
+    {
+      _showToast('请输入有效的验证码');
+    }
+    else {
+      Navigator.pop(context);
+      widget.rightOnConfirmListener();
+    }
   }
 }

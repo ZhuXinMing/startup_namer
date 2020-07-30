@@ -74,9 +74,19 @@ class _DemoState extends State<_DemoPage> {
 
   _presentCustomTextFieldAlertDialog(){
 
-    TextFieldAlertDialog.show(context: context, title:'请输入所需数量', onConfirmListener: (string){
+    TextFieldAlertDialog.showTextFieldAlert(
+        context: context,
+        title: Text('请输入所需数量'),
+        content: Text('请输入所需数量,请输入所需数量'),
+        textField: ZXCustomTextField(
+          prefixText: '商品数量',
+          maxNum: 100,
+          minNum: 0.01,
+        ),
+        onConfirmListener: (string){
 
-    });
+        }
+    );
   }
 
   _presentTextFieldAlertDialog() {
@@ -86,10 +96,10 @@ class _DemoState extends State<_DemoPage> {
       titleTextStyle:TextStyle(
           color:Colors.black ,
           fontSize: ScreenUtil().setWidth(22),
-          fontWeight: FontWeight.bold
+          fontWeight: FontWeight.w500
       ) ,
       titlePadding: EdgeInsets.fromLTRB(
-          ScreenUtil().setWidth(112),
+          ScreenUtil().setWidth(110),
           ScreenUtil().setWidth(24),
           ScreenUtil().setWidth(24), 0
       ),
@@ -98,6 +108,7 @@ class _DemoState extends State<_DemoPage> {
         RaisedButton(onPressed: () {}, child: Text('Button 2')),
       ],
       actionsPadding: EdgeInsets.all(ScreenUtil().setWidth(24)),
+      backgroundColor: Colors.brown,
     );
 
     showDialog(
@@ -212,6 +223,7 @@ class _DemoState extends State<_DemoPage> {
         content: '1jljdljf;sfj;sflsjdf;ljks;fjs;lfj;slfsflkdjfl;sjf;sjf;',
         verificationCode:'12345',
         rightButtonTitle: '确认报缺',
+        cancleConfirmIsLeft: false,
         leftOnConfirmListener: (){
             print('取消');
         },
