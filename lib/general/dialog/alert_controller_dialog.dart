@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:flutter/material.dart';
 
 ///
 ///   @Name    : startup_namer/ textField_alert_dialog
@@ -9,13 +6,17 @@ import 'package:flutter/material.dart';
 ///   @desc    :
 ///   @version : 1.0
 
+// 2020.7.30 修改
+
+import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:startupnamer/widgets/text_number_limit_formatter.dart';
 
 typedef OnConfirmListener = Function(String text);
 
-class TextFieldAlertDialog extends Dialog {
+class UIAlertControllerDialog extends Dialog {
   @required
   final Widget title;
   // 如果没有title标题，则不会提供填充，否则，此填充被使用。EdgeInsets.fromLTRB(24.0, 24.0, 24.0, content == null ? 20.0 : 0.0)
@@ -51,7 +52,7 @@ class TextFieldAlertDialog extends Dialog {
 
   List<ZXCustomTextField>textFields = List();
 
-  TextFieldAlertDialog(
+  UIAlertControllerDialog(
       {Key key,
       this.title,
       this.titlePadding,
@@ -88,7 +89,7 @@ class TextFieldAlertDialog extends Dialog {
     final ZXCustomTextField textField,
   }) {
 
-    TextFieldAlertDialog dialog = TextFieldAlertDialog(
+    UIAlertControllerDialog dialog = UIAlertControllerDialog(
       title: title,
       titlePadding: titlePadding,
       titleTextStyle: titleTextStyle,
@@ -190,6 +191,7 @@ class _DialogPage extends StatefulWidget {
 }
 
 class _DialogPageState extends State<_DialogPage> {
+
   final EdgeInsetsGeometry contentPadding =
       EdgeInsets.all(ScreenUtil().setWidth(24));
 

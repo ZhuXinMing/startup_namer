@@ -5,10 +5,10 @@ import '../../../general/dialog/my_custom_dialog.dart';
 import '../../../general/dialog/input_several_dialog.dart';
 import '../../../general/dialog/select_item_dialog.dart';
 import '../../../general/dialog/product_list_dialog.dart';
-import '../../../general/dialog/confirm_stock_dialog.dart';
+import '../../../general/dialog/confirm_verification_dialog.dart';
 import '../../../general/dialog/confirm_entry_product_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:startupnamer/general/dialog/textField_alert_dialog.dart';
+import 'package:startupnamer/general/dialog/alert_controller_dialog.dart';
 
 // ignore: must_be_immutable
 class DialogDemo extends StatelessWidget {
@@ -74,7 +74,7 @@ class _DemoState extends State<_DemoPage> {
 
   _presentCustomTextFieldAlertDialog(){
 
-    TextFieldAlertDialog.showTextFieldAlert(
+    UIAlertControllerDialog.showTextFieldAlert(
         context: context,
         title: Text('请输入所需数量'),
         content: Text('请输入所需数量,请输入所需数量'),
@@ -217,13 +217,13 @@ class _DemoState extends State<_DemoPage> {
   //确认缺货
   showConfirmStockDialog(){
 
-    ConfirmStockDialog.show(
+    ConfirmVerificationDialog.show(
         context: context,
         title: "确认缺货",
         content: '1jljdljf;sfj;sflsjdf;ljks;fjs;lfj;slfsflkdjfl;sjf;sjf;',
         verificationCode:'12345',
         rightButtonTitle: '确认报缺',
-        cancleConfirmIsLeft: false,
+        cancleConfirmIsLeft: true,
         leftOnConfirmListener: (){
             print('取消');
         },
