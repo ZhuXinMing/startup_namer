@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 ///
 ///   @Name    : startup_namer/ shift_quantity_selection_sheet
 ///   @author  : simon
@@ -6,8 +5,9 @@ import 'package:flutter/material.dart';
 ///   @desc    :
 ///   @version : 1.0
 //    移位量选择
-// 2020.7.30 修改
+/// 8.6 调整iconButtonPadding大小，增加用户体验；
 
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:startupnamer/general/dialog/alert_controller_dialog.dart';
@@ -180,7 +180,7 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
         children: [
           Container(
             padding: EdgeInsets.only(top: 10.0),
-            height: ScreenUtil().setWidth(20.0 + closeIconSize + 10.0),
+            height: ScreenUtil().setWidth(10.0 + 10.0 + closeIconSize + 10.0),
 //            color: Colors.amber,
             child: Stack(
               children: [
@@ -201,6 +201,10 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
                       icon: Image.asset(
                         "assets/images/close_gray@2x.png",
                       ),
+                      constraints: BoxConstraints(),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: ScreenUtil().setWidth(20),
+                          vertical: ScreenUtil().setWidth(8)),
                       onPressed: () {
                         Navigator.pop(context);
                       }),
@@ -379,7 +383,7 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
 
       UIAlertControllerDialog.showTextFieldAlert(context: context,
           title: Text('请输入所需数量'),
-          content:ZXCustomTextField(
+          content: ZXCustomTextField(
             maxNum: widget.entries[index].sourceNumber,
             minNum: 0.01,
           ),

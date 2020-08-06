@@ -11,6 +11,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 class ReportedTabItemController extends StatefulWidget {
   @override
@@ -27,9 +29,25 @@ class _ReportedTabItemControllerState extends State<ReportedTabItemController> {
   //下拉刷新
   void _onRefresh() async{
 
-    _dataMArray.clear();
-    await _dioRequestData();
-    _refreshController.refreshCompleted();
+    _dioRequestData().then((value) {
+
+      _dataMArray.clear();
+      Map map= jsonDecode(value.toString());
+      print('value = ${map?.toString()}');
+      var jsonResponse = json.decode(value.toString());
+      setState(() {
+        this._dataMArray.addAll(jsonResponse['results']) ;
+      });
+
+    }).catchError((error){
+      _refreshController.refreshFailed();
+      print('error = $error');
+      showCenterShortToast(error.toString());
+    }).whenComplete(() {
+
+      _refreshController.refreshCompleted();
+      print('error = 111');
+    });
   }
 
   //上拉加载更多
@@ -43,30 +61,40 @@ class _ReportedTabItemControllerState extends State<ReportedTabItemController> {
     _refreshController.loadComplete();
   }
 
+  void showCenterShortToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1);
+  }
+
   @override
   void initState() {
     super.initState();
   }
 
   //请求数据
-  _dioRequestData() async {
+   Future<Response> _dioRequestData() async{
     var baseUrl = "https://itunes.apple.com/cn";
     Map<String, dynamic> jsonData = {"id": '1180821282'};
     Dio dio = Dio();
     dio.options.baseUrl = baseUrl;
-    dio.options.connectTimeout = 5000;
-    dio.options.receiveTimeout = 3000;
-    Response response = await dio.post('/lookup', data: jsonData, queryParameters: jsonData);
+    dio.options.connectTimeout = 10000;
+    dio.options.receiveTimeout = 10000;
+    return await dio.post('/lookup', data: jsonData, queryParameters: jsonData);
 
-    if (response.statusCode == 200) {
-      var jsonResponse = json.decode(response.data);
-      print(response.data);
-      setState(() {
-        this._dataMArray.addAll(jsonResponse['results']) ;
-      });
-    } else {
-      print(response.statusCode);
-    }
+//    return dio.post('/lookup', data: jsonData, queryParameters: jsonData);
+
+//    if (response.statusCode == 200) {
+//      var jsonResponse = json.decode(response.data);
+//      print(response.data);
+//      setState(() {
+//        this._dataMArray.addAll(jsonResponse['results']) ;
+//      });
+//    } else {
+//      print(response.statusCode);
+//    }
   }
   @override
   Widget build(BuildContext context) {

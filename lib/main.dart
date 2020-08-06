@@ -15,13 +15,26 @@ class MyApp extends StatelessWidget {
       headerTriggerDistance: 80,
         headerBuilder: ()=> MaterialClassicHeader(),
         footerBuilder: ()=> ClassicFooter(),
-        enableLoadingWhenNoData: false,
+//       如果达到triggerDistance(触发距离)，是否需要开始刷新;默认false；//不懂
+         skipCanRefresh:false,
+//       当视窗少于一个屏幕时，隐藏footerView，禁用上拉功能以加载更多的功能；默认false；
+        hideFooterWhenNotFull: false,
+//       footer(页脚)是否在idle(空闲时)通过达到footerDistance(页脚距离)触发加载;默认true；
+//如果false，则上拉不会触发Loading加载更多回调；
+        autoLoad: true,
+//        用户是否可以拖动viewport(视窗),当有两层；默认true。
+        enableScrollWhenTwoLevel: true,
+//        用户是否可以拖动viewport(视窗)，当refreshComplete（刷新完成）和弹回时。默认false；
         //这个属性不兼容PageView和TabBarView,如果你特别需要TabBarView左右滑动,你需要把它设置为true
         enableScrollWhenRefreshCompleted: true,
-        // 可以通过惯性滑动触发加载更多
-        enableBallisticLoad:true ,
-        //当视窗少于一个屏幕时，禁用下拉功能以加载更多的功能
-//        hideFooterWhenNotFull: true,
+//        是否由BallisticScrollActivity触发刷新；默认false；//不懂？
+        enableBallisticRefresh: false,
+//        是否由BallisticScrollActivity触发加载更多。默认true；//不懂？
+        enableBallisticLoad: true,
+
+//        footer(页脚)在inNoMore state(没有更多的状态)时，是否可以通过达到footerDistance(页脚距离)触发加载;默认false；
+        enableLoadingWhenNoData: false,
+
         child:MaterialApp(
           theme: ThemeData(
 //        scaffoldBackgroundColor: Color(0xff445279),

@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:startupnamer/ui/category_tab_item/tabs/list/TextFieldDemoController.dart';
 import 'package:startupnamer/ui/category_tab_item/tabs/list/raisedButton_demo.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 class ActionListController extends StatefulWidget {
@@ -16,6 +17,11 @@ class ActionListController extends StatefulWidget {
 }
 
 class _ActionListControllerState extends State<ActionListController> {
+
+  //关闭按钮大小
+  double closeIconSize = 30.0;
+  //icon内间距,增大了5个像素，按钮大小 = IconSize + 2 * ButtonPadding，
+  double iconButtonPadding = 8.0 + 5.0;
 
 
   _pushRaisedButtonDemo(){
@@ -34,6 +40,16 @@ class _ActionListControllerState extends State<ActionListController> {
 
   @override
   Widget build(BuildContext context) {
+
+    final ThemeData theme = Theme.of(context);
+    final VisualDensity effectiveVisualDensity = theme.visualDensity;
+    final BoxConstraints unadjustedConstraints = const BoxConstraints(
+      minWidth: 48,
+      minHeight: 48,
+    );
+    final BoxConstraints adjustedConstraints = effectiveVisualDensity.effectiveConstraints(unadjustedConstraints);
+    print("${adjustedConstraints.minWidth},${adjustedConstraints.minHeight},${adjustedConstraints.maxWidth},${adjustedConstraints.maxHeight}");
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -50,13 +66,44 @@ class _ActionListControllerState extends State<ActionListController> {
               textColor: Colors.white,
               onPressed:_pushTextFieldDemo,
             ),
-            RaisedButton(
-              onPressed: () {},
-              child: Text('有阴影按钮'),
-              color: Colors.blue,
-              textColor: Colors.white,
-              elevation: 20,
+            Container(
+              margin: EdgeInsets.fromLTRB(
+                  0,
+                  ScreenUtil().setWidth(20.0 - iconButtonPadding),
+                  ScreenUtil().setWidth(20.0 - iconButtonPadding),
+                  0),
+              width: ScreenUtil().setWidth(closeIconSize + 2*iconButtonPadding + 40),
+//              color: Colors.brown,
+              child: IconButton(
+                color: Colors.blue,
+                  iconSize: ScreenUtil().setWidth(closeIconSize),
+                  padding: EdgeInsets.all(ScreenUtil().setWidth(iconButtonPadding)) ,
+                  constraints: BoxConstraints(
+                      maxWidth: ScreenUtil().setWidth(closeIconSize + 2*iconButtonPadding),
+                      maxHeight: ScreenUtil().setWidth(closeIconSize + 2*iconButtonPadding)
+                  ),
+                  icon: Image.asset(
+                    "assets/images/close_gray@2x.png",
+                            fit:BoxFit.contain
+                  ),
+                  onPressed: () {
+                    print('111111111');
+                  }),
             ),
+            IconButton(
+                color: Colors.blue,
+                iconSize: ScreenUtil().setWidth(closeIconSize),
+//                padding: EdgeInsets.all(ScreenUtil().setWidth(8.0)),
+                constraints: BoxConstraints(
+//                    maxWidth: ScreenUtil().setWidth(closeIconSize + 2*iconButtonPadding+100),
+//                    maxHeight: ScreenUtil().setWidth(closeIconSize + 2*iconButtonPadding+100)
+                ),
+                icon: Image.asset(
+                    "assets/images/close_gray@2x.png",
+                ),
+                onPressed: () {
+                  print('111111111');
+                }),
             //圆形按钮-和头像一样
             RaisedButton(
               onPressed: () {},
