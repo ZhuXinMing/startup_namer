@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 ///
 ///   @Name    : startup_namer/ product_selection_bottomSheet
 ///   @author  : simon
@@ -6,7 +5,9 @@ import 'package:flutter/material.dart';
 ///   @desc    :
 ///   @version : 1.0
 ///
+///  8.7 优化修改按钮点击区域，待优化全选按钮大小；
 
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 typedef OnConfirmListener = Function(List<SelectGoodListModel> entries);
@@ -119,7 +120,6 @@ class _BottomSheetPage extends StatefulWidget {
 }
 
 class _BottomSheetState extends State<_BottomSheetPage> {
-
   bool isAllSelected = true;
 
   double bottomSheetHeight = 412;
@@ -138,8 +138,11 @@ class _BottomSheetState extends State<_BottomSheetPage> {
   double selectIconSize = 28;
 
   //icon内间距
-  double iconButtonPadding = 8;
+  double topIconButtonVPadding = 8.0 + 2.0;
+  double topIconButtonHPadding = 8.0 + 10.0;
 
+  double selectIconButtonLeftPadding = 20.0;
+  double selectIconButtonRightPadding = 8.0;
   //按钮大小
   double btnHeight = 64;
 
@@ -150,7 +153,6 @@ class _BottomSheetState extends State<_BottomSheetPage> {
 
     isAllSelected = widget.entries.every((element) => element.isSelected);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -169,22 +171,25 @@ class _BottomSheetState extends State<_BottomSheetPage> {
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: ScreenUtil().setSp(22),
-                    fontWeight: FontWeight.bold),
+                    fontWeight: FontWeight.w500),
               ),
             ),
             Align(
                 alignment: Alignment.centerRight,
                 child: Container(
                   margin: EdgeInsets.only(
-                      right: ScreenUtil().setWidth(20 - iconButtonPadding)),
-                  height: ScreenUtil()
-                      .setWidth(closeIconSize + 2 * iconButtonPadding),
-                  width: ScreenUtil()
-                      .setWidth(closeIconSize + 2 * iconButtonPadding),
+                      right: ScreenUtil().setWidth(20 - topIconButtonHPadding)),
+//                  color: Colors.blue,
                   child: IconButton(
 //                  splashRadius: 20,
                       highlightColor: Colors.transparent,
+                      constraints: BoxConstraints(),
                       iconSize: ScreenUtil().setWidth(closeIconSize),
+                      padding: EdgeInsets.symmetric(
+                          horizontal:
+                          ScreenUtil().setWidth(topIconButtonHPadding),
+                          vertical:
+                          ScreenUtil().setWidth(topIconButtonVPadding)),
                       icon: Image.asset(
                         "assets/images/close_gray@2x.png",
                       ),
@@ -200,26 +205,30 @@ class _BottomSheetState extends State<_BottomSheetPage> {
                 return Container(
                   height: ScreenUtil().setWidth(rowHeight),
                   padding: EdgeInsets.fromLTRB(
-                      ScreenUtil().setWidth(rowPaddingLeft - iconButtonPadding),
+                      ScreenUtil().setWidth(rowPaddingLeft - selectIconButtonLeftPadding),
                       0,
                       ScreenUtil().setWidth(rowPaddingRight),
                       0),
                   decoration: BoxDecoration(
-//                    color: Colors.white,
-//                    color: Colors.blue,
+//                   color: Colors.cyan,
                   ),
                   child: Row(
                     children: [
                       Container(
-                        width: ScreenUtil()
-                            .setWidth(selectIconSize + 2 * iconButtonPadding),
-                        height: ScreenUtil()
-                            .setWidth(selectIconSize + 2 * iconButtonPadding),
+//                    color: Colors.blue,
                         child: IconButton(
 //                      splashRadius:
 //                          selectIconSize / 2 + selectIconButtonPadding,
                             highlightColor: Colors.transparent,
+                            constraints: BoxConstraints(),
                             iconSize: ScreenUtil().setWidth(selectIconSize),
+                            padding: EdgeInsets.fromLTRB(
+                                ScreenUtil().setWidth(selectIconButtonLeftPadding),
+                                ScreenUtil()
+                                    .setWidth((rowHeight - selectIconSize) / 2),
+                                ScreenUtil().setWidth(selectIconButtonRightPadding),
+                                ScreenUtil()
+                                    .setWidth((rowHeight - selectIconSize) / 2)),
                             icon: _BottomSheetState.checkbox(
                                 widget.entries[index].isSelected),
                             onPressed: () {
@@ -261,23 +270,19 @@ class _BottomSheetState extends State<_BottomSheetPage> {
         Container(
           height: ScreenUtil().setWidth(btnHeight + 8 + 8),
           padding: EdgeInsets.fromLTRB(
-              ScreenUtil().setWidth(24 - iconButtonPadding),
+              ScreenUtil().setWidth(24 - selectIconButtonLeftPadding),
               ScreenUtil().setWidth(8),
               ScreenUtil().setWidth(12),
               ScreenUtil().setWidth(8)),
           child: Row(
             children: [
               Container(
-                width: ScreenUtil()
-                    .setWidth(selectIconSize + 2 * iconButtonPadding),
-                height: ScreenUtil()
-                    .setWidth(selectIconSize + 2 * iconButtonPadding),
-                child: IconButton(
+//               color: Colors.amber,
+//               width: ScreenUtil().setWidth(130-4),
+                child: FlatButton(
                   highlightColor: Colors.transparent,
-                  iconSize: ScreenUtil().setWidth(selectIconSize),
-                  icon: _BottomSheetState.checkbox(
-                      widget.entries.every((element) => element.isSelected)),
-                  onPressed: () {
+//                   materialTapTargetSize:  MaterialTapTargetSize.shrinkWrap,
+                  onPressed: (){
                     setState(() {
                       isAllSelected = !isAllSelected;
                       widget.entries.forEach((element) {
@@ -285,16 +290,21 @@ class _BottomSheetState extends State<_BottomSheetPage> {
                       });
                     });
                   },
-                ),
-              ),
-              Padding(
-                padding:
-                EdgeInsets.fromLTRB(0, 0, ScreenUtil().setWidth(14), 0),
-                child: Text(
-                  '全选',
-                  style: TextStyle(
-                    color: Color(0xff262B3C),
-                    fontSize: ScreenUtil().setSp(24),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      _BottomSheetState.checkbox(
+                          widget.entries.every((element) => element.isSelected)
+                      ),
+                      SizedBox(width: ScreenUtil().setWidth(10)),
+                      Text(
+                        '全选',
+                        style: TextStyle(
+                          color: Color(0xff262B3C),
+                          fontSize: ScreenUtil().setSp(24),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

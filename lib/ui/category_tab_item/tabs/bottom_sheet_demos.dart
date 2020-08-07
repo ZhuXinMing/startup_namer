@@ -100,13 +100,13 @@ class _DemoState extends State<BottomSheetDemo> with AutomaticKeepAliveClientMix
 
    List<Map> entries = [
       {
-        "spuId": "123343435",
+        "spuId": "123456",
         "spuName": "萝卜,商品名称商品名称商品名称商品名称商品名称",
         "spuSpec": '3斤',
         "isSelected": true
       },
       {
-        "spuId": "3434343435",
+        "spuId": "123456",
         "spuName": "土豆,商品名称商品名称商品名称商品名称商品名称",
         "spuSpec": '10斤',
         "isSelected": true
@@ -134,7 +134,7 @@ class _DemoState extends State<BottomSheetDemo> with AutomaticKeepAliveClientMix
   _presentShiftSelectionSheet() {
     List<Map> entries = [
       {
-        "spuId": "123343435",
+        "spuId": "123456",
         "spuName": "萝卜,商品名称商品名称商品名称商品名称商品名称",
         "stockNumber": 3.0,
         "changedNumber": 3.0
