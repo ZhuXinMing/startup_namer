@@ -6,6 +6,7 @@
 ///   @version : 1.0
 ///
 ///  8.7 优化修改按钮点击区域，待优化全选按钮大小；
+///  8.10 优化字体，背景色；
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -268,6 +269,7 @@ class _BottomSheetState extends State<_BottomSheetPage> {
           height: 2,
         ),
         Container(
+          color: Colors.white,
           height: ScreenUtil().setWidth(btnHeight + 8 + 8),
           padding: EdgeInsets.fromLTRB(
               ScreenUtil().setWidth(24 - selectIconButtonLeftPadding),
@@ -293,15 +295,14 @@ class _BottomSheetState extends State<_BottomSheetPage> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      _BottomSheetState.checkbox(
-                          widget.entries.every((element) => element.isSelected)
-                      ),
+                      _BottomSheetState.checkbox(isAllSelected),
                       SizedBox(width: ScreenUtil().setWidth(10)),
                       Text(
                         '全选',
                         style: TextStyle(
                           color: Color(0xff262B3C),
                           fontSize: ScreenUtil().setSp(24),
+                            fontWeight: FontWeight.normal
                         ),
                       ),
                     ],
@@ -328,7 +329,7 @@ class _BottomSheetState extends State<_BottomSheetPage> {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: ScreenUtil().setSp(24),
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     )),

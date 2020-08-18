@@ -37,6 +37,8 @@ dependencies:
 #一个提供上拉加载和下拉刷新的组件,同时支持Android和Ios
   pull_to_refresh: ^1.6.0
 
+  event_bus:  ^1.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

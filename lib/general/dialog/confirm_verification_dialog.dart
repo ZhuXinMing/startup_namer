@@ -1,6 +1,29 @@
 //  Created by simon on 2020/6/28.
-
 // 2020.7.31 修改
+//8.4 增加model数据，修改content最多行数
+//8.8 左右按钮事件bug;
+
+/*
+//确认验证码弹窗
+showConfirmVerificationDialog(){
+
+  ConfirmVerificationDialog.show(
+      context: context,
+      title: "确认缺货",
+      content: '内容内容内容内容内容内容内容内容内容内容内容内容',
+      leftButtonTitle: '取消',
+      rightButtonTitle: '确认报缺',
+//        leftButtonTitle: '确认报缺',
+//        rightButtonTitle: '取消',
+      cancelConfirmIsLeft: true,
+      leftOnConfirmListener: (){
+        print('左边按钮事件');
+      },
+      rightOnConfirmListener: (){
+        print('右边按钮事件');
+      });
+}
+*/
 
 import 'dart:math';
 
@@ -38,27 +61,27 @@ class ConfirmVerificationDialog extends Dialog {
   @required
   final RightOnConfirmListener rightOnConfirmListener;
 
-  //取消按钮是否在左边，或在右边；
-  final bool cancleConfirmIsLeft;
+  //取消按钮是否在左边，或在右边；默认左边；
+  final bool cancelConfirmIsLeft;
 
   //可选，内容详情
   final Widget contentDetailWidget;
 
   const ConfirmVerificationDialog(
       {Key key,
-        String title,
-        this.content,
-        this.verificationCode,
-        String leftButtonTitle,
-        String rightButtonTitle,
-        this.leftOnConfirmListener,
-        this.rightOnConfirmListener,
-        bool cancleConfirmIsLeft,
-        this.contentDetailWidget})
+      String title,
+      this.content,
+      this.verificationCode,
+      String leftButtonTitle,
+      String rightButtonTitle,
+      this.leftOnConfirmListener,
+      this.rightOnConfirmListener,
+      bool cancelConfirmIsLeft,
+      this.contentDetailWidget})
       : this.title = title ?? '',
         this.leftButtonTitle = leftButtonTitle ?? '取消',
         this.rightButtonTitle = rightButtonTitle ?? '确认',
-        this.cancleConfirmIsLeft = cancleConfirmIsLeft ?? true,
+        this.cancelConfirmIsLeft = cancelConfirmIsLeft ?? true,
         super(key: key);
 
   static void show({
@@ -70,7 +93,7 @@ class ConfirmVerificationDialog extends Dialog {
     String rightButtonTitle = '确认',
     @required LeftOnConfirmListener leftOnConfirmListener,
     @required RightOnConfirmListener rightOnConfirmListener,
-    final bool cancleConfirmIsLeft,
+    final bool cancelConfirmIsLeft,
     final Widget contentDetailWidget,
   }) {
     showDialog(
@@ -85,7 +108,7 @@ class ConfirmVerificationDialog extends Dialog {
             rightButtonTitle: rightButtonTitle,
             leftOnConfirmListener: leftOnConfirmListener,
             rightOnConfirmListener: rightOnConfirmListener,
-            cancleConfirmIsLeft: cancleConfirmIsLeft,
+            cancelConfirmIsLeft: cancelConfirmIsLeft,
             contentDetailWidget: contentDetailWidget,
           );
         });
@@ -97,16 +120,16 @@ class ConfirmVerificationDialog extends Dialog {
       type: MaterialType.transparency,
       child: Center(
           child: _DialogPage(
-            title: title,
-            content: content,
-            verificationCode: verificationCode,
-            leftButtonTitle: leftButtonTitle,
-            rightButtonTitle: rightButtonTitle,
-            leftOnConfirmListener: leftOnConfirmListener,
-            rightOnConfirmListener: rightOnConfirmListener,
-            cancleConfirmIsLeft: cancleConfirmIsLeft,
-            contentDetailWidget: contentDetailWidget,
-          )),
+        title: title,
+        content: content,
+        verificationCode: verificationCode,
+        leftButtonTitle: leftButtonTitle,
+        rightButtonTitle: rightButtonTitle,
+        leftOnConfirmListener: leftOnConfirmListener,
+        rightOnConfirmListener: rightOnConfirmListener,
+        cancelConfirmIsLeft: cancelConfirmIsLeft,
+        contentDetailWidget: contentDetailWidget,
+      )),
     );
   }
 }
@@ -120,19 +143,19 @@ class _DialogPage extends StatefulWidget {
   final String rightButtonTitle;
   final RightOnConfirmListener rightOnConfirmListener;
   final LeftOnConfirmListener leftOnConfirmListener;
-  final bool cancleConfirmIsLeft;
+  final bool cancelConfirmIsLeft;
   final Widget contentDetailWidget;
 
   const _DialogPage(
       {this.title,
-        this.content,
-        this.verificationCode,
-        this.leftButtonTitle,
-        this.rightButtonTitle,
-        this.leftOnConfirmListener,
-        this.rightOnConfirmListener,
-        this.cancleConfirmIsLeft,
-        this.contentDetailWidget});
+      this.content,
+      this.verificationCode,
+      this.leftButtonTitle,
+      this.rightButtonTitle,
+      this.leftOnConfirmListener,
+      this.rightOnConfirmListener,
+      this.cancelConfirmIsLeft,
+      this.contentDetailWidget});
 
   @override
   State<StatefulWidget> createState() => _DialogState();
@@ -243,7 +266,7 @@ class _DialogState extends State<_DialogPage> {
               color: Color(0xff333333),
               fontSize: ScreenUtil().setSp(18),
             ),
-            maxLines: 2,
+            maxLines: 3,
             overflow: TextOverflow.ellipsis),
       );
     }
@@ -326,7 +349,7 @@ class _DialogState extends State<_DialogPage> {
               height: ScreenUtil().setWidth(_btnHeight),
               child: RaisedButton(
                 onPressed: () {
-                  widget.cancleConfirmIsLeft ? cancleAction() : onAction();
+                  leftOnConfirmAction();
                 },
                 child: Text(
                   widget.leftButtonTitle,
@@ -350,7 +373,7 @@ class _DialogState extends State<_DialogPage> {
               height: ScreenUtil().setWidth(_btnHeight),
               child: RaisedButton(
                 onPressed: () {
-                  widget.cancleConfirmIsLeft ? onAction() : cancleAction();
+                  rightOnConfirmAction();
                 },
                 child: Text(
                   widget.rightButtonTitle,
@@ -373,16 +396,16 @@ class _DialogState extends State<_DialogPage> {
 
     Widget dialogChild = SingleChildScrollView(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            titleWidget ?? SizedBox(),
-            contentWidget ?? SizedBox(),
-            contentDetailPaddingWidget ?? SizedBox(),
-            verificationCodeWidget ?? SizedBox(),
-            textFieldWidget ?? SizedBox(),
-            actionsWidget ?? SizedBox(),
-          ],
-        ));
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        titleWidget ?? SizedBox(),
+        contentWidget ?? SizedBox(),
+        contentDetailPaddingWidget ?? SizedBox(),
+        verificationCodeWidget ?? SizedBox(),
+        textFieldWidget ?? SizedBox(),
+        actionsWidget ?? SizedBox(),
+      ],
+    ));
 
     return Dialog(
         insetPadding: EdgeInsets.symmetric(horizontal: 32),
@@ -391,18 +414,44 @@ class _DialogState extends State<_DialogPage> {
         child: dialogChild);
   }
 
-  void cancleAction() {
-    Navigator.pop(context);
-    widget.leftOnConfirmListener();
+  void leftOnConfirmAction() {
+    if (widget.cancelConfirmIsLeft) {
+      cancelAction();
+    } else {
+      if (!onAction()) {
+        return;
+      }
+    }
+    if (widget.leftOnConfirmListener != null) {
+      widget.leftOnConfirmListener();
+    }
   }
 
-  void onAction() {
-    if (_verificationCode.compareTo(_textEditingController.text) != 0) {
-      _showToast('请输入有效的验证码');
+  void rightOnConfirmAction() {
+    if (widget.cancelConfirmIsLeft) {
+      if (!onAction()) {
+        return;
+      }
     } else {
-      Navigator.pop(context);
+      cancelAction();
+    }
+    if (widget.rightOnConfirmListener != null) {
       widget.rightOnConfirmListener();
     }
+  }
+
+  void cancelAction() {
+    Navigator.pop(context);
+  }
+
+  bool onAction() {
+    if (_verificationCode.compareTo(_textEditingController.text) != 0) {
+      _showToast('请输入有效的验证码');
+      return false;
+    } else {
+      Navigator.pop(context);
+    }
+    return true;
   }
 }
 
@@ -411,6 +460,10 @@ class _DialogState extends State<_DialogPage> {
  */
 
 class ContentDetailWidget extends StatelessWidget {
+  final List<ReportedStockoutTakeBackListEntity> models;
+
+  ContentDetailWidget(this.models);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -422,7 +475,7 @@ class ContentDetailWidget extends StatelessWidget {
       child: ListView.separated(
         padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(15)),
         shrinkWrap: true,
-        itemCount: 13,
+        itemCount: this.models?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             child: Column(
@@ -432,7 +485,8 @@ class ContentDetailWidget extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(10),
                       ScreenUtil().setWidth(7), ScreenUtil().setWidth(10)),
-                  child: Text('名称111111133131313223232323',
+                  child: Text(
+                      "(${models[index].goodsId})${models[index].goodsName}",
                       style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: ScreenUtil().setSp(16),
@@ -444,7 +498,8 @@ class ContentDetailWidget extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(0, 0, ScreenUtil().setWidth(7),
                         ScreenUtil().setWidth(10)),
                     shrinkWrap: true,
-                    itemCount: 9,
+                    itemCount:
+                        models[index]?.goodsCargoSpaceInfoVOS?.length ?? 0,
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
@@ -452,7 +507,9 @@ class ContentDetailWidget extends StatelessWidget {
                         crossAxisSpacing: ScreenUtil().setWidth(10),
                         childAspectRatio: 5),
                     itemBuilder: (BuildContext context, int index) {
-                      return Text('FA0002：333袋',
+                      return Text(
+                          "${models[index]?.goodsCargoSpaceInfoVOS[index].cargoSpaceName}"
+                          "：${models[index]?.goodsCargoSpaceInfoVOS[index].num}${models[index]?.goodsCargoSpaceInfoVOS[index].baseUnitName}",
                           style: TextStyle(
                             color: Color(0xff333333),
                             fontSize: ScreenUtil().setSp(16),
@@ -473,4 +530,19 @@ class ContentDetailWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+class ReportedStockoutTakeBackListEntity {
+  double goodsType;
+  double goodsId;
+  String goodsName;
+  List<ReportedStockoutTakeBackListGoodsCargoSpaceInfoVO>
+      goodsCargoSpaceInfoVOS;
+}
+
+class ReportedStockoutTakeBackListGoodsCargoSpaceInfoVO {
+  double cargoSpaceId;
+  String cargoSpaceName;
+  double num;
+  String baseUnitName;
 }

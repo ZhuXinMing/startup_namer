@@ -214,21 +214,23 @@ class _DemoState extends State<_DemoPage> {
     ProduceListDialog.show(context: context, entries: goods);
   }
 
-  //确认缺货
-  showConfirmStockDialog(){
+  //确认验证码弹窗
+  showConfirmVerificationDialog(){
 
     ConfirmVerificationDialog.show(
         context: context,
         title: "确认缺货",
-        content: '1jljdljf;sfj;sflsjdf;ljks;fjs;lfj;slfsflkdjfl;sjf;sjf;',
-        verificationCode:'12345',
+        content: '内容内容内容内容内容内容内容内容内容内容内容内容',
+        leftButtonTitle: '取消',
         rightButtonTitle: '确认报缺',
-        cancleConfirmIsLeft: true,
+//        leftButtonTitle: '确认报缺',
+//        rightButtonTitle: '取消',
+        cancelConfirmIsLeft: true,
         leftOnConfirmListener: (){
-            print('取消');
+            print('左边按钮事件');
         },
         rightOnConfirmListener: (){
-          print('右边按钮');
+          print('右边按钮事件');
     });
   }
 
@@ -301,7 +303,7 @@ class _DemoState extends State<_DemoPage> {
                 child: Text('自定义列表dialog'),
               ),
               RaisedButton(
-                onPressed: showConfirmStockDialog,
+                onPressed: showConfirmVerificationDialog,
                 child: Text('确认缺货输入dialog'),
               ),
               RaisedButton(

@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 ///
 ///   @Name    : startup_namer/ one_column_picker
 ///   @author  : simon
@@ -5,25 +8,36 @@
 ///   @desc    :
 ///   @version : 1.0
 ///
-/// 8.6 调整iconButtonPadding大小，增加用户体验；
+/// 8.13 支持设置初始选中索引属性；
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 typedef OnConfirmListener = Function(int selectIndex);
 
 /*
-_presentOneColumnPicker() {
-
-  OneColumnPicker.show(context: context, title: '标题', titleArray: ['1','2','3'], onConfirmListener: (int index){
-    print("index = $index");
-  });
-}
+  _tapDeliveryDateList() {
+    if (this._sendDateList == null || this._sendDateList.length == 0) {
+      ToastUtil.show(msg: '无日期/批次');
+      return;
+    }
+    List<String> _titles = this
+        ._sendDateList
+        .map((e) => '${e.sendDate} ${e.expressBatchName}')
+        .toList();
+    OneColumnPicker.show(
+        context: context,
+        title: '日期/批次选择',
+        initialItemIndex: this._sendDateSelectIndex,
+        titleArray: _titles,
+        onConfirmListener: (index) {
+          this._editingController1.text = _titles[index];
+          this._sendDateSelectIndex = index;
+        });
+  }
 */
 
 // ignore: must_be_immutable
-class OneColumnPicker extends StatelessWidget {
+class OneColumnPicker extends StatefulWidget {
   //标题
   @required
   final String title;
@@ -38,26 +52,41 @@ class OneColumnPicker extends StatelessWidget {
   @required
   final OnConfirmListener onConfirmListener;
 
-  var _selectIndex = 0;
+  //初始选中item索引,如果null，则默认0；
+  final int initialItemIndex;
 
-  OneColumnPicker(
-      {Key key,
-      String title,
-      List<String> titleArray,
-      this.itemExtent = 64.0,
-      String onButtonTitle,
-      this.onConfirmListener})
-      : this.title = title ?? "",
+  OneColumnPicker({
+    Key key,
+    String title,
+    List<String> titleArray,
+    this.itemExtent = 64.0,
+    String onButtonTitle,
+    this.onConfirmListener,
+    int initialItemIndex,
+  })  : this.title = title ?? "",
         this.titleArray = titleArray ?? [],
         this.onButtonTitle = onButtonTitle ?? '确认',
+        this.initialItemIndex = initialItemIndex ?? 0,
         super(key: key);
 
   static void show(
       {@required BuildContext context,
-      @required String title,
-      @required List<String> titleArray,
-      String onButtonTitle,
-      @required OnConfirmListener onConfirmListener}) {
+        @required String title,
+        @required List<String> titleArray,
+        String onButtonTitle,
+        int initialItemIndex,
+        @required OnConfirmListener onConfirmListener}) {
+//    showCupertinoModalPopup(
+//        context: context,
+//        builder: (BuildContext context) {
+//          return OneColumnPicker(
+//            title: title,
+//            titleArray: titleArray,
+//            onButtonTitle: onButtonTitle,
+//            onConfirmListener: onConfirmListener,
+//            selectIndex: selectIndex,
+//          );
+//        });
     showModalBottomSheet(
         context: context,
         shape: RoundedRectangleBorder(
@@ -72,126 +101,156 @@ class OneColumnPicker extends StatelessWidget {
             titleArray: titleArray,
             onButtonTitle: onButtonTitle,
             onConfirmListener: onConfirmListener,
+            initialItemIndex: initialItemIndex,
           );
         });
   }
 
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _State();
+  }
+}
+
+class _State extends State<OneColumnPicker> {
+  FixedExtentScrollController _controller;
   //关闭按钮大小
-  double closeIconSize = 30.0;
-  //icon内间距,增大了12个像素，按钮大小 = IconSize + 2 * ButtonPadding，
-  double iconButtonPadding = 8.0 + 12;
+  static double closeIconSize = 30.0;
+  //icon内间距,增大了5个像素，按钮大小 = IconSize + 2 * ButtonPadding，
+  static double iconButtonPadding = 8.0 + 5.0;
+
+  var _selectIndex;
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    if (mounted) {
+      if (widget.initialItemIndex != null) {
+        _controller =
+            FixedExtentScrollController(initialItem: widget.initialItemIndex);
+        _selectIndex = widget.initialItemIndex;
+      }
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(
-      height: ScreenUtil().setWidth(412),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
+    return Material(
+      child: Container(
+        height: ScreenUtil().setWidth(412),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
 //            color: Colors.amber,
-            height: ScreenUtil().setWidth(20.0 + 30.0 + 20.0),
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: ScreenUtil().setSp(22),
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(
-                        0,
-                        ScreenUtil().setWidth(20.0 - iconButtonPadding),
-                        ScreenUtil().setWidth(20.0 - iconButtonPadding),
-                        0),
-//                    height:ScreenUtil().setWidth(closeIconSize + 2*iconButtonPadding),
-//                    width:ScreenUtil().setWidth(closeIconSize + 2*iconButtonPadding),
-//                    color: Colors.brown,
-                    child: IconButton(
-                        iconSize: ScreenUtil().setWidth(closeIconSize),
-                        padding: EdgeInsets.symmetric(
-                            horizontal:
-                                ScreenUtil().setWidth(iconButtonPadding),
-                            vertical: ScreenUtil().setWidth(iconButtonPadding)),
-                        constraints: BoxConstraints(),
-                        icon: Image.asset(
-                          "assets/images/close_gray@2x.png",
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
-                  ),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Expanded(
-            child: CupertinoPicker.builder(
-              itemExtent: ScreenUtil().setWidth(itemExtent),
-              childCount: titleArray.length,
-              onSelectedItemChanged: (int index) {
-                _selectIndex = index;
-              },
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    titleArray[index],
-                    style: TextStyle(
-                      color: Color(0xff333333),
-                      fontSize: ScreenUtil().setSp(28),
+              height: ScreenUtil().setWidth(20.0 + 30.0 + 20.0),
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      widget.title,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: ScreenUtil().setSp(22),
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
-                );
-              },
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          right:
+                          ScreenUtil().setWidth(20.0 - iconButtonPadding)),
+                      height: ScreenUtil()
+                          .setWidth(closeIconSize + 2 * iconButtonPadding),
+                      width: ScreenUtil()
+                          .setWidth(closeIconSize + 2 * iconButtonPadding),
+//                    color: Colors.brown,
+                      child: IconButton(
+                          iconSize: ScreenUtil().setWidth(closeIconSize),
+                          padding: EdgeInsets.all(
+                              ScreenUtil().setWidth(iconButtonPadding)),
+                          icon: Image.asset(
+                            "assets/images/close_gray@2x.png",
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-          Divider(
-            height: 2,
-          ),
-          Container(
-            height: ScreenUtil().setWidth(80),
-            padding: EdgeInsets.fromLTRB(
-                ScreenUtil().setWidth(12),
-                ScreenUtil().setWidth(8),
-                ScreenUtil().setWidth(12),
-                ScreenUtil().setWidth(8)),
-            child: InkWell(
-                onTap: () {
-                  print(_selectIndex);
-                  Navigator.pop(context);
-                  if (onConfirmListener != null) {
-                    onConfirmListener(_selectIndex);
-                  }
+            SizedBox(
+              height: ScreenUtil().setWidth(10),
+            ),
+            Expanded(
+              child: CupertinoPicker.builder(
+                scrollController: _controller,
+                itemExtent: ScreenUtil().setWidth(widget.itemExtent),
+                childCount: widget.titleArray.length,
+                onSelectedItemChanged: (int index) {
+                  _selectIndex = index;
                 },
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: const Color(0xffEF5D44),
-                    borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(5)),
-                  ),
-                  child: Text(
-                    onButtonTitle,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: ScreenUtil().setSp(24),
-                        fontWeight: FontWeight.bold),
-                  ),
-                )),
-          ),
-        ],
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      widget.titleArray[index],
+                      style: TextStyle(
+                        color: Color(0xff333333),
+                        fontSize: ScreenUtil().setSp(28),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            Divider(
+              height: 2,
+            ),
+            Container(
+              height: ScreenUtil().setWidth(80),
+              padding: EdgeInsets.fromLTRB(
+                  ScreenUtil().setWidth(12),
+                  ScreenUtil().setWidth(8),
+                  ScreenUtil().setWidth(12),
+                  ScreenUtil().setWidth(8)),
+              child: InkWell(
+                  onTap: () {
+                    print(_selectIndex);
+                    Navigator.pop(context);
+                    if (widget.onConfirmListener != null) {
+                      widget.onConfirmListener(_selectIndex);
+                    }
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: const Color(0xffEF5D44),
+                      borderRadius:
+                      BorderRadius.circular(ScreenUtil().setWidth(5)),
+                    ),
+                    child: Text(
+                      widget.onButtonTitle,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: ScreenUtil().setSp(24),
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }
