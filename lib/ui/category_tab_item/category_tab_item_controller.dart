@@ -20,7 +20,11 @@ class CategoryTabItemController extends StatelessWidget {
     this.title = 'Demo页面',
   }) : super(key: key);
 
-  final List<Widget> tabs = <Widget>[Tab(text: 'ActionListController'),Tab(text: '热门'), Tab(text: '推荐')];
+  final List<Widget> tabs = <Widget>[
+    Tab(text: 'ActionListController'),
+    Tab(text: '热门'),
+    Tab(text: '推荐')];
+
   final List<Widget> tabBarViews = <Widget>[
     ActionListController(),
     DialogDemo(title: null),

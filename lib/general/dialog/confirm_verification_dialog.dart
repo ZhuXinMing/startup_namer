@@ -1,7 +1,10 @@
 //  Created by simon on 2020/6/28.
+//  简介：关联了业务model；
+
 // 2020.7.31 修改
 //8.4 增加model数据，修改content最多行数
 //8.8 左右按钮事件bug;
+//10.23 修改GridView和Column用同一个index的bug；
 
 /*
 //确认验证码弹窗
@@ -486,7 +489,7 @@ class ContentDetailWidget extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(0, ScreenUtil().setWidth(10),
                       ScreenUtil().setWidth(7), ScreenUtil().setWidth(10)),
                   child: Text(
-                      "(${models[index].goodsId})${models[index].goodsName}",
+                      "(${models[index].goodsId??''})${models[index].goodsName??''}",
                       style: TextStyle(
                         color: Color(0xff333333),
                         fontSize: ScreenUtil().setSp(16),
@@ -499,17 +502,17 @@ class ContentDetailWidget extends StatelessWidget {
                         ScreenUtil().setWidth(10)),
                     shrinkWrap: true,
                     itemCount:
-                        models[index]?.goodsCargoSpaceInfoVOS?.length ?? 0,
+                    models[index]?.goodsCargoSpaceInfoVOS?.length ?? 0,
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         mainAxisSpacing: ScreenUtil().setWidth(10),
                         crossAxisSpacing: ScreenUtil().setWidth(10),
                         childAspectRatio: 5),
-                    itemBuilder: (BuildContext context, int index) {
+                    itemBuilder: (BuildContext context, int index2) {
                       return Text(
-                          "${models[index]?.goodsCargoSpaceInfoVOS[index].cargoSpaceName}"
-                          "：${models[index]?.goodsCargoSpaceInfoVOS[index].num}${models[index]?.goodsCargoSpaceInfoVOS[index].baseUnitName}",
+                          "${models[index]?.goodsCargoSpaceInfoVOS[index2].cargoSpaceName ??''}"
+                              "：${models[index]?.goodsCargoSpaceInfoVOS[index2].num ?? ''}${models[index]?.goodsCargoSpaceInfoVOS[index2].baseUnitName ?? ''}",
                           style: TextStyle(
                             color: Color(0xff333333),
                             fontSize: ScreenUtil().setSp(16),

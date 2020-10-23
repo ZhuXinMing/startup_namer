@@ -72,7 +72,7 @@ class _DemoState extends State<_DemoPage> {
     print("result= $result");
   }
 
-  _presentCustomTextFieldAlertDialog(){
+  _presentCustomAlertDialog(){
 
     UIAlertControllerDialog.showTextFieldAlert(
         context: context,
@@ -272,7 +272,7 @@ class _DemoState extends State<_DemoPage> {
                 child: Text('AlertDialog改造-alert输入弹出框'),
               ),
               RaisedButton(
-                onPressed:_presentCustomTextFieldAlertDialog,
+                onPressed:_presentCustomAlertDialog,
                 child: Text('自定义alert输入弹出框'),
               ),
               RaisedButton(
