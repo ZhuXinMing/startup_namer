@@ -1,45 +1,44 @@
-
 ///
-///   @Name    : startup_namer/ textField_alert_dialog
+///   @Name    : startup_namer/ alert_controller_dialog
 ///   @author  : simon
 ///   @date    : 2020/7/23 4:55 PM
 ///   @desc    :
 ///   @version : 1.0
 
-// 2020.7.30 修改
+// 2020.10.16修改;
+//2020.10.20 修改回调事件的判断；
+//2020.10.23 优化功能，修复bug；
+// 10.26 使用row和column排列按钮，支持3个按钮；
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:startupnamer/widgets/text_number_limit_formatter.dart';
 
 typedef OnConfirmListener = Function(String text);
 
 class UIAlertControllerDialog extends Dialog {
   @required
   final Widget title;
+
   // 如果没有title标题，则不会提供填充，否则，此填充被使用。EdgeInsets.fromLTRB(24.0, 24.0, 24.0, content == null ? 20.0 : 0.0)
   final EdgeInsetsGeometry titlePadding;
-  final TextStyle titleTextStyle;
 
   //内容
   final Widget content;
+
   //内容周围的填充。默认EdgeInsets.all(ScreenUtil().setWidth(24));
   final EdgeInsetsGeometry contentPadding;
+
   //此[AlertDialog]的[content]中的Text的样式。If null, [DialogTheme.contentTextStyle] 被使用,
   // if that's null, 默认值是[ThemeData.textTheme.subtitle1].
   final TextStyle contentTextStyle;
 
-  //确定事件回调
-  @required
-  final OnConfirmListener onConfirmListener;
-
   //在对话框底部显示的(可选的)操作集。
   final List<Widget> actions;
 
-  //事件按钮集合的padding
-  final EdgeInsetsGeometry actionsPadding;
+  //事件按钮容器的margin
+  final EdgeInsetsGeometry actionsContainerMargin;
 
   //弹窗内容背景颜色
   final Color backgroundColor;
@@ -50,60 +49,202 @@ class UIAlertControllerDialog extends Dialog {
   //设置弹窗边框，默认圆角5；
   final ShapeBorder shape;
 
-  List<ZXCustomTextField>textFields = List();
+  List<ZXCustomTextField> textFields = List();
 
-  UIAlertControllerDialog(
-      {Key key,
-      this.title,
-      this.titlePadding,
-      this.titleTextStyle,
-      this.onConfirmListener,
-      this.content,
-      this.contentPadding,
-      this.contentTextStyle,
-      this.actions,
-      this.actionsPadding,
-      this.backgroundColor,
-      this.insetPadding = const EdgeInsets.symmetric(horizontal: 32.0),
-      this.shape = const RoundedRectangleBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(5.0))),
-      })
-      : super(key: key);
+  UIAlertControllerDialog({
+    Key key,
+    this.title,
+    this.titlePadding,
+    this.content,
+    this.contentPadding,
+    this.contentTextStyle,
+    List<Widget> actions,
+    this.actionsContainerMargin,
+    this.backgroundColor,
+    EdgeInsets insetPadding,
+    ShapeBorder shape,
+  })  : this.actions = actions ?? [],
+        this.insetPadding =
+            insetPadding ?? const EdgeInsets.symmetric(horizontal: 32.0),
+        this.shape = shape ??
+            const RoundedRectangleBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(5.0))),
+        super(key: key);
 
-  static showTextFieldAlert({
-    @required BuildContext context,
-    @required Widget title,
-    final EdgeInsetsGeometry titlePadding,
+
+
+
+  // 警告弹窗;支持'取消'，'确定' 按钮，和按钮事件的回调；
+  /*
+            UIAlertControllerDialog.showGeneralAlert(context: context, title: '上报成功',doButtonTitle: '确认',doHandler: (UIAlertAction action){
+            AppRouter().backUntil(context, Routes.inventoryTakingController);
+          });
+   */
+  static showGeneralAlert({
+    @required final BuildContext context,
+    @required final String title,
     final TextStyle titleTextStyle,
+    final EdgeInsetsGeometry titlePadding,
     final Widget content,
     final EdgeInsetsGeometry contentPadding,
     final TextStyle contentTextStyle,
-    final List<Widget> actions,
-    EdgeInsetsGeometry actionsPadding,
-    final Color backgroundColor,
-    final EdgeInsets insetPadding =
-        const EdgeInsets.symmetric(horizontal: 32.0),
-    @required OnConfirmListener onConfirmListener,
-    final ShapeBorder shape = const RoundedRectangleBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(5.0))),
-    final ZXCustomTextField textField,
+    final String cancelButtonTitle,
+    final Function(UIAlertAction action) cancelHandler,
+    @required final String doButtonTitle,
+    final Function(UIAlertAction action) doHandler,
   }) {
 
+    TextStyle defaultTitleTextStyle = TextStyle(
+      fontWeight: FontWeight.w600,
+      fontSize: ScreenUtil().setSp(24),
+      color: Colors.black,
+    );
+
+    Widget titleWidget = Text(
+      title,
+      textAlign: TextAlign.center,
+      style: titleTextStyle ?? defaultTitleTextStyle,
+    );
+
+    List<Widget> actions = [];
+    if ((cancelButtonTitle != null && cancelButtonTitle.isNotEmpty) ||
+        cancelHandler != null)  {
+      UIAlertAction action1 = UIAlertAction(
+          style: UIAlertActionStyle.UIAlertActionStyleCancel,
+          title: cancelButtonTitle,
+          handler: cancelHandler);
+      actions.add(action1);
+    }
+    if ((doButtonTitle != null && doButtonTitle.isNotEmpty) ||
+        doHandler != null) {
+      UIAlertAction action2 = UIAlertAction(
+          style: UIAlertActionStyle.UIAlertActionStyleDefault,
+          title: doButtonTitle,
+          handler: doHandler);
+      actions.add(action2);
+    }
     UIAlertControllerDialog dialog = UIAlertControllerDialog(
-      title: title,
-      titlePadding: titlePadding,
-      titleTextStyle: titleTextStyle,
+      title: titleWidget,
+      titlePadding: titlePadding ??
+          EdgeInsets.symmetric(
+            vertical: ScreenUtil().setWidth(33),
+            horizontal: ScreenUtil().setWidth(55),
+          ),
       content: content,
       contentPadding: contentPadding,
       contentTextStyle: contentTextStyle,
-      onConfirmListener: onConfirmListener,
       actions: actions,
-      actionsPadding: actionsPadding,
+    );
+    showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return dialog;
+        });
+  }
+
+  //弹窗：输入框TextField
+  /*
+  UIAlertControllerDialog.showTextFieldAlert(
+          context: context,
+          title: '请输入所需数量',
+          cancelButtonTitle:'取消',
+          doButtonTitle: '确定',
+          doHandler:
+              (UIAlertControllerDialog controller, UIAlertAction action) {
+            ZXCustomTextField textField = controller.textFields[0];
+            String text = textField.controller.text;
+            if (text.isEmpty) {
+              return;
+            }
+            double num = double.parse(text);
+            if (textField.maxNum != null && textField.maxNum < num) {
+              showCenterShortToast(msg: "已达该商品库存量");
+              return;
+            }
+            if (textField.minNum != null && textField.minNum > num) {
+              showCenterShortToast(msg: "已达最小量");
+              return;
+            }
+            Navigator.pop(context);
+
+            setState(() {
+              widget.entries[index].changedNumber =
+                  double.parse(textField.controller.text);
+            });
+          },
+          textField: ZXCustomTextField(
+            maxNum: widget.entries[index].sourceNumber,
+            minNum: 0.01,
+          ));
+   */
+
+  static showTextFieldAlert({
+    @required BuildContext context,
+    @required final String title,
+    final TextStyle titleTextStyle,
+    final EdgeInsetsGeometry titlePadding,
+    final Widget content,
+    final EdgeInsetsGeometry contentPadding,
+    final TextStyle contentTextStyle,
+    EdgeInsetsGeometry actionsContainerMargin,
+    final Color backgroundColor,
+    final EdgeInsets insetPadding,
+    final ShapeBorder shape,
+    final String cancelButtonTitle,
+    final Function(UIAlertAction action) cancelHandler,
+    @required final String doButtonTitle,
+    final Function(UIAlertControllerDialog controller, UIAlertAction action)
+    doHandler,
+    final ZXCustomTextField textField,
+  }) {
+
+    TextStyle defaultTitleTextStyle = TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: ScreenUtil().setSp(24),
+      color: Colors.black,
+    );
+    Widget titleWidget = Text(
+      title,
+      textAlign: TextAlign.center,
+      style: titleTextStyle ?? defaultTitleTextStyle,
+    );
+
+    UIAlertControllerDialog dialog = UIAlertControllerDialog(
+      title: titleWidget,
+      titlePadding: titlePadding,
+      content: content,
+      contentPadding: contentPadding,
+      contentTextStyle: contentTextStyle,
+      actionsContainerMargin: actionsContainerMargin,
       backgroundColor: backgroundColor,
       insetPadding: insetPadding,
       shape: shape,
     );
-    dialog.addTextFieldWithConfigurationHandler(textField,null);
+
+    if ((cancelButtonTitle != null && cancelButtonTitle.isNotEmpty) ||
+        cancelHandler != null) {
+      UIAlertAction action1 = UIAlertAction(
+          style: UIAlertActionStyle.UIAlertActionStyleCancel,
+          title: cancelButtonTitle,
+          handler: cancelHandler);
+      dialog.addAction(action1);
+    }
+    if ((doButtonTitle != null && doButtonTitle.isNotEmpty) ||
+        doHandler != null) {
+      UIAlertAction action2 = UIAlertAction(
+          style: UIAlertActionStyle.UIAlertActionStyleDefault,
+          title: doButtonTitle,
+          defaultActionDismiss: false,
+          handler: (UIAlertAction action) {
+            doHandler(dialog, action);
+          });
+      dialog.addAction(action2);
+    }
+
+    dialog.addTextFieldWithConfigurationHandler(
+        textField1: textField,
+        configurationHandler: (ZXCustomTextField textField) {});
 
     showDialog(
         context: context,
@@ -113,18 +254,37 @@ class UIAlertControllerDialog extends Dialog {
         });
   }
 
-  void addTextFieldWithConfigurationHandler(ZXCustomTextField textField1, void f( ZXCustomTextField textField)){
-
-    if(textField1 != null){
+  ////实例方法-添加textField
+  void addTextFieldWithConfigurationHandler(
+      {ZXCustomTextField textField1,
+        void configurationHandler(ZXCustomTextField textField)}) {
+    if (textField1 != null) {
       textFields.add(textField1);
-    }else{
+      if (configurationHandler != null) {
+        configurationHandler(textField1);
+      }
+    } else {
       ZXCustomTextField field = ZXCustomTextField();
       textFields.add(field);
-      f(field);
+      if (configurationHandler != null) {
+        configurationHandler(field);
+      }
     }
   }
 
+  //实例方法-添加action按钮
+  void addAction(UIAlertAction action) {
+    actions.add(action);
+  }
 
+  //实例方法-
+  void showCenterShortToast({String msg}) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,18 +292,17 @@ class UIAlertControllerDialog extends Dialog {
       type: MaterialType.transparency,
       child: Center(
         child: _DialogPage(
-            title: this.title,
-            titlePadding: titlePadding,
-            titleTextStyle: titleTextStyle,
-            content: content,
-            contentPadding: contentPadding,
-            contentTextStyle: contentTextStyle,
-            onConfirmListener: onConfirmListener,
-            actions: actions,
-            actionsPadding: actionsPadding,
-            backgroundColor: backgroundColor,
-            insetPadding: insetPadding,
+          title: this.title,
+          titlePadding: titlePadding,
+          content: content,
+          contentPadding: contentPadding,
+          contentTextStyle: contentTextStyle,
+          actions: actions,
+          actionsContainerMargin: actionsContainerMargin,
+          backgroundColor: backgroundColor,
+          insetPadding: insetPadding,
           textFields: textFields,
+          shape: shape,
         ),
       ),
     );
@@ -153,35 +312,31 @@ class UIAlertControllerDialog extends Dialog {
 class _DialogPage extends StatefulWidget {
   final Widget title;
   final EdgeInsetsGeometry titlePadding;
-  final TextStyle titleTextStyle;
   final Widget content;
   final EdgeInsetsGeometry contentPadding;
   final TextStyle contentTextStyle;
 
   final List<Widget> actions;
-  final EdgeInsetsGeometry actionsPadding;
-  final OnConfirmListener onConfirmListener;
+  final EdgeInsetsGeometry actionsContainerMargin;
+
   final Color backgroundColor;
   final EdgeInsets insetPadding;
   final ShapeBorder shape;
 
-  final List<ZXCustomTextField>textFields;
+  final List<ZXCustomTextField> textFields;
 
   _DialogPage(
       {this.title,
-      this.titleTextStyle,
-      this.titlePadding,
-      this.content,
-      this.contentPadding,
-      this.contentTextStyle,
-      this.actions,
-      this.actionsPadding,
-      this.onConfirmListener,
-      this.backgroundColor,
-      this.insetPadding,
-      this.shape,
-        this.textFields
-      });
+        this.titlePadding,
+        this.content,
+        this.contentPadding,
+        this.contentTextStyle,
+        this.actions,
+        this.actionsContainerMargin,
+        this.backgroundColor,
+        this.insetPadding,
+        this.shape,
+        this.textFields});
 
   @override
   State<StatefulWidget> createState() {
@@ -191,9 +346,8 @@ class _DialogPage extends StatefulWidget {
 }
 
 class _DialogPageState extends State<_DialogPage> {
-
   final EdgeInsetsGeometry contentPadding =
-      EdgeInsets.all(ScreenUtil().setWidth(24));
+  EdgeInsets.all(ScreenUtil().setWidth(24));
 
   final EdgeInsetsGeometry textFieldPadding = EdgeInsets.fromLTRB(
       ScreenUtil().setWidth(24),
@@ -201,11 +355,18 @@ class _DialogPageState extends State<_DialogPage> {
       ScreenUtil().setWidth(24),
       ScreenUtil().setWidth(24));
 
-  static EdgeInsetsGeometry actionsPadding = EdgeInsets.fromLTRB(
+  static EdgeInsetsGeometry actionsContainerMargin = EdgeInsets.fromLTRB(
       ScreenUtil().setWidth(24),
       0,
       ScreenUtil().setWidth(24),
       ScreenUtil().setWidth(24));
+
+  static RoundedRectangleBorder _defaultDialogShape = RoundedRectangleBorder(
+      borderRadius:
+      BorderRadius.all(Radius.circular(ScreenUtil().setWidth(5))));
+
+  //按钮高度
+  static double _buttonHeight = ScreenUtil().setWidth(52);
 
   @override
   void initState() {
@@ -222,7 +383,7 @@ class _DialogPageState extends State<_DialogPage> {
     //标题默认样式
     TextStyle defaultTitleTextStyle = TextStyle(
         color: Colors.black,
-        fontSize: ScreenUtil().setWidth(22),
+        fontSize: ScreenUtil().setSp(22),
         fontWeight: FontWeight.w500);
 
     Widget titleWidget;
@@ -234,9 +395,8 @@ class _DialogPageState extends State<_DialogPage> {
                 ScreenUtil().setWidth(24),
                 ScreenUtil().setWidth(24),
                 widget.content == null ? ScreenUtil().setWidth(24) : 0.0),
-        child: DefaultTextStyle(
-            style: widget.titleTextStyle ?? defaultTitleTextStyle,
-            child: widget.title),
+        child:
+        DefaultTextStyle(style: defaultTitleTextStyle, child: widget.title),
       );
     }
     Widget contentWidget;
@@ -251,65 +411,113 @@ class _DialogPageState extends State<_DialogPage> {
     }
 
     Widget textFieldsWidget;
-    if(widget.textFields != null && widget.textFields.length >0){
-      List textFieldsPadding = widget.textFields.map((e) =>
-          Padding(
-            padding: widget.contentPadding ?? textFieldPadding,
-            child: e,
-          )
-      ).toList();
+    if (widget.textFields != null && widget.textFields.length > 0) {
+      List textFieldsPadding = widget.textFields
+          .map((e) => Padding(
+        padding: widget.contentPadding ?? textFieldPadding,
+        child: e,
+      ))
+          .toList();
 
       textFieldsWidget = Column(
         children: textFieldsPadding,
       );
     }
 
-    Widget actionsWidget;
-    if (widget.actions != null) {
-      actionsWidget = Padding(
-        padding: widget.actionsPadding ?? actionsPadding,
-        child: ButtonBar(
-//          默认EdgeInsets.symmetric(horizontal: 8)
-          buttonPadding: EdgeInsets.symmetric(horizontal: 0),
-          //默认是[MainAxisAlignment.end]
-          alignment: widget.actions.length > 1
-              ? MainAxisAlignment.spaceBetween
-              : MainAxisAlignment.center,
-//          overflowDirection:actionsOverflowDirection,
-//          overflowButtonSpacing: actionsOverflowButtonSpacing,
-          children: widget.actions,
-        ),
+    Widget _buttonBarRow(double minWidth){
+      return Theme(
+          data: Theme.of(context).copyWith(
+              buttonTheme: ButtonThemeData(
+                minWidth: minWidth,
+                height: _buttonHeight,
+              )),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: widget.actions
+                .map((e) => Container(
+              height: _buttonHeight,
+              child: e,
+            )).toList(),
+          )
       );
-    } else {
-      List<Widget> _buttons = <Widget>[
-        UIAlertAction(
-          style: UIAlertActionStyle.UIAlertActionStyleCancel,
-          handler: (action){
-            Navigator.pop(context);
-          },
-        ),
-        UIAlertAction(
-            style: UIAlertActionStyle.UIAlertActionStyleDefault,
-            handler: (action) {
-              _onButtonAction();
-            }),
-      ];
+    }
+
+    Widget _buttonBarColumn(double minWidth){
+
+      List actionList =  widget.actions
+          .map((e){
+        EdgeInsets margin;
+        if(widget.actions.indexOf(e) == 0){
+          margin = EdgeInsets.zero;
+        }else{
+          margin = EdgeInsets.only(top: ScreenUtil().setWidth(12));
+        }
+        return Container(
+          margin: margin,
+          height: _buttonHeight,
+          child: e,
+        );
+      }).toList();
+
+      return Theme(
+          data: Theme.of(context).copyWith(
+              buttonTheme: ButtonThemeData(
+                minWidth: minWidth,
+                height: _buttonHeight,
+              )),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children:actionList
+          )
+      );
+    }
+
+    Widget actionsWidget;
+    if (widget.actions != null && widget.actions.length > 0) {
+
+//      List actionList = widget.actions
+//          .map((e) => Container(
+//        height: _buttonHeight,
+//        child: e,
+//      )).toList();
+//
+//      actionsWidget = Container(
+//        color: Colors.green,
+//        margin: widget.actionsContainerMargin ?? actionsContainerMargin,
+//        child: LayoutBuilder(
+//          builder: (context, constraints) {
+//            return ButtonBar(
+////          默认EdgeInsets.symmetric(horizontal: 8)
+//              buttonPadding: EdgeInsets.zero,
+//              buttonMinWidth: widget.actions.length == 2
+//                  ? (constraints.maxWidth - ScreenUtil().setWidth(24)) / 2
+//                  : constraints.maxWidth,
+//              buttonHeight: _buttonHeight,
+//              //默认是[MainAxisAlignment.end]
+//              alignment: widget.actions.length > 1
+//                  ? MainAxisAlignment.spaceBetween
+//                  : MainAxisAlignment.center,
+//              children: actionList,
+//            );
+//          },
+//        ),
+//      );
+
       actionsWidget = Container(
-        margin: widget.actionsPadding ?? actionsPadding,
-//            color: Colors.amber,
-        height: ScreenUtil().setWidth(52),
-        child: ButtonBar(
-          alignment: _buttons.length > 1
-              ? MainAxisAlignment.spaceBetween
-              : MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          buttonPadding: EdgeInsets.symmetric(horizontal: 0),
-          buttonHeight: ScreenUtil().setWidth(52),
-          buttonMinWidth: ScreenUtil().setWidth(156),
-          children: _buttons,
+//        color: Colors.green,
+        margin: widget.actionsContainerMargin ?? actionsContainerMargin,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return widget.actions.length == 2 ? _buttonBarRow((constraints.maxWidth - ScreenUtil().setWidth(24)) / 2)
+                :_buttonBarColumn(constraints.maxWidth);
+          },
         ),
       );
     }
+
+
 
     //不要设置容器内容高度，使用MainAxisSize.min
     Widget dialogChild = Column(
@@ -319,7 +527,7 @@ class _DialogPageState extends State<_DialogPage> {
         titleWidget ?? SizedBox(),
         contentWidget ?? SizedBox(),
         textFieldsWidget ?? SizedBox(),
-        actionsWidget
+        actionsWidget ?? SizedBox()
       ],
     );
 
@@ -327,7 +535,7 @@ class _DialogPageState extends State<_DialogPage> {
         backgroundColor: widget.backgroundColor ?? Colors.white,
         insetPadding: widget.insetPadding,
         child: dialogChild,
-        shape: widget.shape);
+        shape: widget.shape ?? _defaultDialogShape);
 
     Widget dialogChild2 = Container(
       width: size.width -
@@ -351,43 +559,10 @@ class _DialogPageState extends State<_DialogPage> {
       child: dialogChild2,
     );
   }
-
-  _onButtonAction() {
-    if (widget.content is ZXCustomTextField) {
-      ZXCustomTextField textField = widget.content as ZXCustomTextField;
-
-      String text = textField.controller.text;
-      if (text.isEmpty) {
-        return;
-      }
-      double num = double.parse(text);
-      if (textField.maxNum != null && textField.maxNum < num) {
-        showCenterShortToast(msg: "已达该商品库存量");
-        return;
-      }
-      if (textField.minNum != null && textField.minNum > num) {
-        showCenterShortToast(msg: "已达最小量");
-        return;
-      }
-      Navigator.pop(context);
-      widget.onConfirmListener(textField.controller.text);
-    } else {
-      Navigator.pop(context);
-    }
-  }
-
-  void showCenterShortToast({String msg}) {
-    Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1);
-  }
 }
 
 /*
 按钮事件
-
  */
 
 enum UIAlertActionStyle {
@@ -401,11 +576,15 @@ class UIAlertAction extends StatelessWidget {
   final bool enabled;
   final Function(UIAlertAction action) handler;
 
+  //默认点击关闭弹窗
+  final bool defaultActionDismiss;
+
   const UIAlertAction(
       {this.title,
-      this.style = UIAlertActionStyle.UIAlertActionStyleDefault,
-      this.enabled = true,
-      this.handler});
+        this.style = UIAlertActionStyle.UIAlertActionStyleDefault,
+        this.enabled = true,
+        this.handler,
+        this.defaultActionDismiss = true});
 
   String _getButtonTitle(UIAlertActionStyle style) {
     if (style == UIAlertActionStyle.UIAlertActionStyleCancel) {
@@ -416,13 +595,17 @@ class UIAlertAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget cancleButton;
+    Widget cancelButton;
 
-    cancleButton = RaisedButton(
+    cancelButton = RaisedButton(
       onPressed: () {
-        handler(this);
-        if (style == UIAlertActionStyle.UIAlertActionStyleCancel) {
+        if (defaultActionDismiss == true) {
+          Navigator.pop(context);
         }
+        if (handler != null) {
+          handler(this);
+        }
+        if (style == UIAlertActionStyle.UIAlertActionStyleCancel) {}
       },
       child: Text(
         title ?? _getButtonTitle(style),
@@ -444,7 +627,12 @@ class UIAlertAction extends StatelessWidget {
 
     defaultButton = RaisedButton(
       onPressed: () {
-        handler(this);
+        if (defaultActionDismiss == true) {
+          Navigator.pop(context);
+        }
+        if (handler != null) {
+          handler(this);
+        }
       },
       child: Text(
         title ?? _getButtonTitle(style),
@@ -453,21 +641,24 @@ class UIAlertAction extends StatelessWidget {
       ),
       color: Color(0xffEF5D44),
       textColor: Colors.white,
+      elevation: 0,
+      highlightElevation: 0,
+      disabledElevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(ScreenUtil().setWidth(5)),
         side: BorderSide(color: Color(0xffEF5D44)),
       ),
     );
 
-    Widget alertAction() {
+    Widget alertActionItem() {
       if (style == UIAlertActionStyle.UIAlertActionStyleCancel) {
-        return cancleButton;
+        return cancelButton;
       }
       return defaultButton;
     }
 
     return Material(
-      child: alertAction(),
+      child: alertActionItem(),
     );
   }
 }
@@ -479,11 +670,14 @@ class UIAlertAction extends StatelessWidget {
 class ZXCustomTextField extends StatefulWidget {
   //自定义textField边界距离两边的水平填充
   final double gapPadding;
+
   //自定义textField边框
   final BorderRadius borderRadius;
+
   //自定义textField前置文本
   final String prefixText;
   final TextStyle prefixStyle;
+
   //自定义textField占位符字符串
   final String hintText;
   final TextStyle hintStyle;
@@ -492,7 +686,7 @@ class ZXCustomTextField extends StatefulWidget {
   final double minNum;
   final TextEditingController controller;
 
-   ZXCustomTextField({
+  ZXCustomTextField({
     Key key,
     this.gapPadding,
     this.borderRadius,
@@ -546,8 +740,8 @@ class _ZXCustomTextFieldState extends State<ZXCustomTextField> {
                 color: Color(0xFF333333),
               ),
               keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-              inputFormatters: [TextNumberLimitFormatter(5, 2)],
+              const TextInputType.numberWithOptions(decimal: true),
+//              inputFormatters: [TextNumberLimitFormatter(5, 2)],
               controller: widget.controller,
               onChanged: (value) {
 //                              _username.text = value;

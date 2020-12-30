@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'FlutterToastController.dart';
-import '../../../general/dialog/my_custom_dialog.dart';
-import '../../../general/dialog/input_several_dialog.dart';
-import '../../../general/dialog/select_item_dialog.dart';
-import '../../../general/dialog/product_list_dialog.dart';
-import '../../../general/dialog/confirm_verification_dialog.dart';
-import '../../../general/dialog/confirm_entry_product_dialog.dart';
+import '../../../../general/dialog/my_custom_dialog.dart';
+import '../../../../general/dialog/input_several_dialog.dart';
+import '../../../../general/dialog/select_item_dialog.dart';
+import '../../../../general/dialog/product_list_dialog.dart';
+import '../../../../general/dialog/confirm_verification_dialog.dart';
+import '../../../../general/dialog/confirm_entry_product_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:startupnamer/general/dialog/alert_controller_dialog.dart';
 
@@ -40,7 +40,8 @@ class _DemoPage extends StatefulWidget {
 
 
 class _DemoState extends State<_DemoPage> {
-//AlertDialog
+
+  //系统-AlertDialog
   _showAlertDialog() async {
     var result = await showDialog(
       context: context,
@@ -72,23 +73,7 @@ class _DemoState extends State<_DemoPage> {
     print("result= $result");
   }
 
-  _presentCustomAlertDialog(){
-
-    UIAlertControllerDialog.showTextFieldAlert(
-        context: context,
-        title: Text('请输入所需数量'),
-        content: Text('请输入所需数量,请输入所需数量'),
-        textField: ZXCustomTextField(
-          prefixText: '商品数量',
-          maxNum: 100,
-          minNum: 0.01,
-        ),
-        onConfirmListener: (string){
-
-        }
-    );
-  }
-
+  // 改造 系统 AlertDialog
   _presentTextFieldAlertDialog() {
 
     AlertDialog dialog = AlertDialog(
@@ -119,6 +104,53 @@ class _DemoState extends State<_DemoPage> {
     );
 
 
+  }
+  _presentCustomAlertDialog1(){
+
+    UIAlertControllerDialog.showTextFieldAlert(
+        context: context,
+        title: '请输入所需数量',
+        cancelButtonTitle:'取消',
+        doButtonTitle: '确定',
+        doHandler:
+            (UIAlertControllerDialog controller, UIAlertAction action) {
+          ZXCustomTextField textField = controller.textFields[0];
+          String text = textField.controller.text;
+          if (text.isEmpty) {
+            return;
+          }
+          double num = double.parse(text);
+          if (textField.maxNum != null && textField.maxNum < num) {
+            controller.showCenterShortToast(msg: "已达该商品库存量");
+            return;
+          }
+          if (textField.minNum != null && textField.minNum > num) {
+            controller.showCenterShortToast(msg: "已达最小量");
+            return;
+          }
+          Navigator.pop(context);
+
+          setState(() {
+
+          });
+        },
+        textField: ZXCustomTextField(
+          maxNum: 100,
+          minNum: 0.01,
+        ));
+  }
+
+  _presentCustomAlertDialog2(){
+
+    UIAlertControllerDialog.showGeneralAlert(
+        context: context,
+        title: '请输入所需数量',
+        titleTextStyle: TextStyle(fontWeight: FontWeight.w600),
+        cancelButtonTitle:'取消',
+        doButtonTitle: '确定',
+        doHandler:
+            (UIAlertAction action) {
+        },);
   }
 
 // SimpleDialog
@@ -272,8 +304,12 @@ class _DemoState extends State<_DemoPage> {
                 child: Text('AlertDialog改造-alert输入弹出框'),
               ),
               RaisedButton(
-                onPressed:_presentCustomAlertDialog,
-                child: Text('自定义alert输入弹出框'),
+                onPressed:_presentCustomAlertDialog1,
+                child: Text('自定义alert弹出框1-输入'),
+              ),
+              RaisedButton(
+                onPressed:_presentCustomAlertDialog2,
+                child: Text('自定义alert弹出框2'),
               ),
               RaisedButton(
                 child: Text('SimpleDialog-select弹出框'),

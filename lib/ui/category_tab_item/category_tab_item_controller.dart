@@ -7,9 +7,9 @@
 ///
 ///
 import 'package:flutter/material.dart';
-import 'tabs/dialog_demos.dart';
-import 'package:startupnamer/ui/category_tab_item/tabs/action_list_controller.dart';
-import 'package:startupnamer/ui/category_tab_item/tabs/bottom_sheet_demos.dart';
+import 'tabs/dialog/dialog_demos.dart';
+import 'package:startupnamer/ui/category_tab_item/tabs/controls_demo/controls_list_page.dart';
+import 'package:startupnamer/ui/category_tab_item/tabs/bottomSheet/bottom_sheet_demos.dart';
 
 //DefaultTabController + TabBar + TabBarView
 
@@ -21,12 +21,13 @@ class CategoryTabItemController extends StatelessWidget {
   }) : super(key: key);
 
   final List<Widget> tabs = <Widget>[
-    Tab(text: 'ActionListController'),
-    Tab(text: '热门'),
-    Tab(text: '推荐')];
+    Tab(text: '系统控件'),
+    Tab(text: 'Dialog'),
+    Tab(text: 'bottomSheet'),
+  ];
 
   final List<Widget> tabBarViews = <Widget>[
-    ActionListController(),
+    ControlsListPage(),
     DialogDemo(title: null),
     BottomSheetDemo(),
   ];

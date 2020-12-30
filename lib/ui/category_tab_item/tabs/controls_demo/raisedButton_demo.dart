@@ -29,7 +29,24 @@ class RaisedButtonDemo extends StatefulWidget{
 class _DemoState extends State<RaisedButtonDemo> {
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    if (mounted) {
+    }
+
+  }
+
+  @override
   Widget build(BuildContext context) {
+
+    RouteSettings settings = ModalRoute.of(context).settings;
+    print(settings);
+    var arguments = ModalRoute.of(context).settings.arguments;
+    print(arguments);
+
+
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
@@ -133,7 +150,7 @@ class _DemoState extends State<RaisedButtonDemo> {
             IconButton(
               iconSize:21 ,
               icon: Image.asset(
-                "images/1x/icon_left.png",
+                "assets/images/left@2x.png",
 //                  width: 21,
 //                  height:20,
 //                  alignment: Alignment.bottomRight,

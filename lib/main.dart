@@ -10,40 +10,54 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return RefreshConfiguration(
-      // 头部触发刷新的越界距离
-      headerTriggerDistance: 80,
-        headerBuilder: ()=> MaterialClassicHeader(),
-        footerBuilder: ()=> ClassicFooter(),
+    return MaterialApp(
+      theme: ThemeData(
+//        scaffoldBackgroundColor: Color(0xff445279),
+        scaffoldBackgroundColor: Color(0xffF2F1F6),
+        primaryColor: Color(0xff445279),
+      ),
+      debugShowCheckedModeBanner: false,
+//      routes:<String, WidgetBuilder>{
+//        'RaisedButtonDemo':(context){
+//          return RaisedButtonDemo();
+//        }
+//      } ,
+      home: RefreshConfiguration(
+        // 头部触发刷新的越界距离
+          headerTriggerDistance: 80,
+          headerBuilder: ()=> MaterialClassicHeader(),
+          footerBuilder: ()=> ClassicFooter(),
 //       如果达到triggerDistance(触发距离)，是否需要开始刷新;默认false；//不懂
-         skipCanRefresh:false,
+          skipCanRefresh:false,
 //       当视窗少于一个屏幕时，隐藏footerView，禁用上拉功能以加载更多的功能；默认false；
-        hideFooterWhenNotFull: false,
+          hideFooterWhenNotFull: false,
 //       footer(页脚)是否在idle(空闲时)通过达到footerDistance(页脚距离)触发加载;默认true；
 //如果false，则上拉不会触发Loading加载更多回调；
-        autoLoad: true,
+          autoLoad: true,
 //        用户是否可以拖动viewport(视窗),当有两层；默认true。
-        enableScrollWhenTwoLevel: true,
+          enableScrollWhenTwoLevel: true,
 //        用户是否可以拖动viewport(视窗)，当refreshComplete（刷新完成）和弹回时。默认false；
-        //这个属性不兼容PageView和TabBarView,如果你特别需要TabBarView左右滑动,你需要把它设置为true
-        enableScrollWhenRefreshCompleted: true,
+          //这个属性不兼容PageView和TabBarView,如果你特别需要TabBarView左右滑动,你需要把它设置为true
+          enableScrollWhenRefreshCompleted: true,
 //        是否由BallisticScrollActivity触发刷新；默认false；//不懂？
-        enableBallisticRefresh: false,
+          enableBallisticRefresh: false,
 //        是否由BallisticScrollActivity触发加载更多。默认true；//不懂？
-        enableBallisticLoad: true,
+          enableBallisticLoad: true,
 
 //        footer(页脚)在inNoMore state(没有更多的状态)时，是否可以通过达到footerDistance(页脚距离)触发加载;默认false；
-        enableLoadingWhenNoData: false,
+          enableLoadingWhenNoData: false,
 
-        child:MaterialApp(
-          theme: ThemeData(
-//        scaffoldBackgroundColor: Color(0xff445279),
-            scaffoldBackgroundColor: Color(0xffF2F1F6),
-            primaryColor: Color(0xff445279),
-          ),
-          home: MyHomePage(),
-          debugShowCheckedModeBanner: false,
-        )
+          child:MyHomePage(),
+//          child:MaterialApp(
+//            theme: ThemeData(
+////        scaffoldBackgroundColor: Color(0xff445279),
+//              scaffoldBackgroundColor: Color(0xffF2F1F6),
+//              primaryColor: Color(0xff445279),
+//            ),
+//            home: MyHomePage(),
+//            debugShowCheckedModeBanner: false,
+//          )
+      ),
     );
   }
 }
@@ -58,8 +72,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, width: 480, height: 854, allowFontScaling: false);
-//    ScreenUtil.init(context, width: 375*2, height: 667*2, allowFontScaling: false);
+//    ScreenUtil.init(context, width: 480, height: 854, allowFontScaling: false);
+    ScreenUtil.init(context, width: 375*2, height: 667*2, allowFontScaling: true);
     return Tabs();
 //  return Center(child: Text('data'),);
   }

@@ -381,15 +381,37 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
       widget.changeTextFieldTextListener(index,number.toString());
 
 
-      UIAlertControllerDialog.showTextFieldAlert(context: context,
-          title: Text('请输入所需数量'),
-          content: ZXCustomTextField(
+      UIAlertControllerDialog.showTextFieldAlert(
+          context: context,
+          title: '请输入所需数量',
+          doButtonTitle: '确定',
+          doHandler:
+              (UIAlertControllerDialog controller, UIAlertAction action) {
+            ZXCustomTextField textField = controller.textFields[0];
+            String text = textField.controller.text;
+            if (text.isEmpty) {
+              return;
+            }
+            double num = double.parse(text);
+            if (textField.maxNum != null && textField.maxNum < num) {
+              showCenterShortToast(msg: "已达该商品库存量");
+              return;
+            }
+            if (textField.minNum != null && textField.minNum > num) {
+              showCenterShortToast(msg: "已达最小量");
+              return;
+            }
+            Navigator.pop(context);
+
+            setState(() {
+              widget.entries[index].changedNumber =
+                  double.parse(textField.controller.text);
+            });
+          },
+          textField: ZXCustomTextField(
             maxNum: widget.entries[index].sourceNumber,
             minNum: 0.01,
-          ),
-          onConfirmListener: (text){
-            widget.entries[index].changedNumber = double.parse(text);
-          });
+          ));
     }
   }
 }

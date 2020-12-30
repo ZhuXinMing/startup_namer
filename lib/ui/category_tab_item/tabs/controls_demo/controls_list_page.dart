@@ -6,17 +6,19 @@
 ///   @version : 1.0
 
 import 'package:flutter/material.dart';
-import 'package:startupnamer/ui/category_tab_item/tabs/list/TextFieldDemoController.dart';
-import 'package:startupnamer/ui/category_tab_item/tabs/list/raisedButton_demo.dart';
+import 'package:startupnamer/ui/category_tab_item/tabs/controls_demo/TextFieldDemoController.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:startupnamer/ui/category_tab_item/tabs/controls_demo/drag_list_page.dart';
+import 'package:startupnamer/ui/category_tab_item/tabs/controls_demo/raisedButton_demo.dart';
 
 
-class ActionListController extends StatefulWidget {
+
+class ControlsListPage extends StatefulWidget {
   @override
-  _ActionListControllerState createState() => _ActionListControllerState();
+  _ControlsListPageState createState() => _ControlsListPageState();
 }
 
-class _ActionListControllerState extends State<ActionListController> {
+class _ControlsListPageState extends State<ControlsListPage> {
 
   //关闭按钮大小
   double closeIconSize = 30.0;
@@ -29,12 +31,21 @@ class _ActionListControllerState extends State<ActionListController> {
         .push(MaterialPageRoute(builder: (BuildContext context) {
       return  RaisedButtonDemo();
     }));
+    
+//    Navigator.of(context).pushNamed('RaisedButtonDemo',arguments:{'key':'传了参数对象过来'});
   }
 
   _pushTextFieldDemo(){
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (BuildContext context) {
       return TextFieldDemoController();
+    }));
+  }
+
+  _pushDrageListDemo(){
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      return DragListPage();
     }));
   }
 
@@ -107,14 +118,13 @@ class _ActionListControllerState extends State<ActionListController> {
                   }),
               //圆形按钮-和头像一样
               RaisedButton(
-                onPressed: () {},
-                child: Text('形状设置为圆'),
+                onPressed: () {
+                  _pushDrageListDemo();
+                },
+                child: Text('第三方拖动排序demo'),
                 color: Colors.blue,
                 textColor: Colors.white,
                 elevation: 20,
-                shape: CircleBorder(
-                  side: BorderSide(color: Colors.white),
-                ),
               ),
               //通过设置RaisedButton的父视图Container的宽度高度，来改变RaiseButton容器的宽度高度。
               Container(
