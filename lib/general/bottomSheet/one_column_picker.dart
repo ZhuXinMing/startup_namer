@@ -144,112 +144,114 @@ class _State extends State<OneColumnPicker> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Material(
-      child: Container(
-        height: ScreenUtil().setWidth(412),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
+      child: SafeArea(
+        child: Container(
+          height: ScreenUtil().setWidth(412),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
 //            color: Colors.amber,
-              height: ScreenUtil().setWidth(20.0 + 30.0 + 20.0),
-              child: Stack(
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      widget.title,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: ScreenUtil().setSp(22),
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      margin: EdgeInsets.only(
-                          right:
-                          ScreenUtil().setWidth(20.0 - iconButtonPadding)),
-                      height: ScreenUtil()
-                          .setWidth(closeIconSize + 2 * iconButtonPadding),
-                      width: ScreenUtil()
-                          .setWidth(closeIconSize + 2 * iconButtonPadding),
-//                    color: Colors.brown,
-                      child: IconButton(
-                          iconSize: ScreenUtil().setWidth(closeIconSize),
-                          padding: EdgeInsets.all(
-                              ScreenUtil().setWidth(iconButtonPadding)),
-                          icon: Image.asset(
-                            "assets/images/close_gray@2x.png",
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          }),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: ScreenUtil().setWidth(10),
-            ),
-            Expanded(
-              child: CupertinoPicker.builder(
-                scrollController: _controller,
-                itemExtent: ScreenUtil().setWidth(widget.itemExtent),
-                childCount: widget.titleArray.length,
-                onSelectedItemChanged: (int index) {
-                  _selectIndex = index;
-                },
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    alignment: Alignment.center,
-                    child: Text(
-                      widget.titleArray[index],
-                      style: TextStyle(
-                        color: Color(0xff333333),
-                        fontSize: ScreenUtil().setSp(28),
+                height: ScreenUtil().setWidth(20.0 + 30.0 + 20.0),
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        widget.title,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: ScreenUtil().setSp(22),
+                            fontWeight: FontWeight.w500),
                       ),
                     ),
-                  );
-                },
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            right:
+                            ScreenUtil().setWidth(20.0 - iconButtonPadding)),
+                        height: ScreenUtil()
+                            .setWidth(closeIconSize + 2 * iconButtonPadding),
+                        width: ScreenUtil()
+                            .setWidth(closeIconSize + 2 * iconButtonPadding),
+//                    color: Colors.brown,
+                        child: IconButton(
+                            iconSize: ScreenUtil().setWidth(closeIconSize),
+                            padding: EdgeInsets.all(
+                                ScreenUtil().setWidth(iconButtonPadding)),
+                            icon: Image.asset(
+                              "assets/images/close_gray@2x.png",
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            }),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            Divider(
-              height: 2,
-            ),
-            Container(
-              height: ScreenUtil().setWidth(80),
-              padding: EdgeInsets.fromLTRB(
-                  ScreenUtil().setWidth(12),
-                  ScreenUtil().setWidth(8),
-                  ScreenUtil().setWidth(12),
-                  ScreenUtil().setWidth(8)),
-              child: InkWell(
-                  onTap: () {
-                    print(_selectIndex);
-                    Navigator.pop(context);
-                    if (widget.onConfirmListener != null) {
-                      widget.onConfirmListener(_selectIndex);
-                    }
+              SizedBox(
+                height: ScreenUtil().setWidth(10),
+              ),
+              Expanded(
+                child: CupertinoPicker.builder(
+                  scrollController: _controller,
+                  itemExtent: ScreenUtil().setWidth(widget.itemExtent),
+                  childCount: widget.titleArray.length,
+                  onSelectedItemChanged: (int index) {
+                    _selectIndex = index;
                   },
-                  child: Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: const Color(0xffEF5D44),
-                      borderRadius:
-                      BorderRadius.circular(ScreenUtil().setWidth(5)),
-                    ),
-                    child: Text(
-                      widget.onButtonTitle,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: ScreenUtil().setSp(24),
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )),
-            ),
-          ],
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        widget.titleArray[index],
+                        style: TextStyle(
+                          color: Color(0xff333333),
+                          fontSize: ScreenUtil().setSp(28),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Divider(
+                height: 2,
+              ),
+              Container(
+                height: ScreenUtil().setWidth(80),
+                padding: EdgeInsets.fromLTRB(
+                    ScreenUtil().setWidth(12),
+                    ScreenUtil().setWidth(8),
+                    ScreenUtil().setWidth(12),
+                    ScreenUtil().setWidth(8)),
+                child: InkWell(
+                    onTap: () {
+                      print(_selectIndex);
+                      Navigator.pop(context);
+                      if (widget.onConfirmListener != null) {
+                        widget.onConfirmListener(_selectIndex);
+                      }
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: const Color(0xffEF5D44),
+                        borderRadius:
+                        BorderRadius.circular(ScreenUtil().setWidth(5)),
+                      ),
+                      child: Text(
+                        widget.onButtonTitle,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: ScreenUtil().setSp(24),
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )),
+              ),
+            ],
+          ),
         ),
       ),
     );

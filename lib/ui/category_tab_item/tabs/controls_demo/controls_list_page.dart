@@ -42,10 +42,9 @@ class _ControlsListPageState extends State<ControlsListPage> {
     }));
   }
 
-  _pushDrageListDemo(){
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) {
-      return DragListPage();
+  _pushDragListDemo(){
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+      return TaskDragListPage();
     }));
   }
 
@@ -119,7 +118,7 @@ class _ControlsListPageState extends State<ControlsListPage> {
               //圆形按钮-和头像一样
               RaisedButton(
                 onPressed: () {
-                  _pushDrageListDemo();
+                  _pushDragListDemo();
                 },
                 child: Text('第三方拖动排序demo'),
                 color: Colors.blue,

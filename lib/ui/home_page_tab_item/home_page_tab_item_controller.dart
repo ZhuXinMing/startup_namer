@@ -152,10 +152,6 @@ class _HomePageTabItemControllerState extends State<HomePageTabItemController> {
                   ),
                   onTap: () {
                     print('1111');
-                   A a=A();
-                   B b;
-                   b=(B)a;
-
                     if (index == 1) {
                       setState(() {
                         widget.delegate.changeSelectIndex(1);

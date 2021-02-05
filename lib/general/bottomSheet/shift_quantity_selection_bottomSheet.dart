@@ -173,7 +173,8 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
     final DefaultTextStyle defaultTextStyle = DefaultTextStyle.of(context);
     TextOverflow overflow = defaultTextStyle.overflow;
     print(overflow);//TextOverflow.clip
-    return Container(
+    return SafeArea(
+        child: Container(
       height: ScreenUtil().setWidth(bottomSheetHeight),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -337,39 +338,42 @@ class _BottomSheetState extends State<ShiftQuantitySelectionBottomSheet> {
           Divider(
             height: 2,
           ),
-          Container(
-            height: ScreenUtil().setWidth(btnHeight + 8 + 8),
-            padding: EdgeInsets.fromLTRB(
-                ScreenUtil().setWidth(12),
-                ScreenUtil().setWidth(8),
-                ScreenUtil().setWidth(12),
-                ScreenUtil().setWidth(8)),
-            child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                  if (widget.onConfirmListener != null) {
-                    widget.onConfirmListener(widget.entries);
-                  }
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: const Color(0xffEF5D44),
-                    borderRadius:
-                    BorderRadius.circular(ScreenUtil().setWidth(5)),
-                  ),
-                  child: Text(
-                    '确定',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: ScreenUtil().setSp(24),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                )),
-          ),
+          _bottomView(),
         ],
       ),
+    )
+    );
+  }
+
+  Widget _bottomView(){
+    return  Container(
+      height: ScreenUtil().setWidth(btnHeight + 8 + 8),
+      padding: EdgeInsets.symmetric(
+          vertical: ScreenUtil().setWidth(8),
+          horizontal: ScreenUtil().setWidth(12)),
+      child: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+            if (widget.onConfirmListener != null) {
+              widget.onConfirmListener(widget.entries);
+            }
+          },
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: const Color(0xffEF5D44),
+              borderRadius:
+              BorderRadius.circular(ScreenUtil().setWidth(5)),
+            ),
+            child: Text(
+              '确定',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: ScreenUtil().setSp(24),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          )),
     );
   }
 

@@ -157,187 +157,189 @@ class _BottomSheetState extends State<_BottomSheetPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: ScreenUtil().setWidth(bottomSheetHeight),
-      child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Container(
-          padding: EdgeInsets.only(top: ScreenUtil().setWidth(10)),
-          height: ScreenUtil().setWidth(closeIconSize + 20 + 10),
+    return SafeArea(
+      child: Container(
+        height: ScreenUtil().setWidth(bottomSheetHeight),
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Container(
+            padding: EdgeInsets.only(top: ScreenUtil().setWidth(10)),
+            height: ScreenUtil().setWidth(closeIconSize + 20 + 10),
 //            color: Colors.amber,
-          child: Stack(children: [
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                widget.title,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: ScreenUtil().setSp(22),
-                    fontWeight: FontWeight.w500),
-              ),
-            ),
-            Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  margin: EdgeInsets.only(
-                      right: ScreenUtil().setWidth(20 - topIconButtonHPadding)),
-//                  color: Colors.blue,
-                  child: IconButton(
-//                  splashRadius: 20,
-                      highlightColor: Colors.transparent,
-                      constraints: BoxConstraints(),
-                      iconSize: ScreenUtil().setWidth(closeIconSize),
-                      padding: EdgeInsets.symmetric(
-                          horizontal:
-                          ScreenUtil().setWidth(topIconButtonHPadding),
-                          vertical:
-                          ScreenUtil().setWidth(topIconButtonVPadding)),
-                      icon: Image.asset(
-                        "assets/images/close_gray@2x.png",
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      }),
-                )),
-          ]),
-        ),
-        Expanded(
-            child: ListView.separated(
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  height: ScreenUtil().setWidth(rowHeight),
-                  padding: EdgeInsets.fromLTRB(
-                      ScreenUtil().setWidth(rowPaddingLeft - selectIconButtonLeftPadding),
-                      0,
-                      ScreenUtil().setWidth(rowPaddingRight),
-                      0),
-                  decoration: BoxDecoration(
-//                   color: Colors.cyan,
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-//                    color: Colors.blue,
-                        child: IconButton(
-//                      splashRadius:
-//                          selectIconSize / 2 + selectIconButtonPadding,
-                            highlightColor: Colors.transparent,
-                            constraints: BoxConstraints(),
-                            iconSize: ScreenUtil().setWidth(selectIconSize),
-                            padding: EdgeInsets.fromLTRB(
-                                ScreenUtil().setWidth(selectIconButtonLeftPadding),
-                                ScreenUtil()
-                                    .setWidth((rowHeight - selectIconSize) / 2),
-                                ScreenUtil().setWidth(selectIconButtonRightPadding),
-                                ScreenUtil()
-                                    .setWidth((rowHeight - selectIconSize) / 2)),
-                            icon: _BottomSheetState.checkbox(
-                                widget.entries[index].isSelected),
-                            onPressed: () {
-                              setState(() {
-                                widget.entries[index].isSelected =
-                                !widget.entries[index].isSelected;
-                                isAllSelected = widget.entries
-                                    .every((element) => element.isSelected);
-                              });
-                            }),
-                      ),
-                      SizedBox(
-                        width: 2,
-                      ),
-                      Expanded(
-                        child: Text(
-                          "(${widget.entries[index].spuId})${widget.entries[index].spuName}",
-                          style: TextStyle(
-                            color: Color(0xff333333),
-                            fontSize: ScreenUtil().setSp(20),
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(
-                  height: 2,
-                );
-              },
-              itemCount: widget.entries != null ? widget.entries.length : 0,
-            )),
-        Divider(
-          height: 2,
-        ),
-        Container(
-          color: Colors.white,
-          height: ScreenUtil().setWidth(btnHeight + 8 + 8),
-          padding: EdgeInsets.fromLTRB(
-              ScreenUtil().setWidth(24 - selectIconButtonLeftPadding),
-              ScreenUtil().setWidth(8),
-              ScreenUtil().setWidth(12),
-              ScreenUtil().setWidth(8)),
-          child: Row(
-            children: [
-              Container(
-//               color: Colors.amber,
-//               width: ScreenUtil().setWidth(130-4),
-                child: FlatButton(
-                  highlightColor: Colors.transparent,
-//                   materialTapTargetSize:  MaterialTapTargetSize.shrinkWrap,
-                  onPressed: (){
-                    setState(() {
-                      isAllSelected = !isAllSelected;
-                      widget.entries.forEach((element) {
-                        element.isSelected = isAllSelected;
-                      });
-                    });
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      _BottomSheetState.checkbox(isAllSelected),
-                      SizedBox(width: ScreenUtil().setWidth(10)),
-                      Text(
-                        '全选',
-                        style: TextStyle(
-                          color: Color(0xff262B3C),
-                          fontSize: ScreenUtil().setSp(24),
-                            fontWeight: FontWeight.normal
-                        ),
-                      ),
-                    ],
-                  ),
+            child: Stack(children: [
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  widget.title,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: ScreenUtil().setSp(22),
+                      fontWeight: FontWeight.w500),
                 ),
               ),
-              Expanded(
-                child: InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                      if (widget.onConfirmListener != null) {
-                        widget.onConfirmListener(widget.entries);
-                      }
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: const Color(0xffEF5D44),
-                        borderRadius:
-                        BorderRadius.circular(ScreenUtil().setWidth(5)),
-                      ),
-                      child: Text(
-                        '确定',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: ScreenUtil().setSp(24),
-                          fontWeight: FontWeight.w500,
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    margin: EdgeInsets.only(
+                        right: ScreenUtil().setWidth(20 - topIconButtonHPadding)),
+//                  color: Colors.blue,
+                    child: IconButton(
+//                  splashRadius: 20,
+                        highlightColor: Colors.transparent,
+                        constraints: BoxConstraints(),
+                        iconSize: ScreenUtil().setWidth(closeIconSize),
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                            ScreenUtil().setWidth(topIconButtonHPadding),
+                            vertical:
+                            ScreenUtil().setWidth(topIconButtonVPadding)),
+                        icon: Image.asset(
+                          "assets/images/close_gray@2x.png",
                         ),
-                      ),
-                    )),
-              ),
-            ],
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }),
+                  )),
+            ]),
           ),
-        ),
-      ]),
+          Expanded(
+              child: ListView.separated(
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    height: ScreenUtil().setWidth(rowHeight),
+                    padding: EdgeInsets.fromLTRB(
+                        ScreenUtil().setWidth(rowPaddingLeft - selectIconButtonLeftPadding),
+                        0,
+                        ScreenUtil().setWidth(rowPaddingRight),
+                        0),
+                    decoration: BoxDecoration(
+//                   color: Colors.cyan,
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+//                    color: Colors.blue,
+                          child: IconButton(
+//                      splashRadius:
+//                          selectIconSize / 2 + selectIconButtonPadding,
+                              highlightColor: Colors.transparent,
+                              constraints: BoxConstraints(),
+                              iconSize: ScreenUtil().setWidth(selectIconSize),
+                              padding: EdgeInsets.fromLTRB(
+                                  ScreenUtil().setWidth(selectIconButtonLeftPadding),
+                                  ScreenUtil()
+                                      .setWidth((rowHeight - selectIconSize) / 2),
+                                  ScreenUtil().setWidth(selectIconButtonRightPadding),
+                                  ScreenUtil()
+                                      .setWidth((rowHeight - selectIconSize) / 2)),
+                              icon: _BottomSheetState.checkbox(
+                                  widget.entries[index].isSelected),
+                              onPressed: () {
+                                setState(() {
+                                  widget.entries[index].isSelected =
+                                  !widget.entries[index].isSelected;
+                                  isAllSelected = widget.entries
+                                      .every((element) => element.isSelected);
+                                });
+                              }),
+                        ),
+                        SizedBox(
+                          width: 2,
+                        ),
+                        Expanded(
+                          child: Text(
+                            "(${widget.entries[index].spuId})${widget.entries[index].spuName}",
+                            style: TextStyle(
+                              color: Color(0xff333333),
+                              fontSize: ScreenUtil().setSp(20),
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    height: 2,
+                  );
+                },
+                itemCount: widget.entries != null ? widget.entries.length : 0,
+              )),
+          Divider(
+            height: 2,
+          ),
+          Container(
+            color: Colors.white,
+            height: ScreenUtil().setWidth(btnHeight + 8 + 8),
+            padding: EdgeInsets.fromLTRB(
+                ScreenUtil().setWidth(24 - selectIconButtonLeftPadding),
+                ScreenUtil().setWidth(8),
+                ScreenUtil().setWidth(12),
+                ScreenUtil().setWidth(8)),
+            child: Row(
+              children: [
+                Container(
+//               color: Colors.amber,
+//               width: ScreenUtil().setWidth(130-4),
+                  child: FlatButton(
+                    highlightColor: Colors.transparent,
+//                   materialTapTargetSize:  MaterialTapTargetSize.shrinkWrap,
+                    onPressed: (){
+                      setState(() {
+                        isAllSelected = !isAllSelected;
+                        widget.entries.forEach((element) {
+                          element.isSelected = isAllSelected;
+                        });
+                      });
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        _BottomSheetState.checkbox(isAllSelected),
+                        SizedBox(width: ScreenUtil().setWidth(10)),
+                        Text(
+                          '全选',
+                          style: TextStyle(
+                            color: Color(0xff262B3C),
+                            fontSize: ScreenUtil().setSp(24),
+                              fontWeight: FontWeight.normal
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                        if (widget.onConfirmListener != null) {
+                          widget.onConfirmListener(widget.entries);
+                        }
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: const Color(0xffEF5D44),
+                          borderRadius:
+                          BorderRadius.circular(ScreenUtil().setWidth(5)),
+                        ),
+                        child: Text(
+                          '确定',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: ScreenUtil().setSp(24),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      )),
+                ),
+              ],
+            ),
+          ),
+        ]),
+      ),
     );
   }
 
